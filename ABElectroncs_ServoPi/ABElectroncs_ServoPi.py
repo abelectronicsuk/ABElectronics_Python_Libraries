@@ -85,6 +85,14 @@ class PWM :
     write(self.address,self.ALL_LED_OFF_L+4*channel, off & 0xFF)
     write(self.address,self.ALL_LED_OFF_H+4*channel, off >> 8)
 
+# disable output via OE pin
+  def outputDisable(self):
+    GPIO.output(7, True)
+  
+# enable output via OE pin
+  def outputEnable(self):
+    GPIO.output(7, False) 
+  
 # Write data to I2C bus
 def write(address,reg, value):
     try:
@@ -101,10 +109,4 @@ def read(address, reg):
     except IOError, err:
       return self.errMsg()
 
-# disable output via OE pin
-def outputDisable():
-  GPIO.output(7, True)
-  
-# enable output via OE pin
-def outputEnable():
-  GPIO.output(7, False)  
+ 
