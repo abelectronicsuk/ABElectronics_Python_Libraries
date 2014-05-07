@@ -6,5 +6,5 @@ Python Libraries to work with Raspberry Pi expansion boards from http://www.abel
 To download to your Raspberry Pi type in terminal: 
 
 ```
-git clone https://github.com/abelectronicsuk/ABElectroncs_Python_Libraries.git
+git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
