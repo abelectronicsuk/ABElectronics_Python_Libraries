@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
-from ABElectroncs_IOPi import IOPI
+from ABElectronics_IOPi import IOPI
 import time
 
 # ================================================
-# ABElectroncs IO Pi 32-Channel Port Expander - Output Write Demo
+# ABElectronics IO Pi 32-Channel Port Expander - Output Write Demo
 # Version 1.1 Created 30/04/2014
 #
 # Requires python smbus to be installed with: sudo apt-get install python-smbus 

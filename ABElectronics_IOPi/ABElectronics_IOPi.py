@@ -5,7 +5,7 @@ import re
 
 
 # ================================================
-# ABElectroncs IO Pi 32-Channel Port Expander
+# ABElectronics IO Pi 32-Channel Port Expander
 # Version 1.1 Created 30/04/2014
 #
 # Requires python smbus to be installed with: sudo apt-get install python-smbus 

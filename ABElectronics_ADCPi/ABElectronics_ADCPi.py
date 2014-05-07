@@ -5,7 +5,7 @@ import re
 
 
 # ================================================
-# ABElectroncs ADC Pi V2 8-Channel ADC
+# ABElectronics ADC Pi V2 8-Channel ADC
 # Version 1.0 Created 01/02/2014
 #
 # Requires python smbus to be installed

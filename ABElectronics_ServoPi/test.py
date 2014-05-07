@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from ABElectroncs_ServoPi import PWM
+from ABElectronics_ServoPi import PWM
 import time
 
 # Initialise the PWM device using the default address, change this value if you have bridged the address selection jumpers
@@ -17,11 +17,10 @@ pwm.setPWMFreq(60)
 
 
 while (True):
-  # Move servo on port 0 between three points
-  pwm.setPWM(0, 0, servoMin)
-  time.sleep(0.5)
-  pwm.setPWM(0, 0, servoMed)
-  time.sleep(0.5)
-  pwm.setPWM(0, 0, servoMax)
-  time.sleep(0.5)
-  # use setAllPWM to set PWM on all outputs
+
+  for x in range(150, 600, 1):
+    pwm.setPWM(0, 0, x)
+    time.sleep(0.01)
+  for x in range(600, 150, -1):
+    pwm.setPWM(0, 0, x)
+    time.sleep(0.01)  

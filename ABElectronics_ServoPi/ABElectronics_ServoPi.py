@@ -8,7 +8,7 @@ import RPi.GPIO as GPIO
 
 
 # ================================================
-# ABElectroncs ServoPi 16-Channel PWM Servo Driver
+# ABElectronics ServoPi 16-Channel PWM Servo Driver
 #
 # Requires python smbus to be installed
 # ================================================
@@ -92,7 +92,7 @@ class PWM :
 # enable output via OE pin
   def outputEnable(self):
     GPIO.output(7, False) 
-  
+
 # Write data to I2C bus
 def write(address,reg, value):
     try:

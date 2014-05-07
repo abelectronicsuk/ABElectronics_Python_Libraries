@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
-from ABElectroncs_ADCPi import ADC
+from ABElectronics_ADCPi import ADC
 
 
 # ================================================
-# ABElectroncs ADC Pi V2 8-Channel ADC demo
+# ABElectronics ADC Pi V2 8-Channel ADC demo
 # Version 1.0 Created 01/02/2014
 #
 # Requires python smbus to be installed
