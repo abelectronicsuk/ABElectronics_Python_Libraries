@@ -29,4 +29,6 @@ Add the location where you downloaded the python libraries into PYTHONPATH
 export PYTHONPATH=${PYTHONPATH}:~/Desktop/ABElectronics_Python_Libraries/ABElectronics_IOPi/
 ```
 
-The example python files in /ABElectronics_Python_Libraries/ABElectroincs_IOPi/demos/ should now run.
+The example python files in /ABElectronics_Python_Libraries/ABElectronics_IOPi/demos/ should now run.
+
+If you want to run the demo scripts without modifying the python path you will need to move the demo scripts into the same folder as the ABElectronics_IOPi.py file.
