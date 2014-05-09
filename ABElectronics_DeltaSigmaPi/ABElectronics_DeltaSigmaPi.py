@@ -5,14 +5,14 @@ import re
 
 
 # ================================================
-# ABElectronics ADC Pi V2 8-Channel ADC
+# ABElectronics Delta-Sigma Pi V2 8-Channel ADC
 # Version 1.0 Created 09/05/2014
 #
 # Requires python smbus to be installed
 #
 # ================================================
 
-class ADCPi :
+class DeltaSigma :
   # internal variables
 
   __address = 0x68 # default address for adc 1 on adc pi and delta-sigma pi
@@ -121,8 +121,7 @@ class ADCPi :
   def readVoltage(self, channel): 
       # returns the voltage from the selected adc channel - channels 1 to 8
       raw = self.readRaw(channel)
-      
-      if self.__signbit == 1: return 0 # returned a negative voltage so return 0  
+ 
 
       pga = self.__pga / 2.048
       if self.__bitrate == 12: lsb = 2.048 / 4096
@@ -130,7 +129,7 @@ class ADCPi :
       if self.__bitrate == 16: lsb = 2.048 / 65536
       if self.__bitrate == 18: lsb = 2.048 / 262144
 
-      voltage = (raw * (lsb/pga)) * 2.448579823702253
+      voltage = raw * (lsb/pga)
 
       return voltage
 
@@ -159,28 +158,28 @@ class ADCPi :
           if self.__checkbit(s, 7) == 0:
               break;      
           
-      self.__signbit = 0
+      sign = 0
       t = 0.0
       # extract the returned bytes and combine in the correct order
       if self.__bitrate == 18:
           t = ((h & 0b00000001) << 16) | (m << 8) | l
           if self.__checkbit(h, 1) == 1:
-             self.__signbit = 1
+             t = ~(0x020000 - t)
 
       if self.__bitrate == 16:
           t = (h << 8) | m
           if self.__checkbit(h, 7) == 1:
-             self.__signbit = 1
+             t = ~(0x10000 - t)
       
       if self.__bitrate == 14:
-          t = ((h & 0b00011111) << 8) | m
+          t = ((h & 0b00001111) << 8) | m
           if self.__checkbit(h, 5) == 1:
-             self.__signbit = 1
+             t = ~(0x1000 - t)
 
       if self.__bitrate == 12:
           t = ((h & 0b00000111) << 8) | m
           if self.__checkbit(h, 3) == 1:
-             self.__signbit = 1
+             t = ~(0x800 - t)
      
       return t
 

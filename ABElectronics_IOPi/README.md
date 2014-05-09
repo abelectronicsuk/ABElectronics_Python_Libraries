@@ -14,7 +14,7 @@ Getting Started
 To download the IO Pi python library to your Raspberry Pi type in terminal:
 
 ```
-git clone https://github.com/abelectronicsuk/ABElectroncs_Python_Libraries.git
+git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
 
 The library requires python-smbus to be installed.
@@ -26,7 +26,7 @@ sudo apt-get install python-smbus
 Add the location where you downloaded the python libraries into PYTHONPATH
 
 ```
-export PYTHONPATH=${PYTHONPATH}:~/Desktop/ABElectroncs_Python_Libraries/ABElectroncs_IOPi/
+export PYTHONPATH=${PYTHONPATH}:~/Desktop/ABElectronics_Python_Libraries/ABElectronics_IOPi/
 ```
 
-The example python files in /ABElectroncs_Python_Libraries/ABElectroncs_IOPi/demos/ should now run.
+The example python files in /ABElectronics_Python_Libraries/ABElectroincs_IOPi/demos/ should now run.
