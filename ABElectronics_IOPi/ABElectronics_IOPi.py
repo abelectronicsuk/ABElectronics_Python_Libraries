@@ -131,7 +131,7 @@ class IOPI :
 
 
   def setPinPullup(self, pin, value): 
-      # set the internal 10K pull-up resistors for an individual pin
+      # set the internal 100K pull-up resistors for an individual pin
       # pins 1 to 16
       # value 1 = enabled, 0 = disabled
       pin = pin - 1;
@@ -145,7 +145,7 @@ class IOPI :
 
 
   def setPortPullups(self, port, value): 
-      # set the internal 10K pull-up resistors for the selected IO port
+      # set the internal 100K pull-up resistors for the selected IO port
       if port == 1:
         self.portA_pullup = value
         bus.write_byte_data(self.address,self.GPPUB,value)
