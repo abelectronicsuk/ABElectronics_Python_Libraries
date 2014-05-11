@@ -222,10 +222,10 @@ class IOPI :
       #polarity 0 = same logic state of the input pin, 1 = inverted logic state of the input pin
       pin = pin - 1;
       if pin < 8:
-        self.portA_polarity = self.__updatebyte(self.portA_val, pin, value)    
+        self.portA_polarity = self.__updatebyte(self.portA_val, pin, polarity)    
         bus.write_byte_data(self.address,self.IPOLA,self.portA_polarity)        
       else:
-        self.portB_polarity = self.__updatebyte(self.portB_val, pin - 8, value)       
+        self.portB_polarity = self.__updatebyte(self.portB_val, pin - 8, polarity)       
         bus.write_byte_data(self.address,self.IPOLB,self.portB_polarity)
       return
 
