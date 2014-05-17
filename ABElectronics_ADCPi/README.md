@@ -21,7 +21,7 @@ Add the location where you downloaded the python libraries into PYTHONPATH e.g. 
 export PYTHONPATH=${PYTHONPATH}:~/Desktop/ABElectronics_Python_Libraries/ABElectronics_ADCPi/
 ```
 
-The example python files in /ABElectronics_Python_Libraries/ABElectronics_ADCPi/ will now run from the cerminal.
+The example python files in /ABElectronics_Python_Libraries/ABElectronics_ADCPi/ will now run from the terminal.
 
 ###Methods:
 
@@ -72,7 +72,7 @@ adc = ADCPi(0x68, 0x69, 18)
 ```
 The first two arguments are the I2C addresses of the ADC chips. The values shown are the default addresses of the ADC board.
 
-The third argement is the sample bit rate you want to use on the adc chips. Sample rate can be 12, 14, 16 or 18
+The third argument is the sample bit rate you want to use on the adc chips. Sample rate can be 12, 14, 16 or 18
 
 You can now read the voltage from channel 1 with:
 ```
