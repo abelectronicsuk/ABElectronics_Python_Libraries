@@ -26,21 +26,24 @@ The example python files in /ABElectronics_Python_Libraries/ABElectronics_ADCPi/
 ###Methods:
 
 ```
-readVoltage (channel) 
+readVoltage(channel) 
 ```
 Argument 1 to 8 for the selected ADC Chip
+
 Returns: number as float between 0 and 5
 
 ```
-readRaw (channel) 
+readRaw(channel) 
 ```
 Argument 1 to 8 for the selected ADC Chip
+
 Returns: number as int
 
 ```
 setPGA(gain)
 ```
 Argument gain value, accepted values are 1, 2, 4, 8
+
 Returns: null
 
 ```
