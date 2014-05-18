@@ -1,8 +1,9 @@
-AB Electronics Delta-Sigma Pi Python Library
+AB Electronics UK Delta-Sigma Pi Python Library
 =====
 
 Python Library to use with Delta-Sigma Pi Raspberry Pi expansion board from http://www.abelectronics.co.uk
-
+Install
+====
 To download to your Raspberry Pi type in terminal: 
 
 ```
@@ -22,44 +23,42 @@ export PYTHONPATH=${PYTHONPATH}:~/Desktop/ABElectronics_Python_Libraries/ABElect
 ```
 
 The example python files in /ABElectronics_Python_Libraries/ABElectronics_DeltaSigmaPi/ will now run from the terminal.
-
-###Methods:
-
+Functions:
+----------
 ```
 readVoltage(channel) 
 ```
-Argument 1 to 8 for the selected ADC Chip
-Returns: number as float between 0 and 5
+Read the voltage from the selected channel  
+**Parameters:** channel - 1 to 8 
+**Returns:** number as float between 0 and 5.0
 
 ```
 readRaw(channel) 
 ```
-Argument 1 to 8 for the selected ADC Chip
-Returns: number as int
+Read the raw int value from the selected channel  
+**Parameters:** channel - 1 to 8 
+**Returns:** number as int
 
 ```
 setPGA(gain)
 ```
-Argument gain value, accepted values are 1, 2, 4, 8
-Returns: null
+Set the gain of the PDA on the chip  
+**Parameters:** gain -  1, 2, 4, 8  
+**Returns:** null
 
 ```
 setBitRate(rate)
 ```
-Argument rate value, accepted values are 12, 14, 16, 18
-
-12 = 12 bit (240SPS max)
-
-14 = 14 bit (60SPS max)
-
-16 = 16 bit (15SPS max)
-
-18 = 18 bit (3.75SPS max)
-
-Returns: null
-
-
-To use the ADC Pi library in your code you must first import the library:
+Set the sample bit rate of the adc  
+**Parameters:** rate -  12, 14, 16, 18  
+**Returns:** null  
+12 = 12 bit (240SPS max)  
+14 = 14 bit (60SPS max)  
+16 = 16 bit (15SPS max)  
+18 = 18 bit (3.75SPS max)  
+Usage
+====
+To use the Delta-Sigma Pi library in your code you must first import the library:
 ```
 from ABElectronics_DeltaSigmaPi import DeltaSigma
 ```
