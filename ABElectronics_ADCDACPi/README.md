@@ -26,7 +26,7 @@ Functions:
 ```
 readADCvoltage(channel) 
 ```
-Read the voltage from the selected channel on the ADC
+Read the voltage from the selected channel on the ADC  
 **Parameters:** channel - 1 or 2  
 **Returns:** number as float between 0 and 2.048
 
@@ -40,22 +40,22 @@ Read the raw value from the selected channel on the ADC
 setADCrefvoltage(voltage)
 ```
 Set the reference voltage for the analogue to digital converter.  
-The ADC uses the raspberry pi 3.3V power as a voltage reference so using this method to set the reference to match the exact output voltage from the 3.3V regulator will increase the accuracy of the ADC readings.
-**Parameters:** voltage - float between 0.0 and 7.0
+The ADC uses the raspberry pi 3.3V power as a voltage reference so using this method to set the reference to match the exact output voltage from the 3.3V regulator will increase the accuracy of the ADC readings.  
+**Parameters:** voltage - float between 0.0 and 7.0  
 **Returns:** null
 
 ```
 setDACvoltage(channel, voltage)
 ```
-Set the voltage for the selected channel on the DAC
+Set the voltage for the selected channel on the DAC  
 **Parameters:** channel - 1 or 2,  voltage can be between 0 and 2.047 volts  
 **Returns:** null 
 
 ```
 setDACraw(channel, value)
 ```
-Set the raw value from the selected channel on the DAC
-**Parameters:** channel - 1 or 2,value int between 0 and 4095
+Set the raw value from the selected channel on the DAC  
+**Parameters:** channel - 1 or 2,value int between 0 and 4095  
 **Returns:** null 
 Usage
 ====
