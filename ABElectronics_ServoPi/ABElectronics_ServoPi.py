@@ -79,11 +79,11 @@ class PWM :
     write(self.address,self.LED0_OFF_H+4*channel, off >> 8)
     
 # set the output on all channels
-  def setAllPWM(self,channel, on, off):
-    write(self.address,self.ALL_LED_ON_L+4*channel, on & 0xFF)
-    write(self.address,self.ALL_LED_ON_H+4*channel, on >> 8)
-    write(self.address,self.ALL_LED_OFF_L+4*channel, off & 0xFF)
-    write(self.address,self.ALL_LED_OFF_H+4*channel, off >> 8)
+  def setAllPWM(self, on, off):
+    write(self.address,self.ALL_LED_ON_L, on & 0xFF)
+    write(self.address,self.ALL_LED_ON_H, on >> 8)
+    write(self.address,self.ALL_LED_OFF_L, off & 0xFF)
+    write(self.address,self.ALL_LED_OFF_H, off >> 8)
 
 # disable output via OE pin
   def outputDisable(self):
