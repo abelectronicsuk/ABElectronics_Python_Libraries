@@ -26,14 +26,14 @@ Functions:
 ```
 setDate(date) 
 ```
-Set the date and time on the RTC in ISO 8601 format - YYYY-MM-DDTHH:MM:SS
-**Parameters:** date
+Set the date and time on the RTC in ISO 8601 format - YYYY-MM-DDTHH:MM:SS   
+**Parameters:** date   
 **Returns:** null
 
 ```
 readDate() 
 ```
-Returns the date from the RTC in ISO 8601 format - YYYY-MM-DDTHH:MM:SS
+Returns the date from the RTC in ISO 8601 format - YYYY-MM-DDTHH:MM:SS   
 **Returns:** date
 
 
@@ -53,7 +53,7 @@ Disable the square-wave output on the SQW pin.
 setFrequency()
 ```
 Set the frequency for the square-wave output on the SQW pin.   
-**Parameters:** frequency - options are: 1 = 1Hz, 2 = 4.096KHz, 3 = 8.192KHz, 4 = 32.768KHz
+**Parameters:** frequency - options are: 1 = 1Hz, 2 = 4.096KHz, 3 = 8.192KHz, 4 = 32.768KHz   
 **Returns:** null
 
 Usage
