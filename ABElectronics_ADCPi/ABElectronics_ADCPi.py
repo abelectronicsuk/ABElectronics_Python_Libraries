@@ -22,9 +22,9 @@ class ADCPi :
   __config2 = 0x1C # PGAx1, 18 bit, one-shot conversion, channel 1
   __currentchannel2 = 1 # channel variable for adc2
   __bitrate = 18 # current bitrate
-  __pga = 1 # current pga setting
+  __pga = 0.48828125 # current pga setting
   __signbit = 0 # signed bit checker
-
+  __lsb = 0.0000078125 # default lsb value for 18 bit
 
   
   # create byte array and fill with initial values to define size
@@ -45,7 +45,8 @@ class ADCPi :
         else:
           i2c_bus = 1
         break
-  # Define I2C bus and init        
+  
+    # Define I2C bus and init        
   global bus
   bus = smbus.SMBus(i2c_bus); 
 
@@ -120,20 +121,14 @@ class ADCPi :
 
   def readVoltage(self, channel): 
       # returns the voltage from the selected adc channel - channels 1 to 8
-      raw = self.readRaw(channel)
-      
       if self.__signbit == 1: return 0 # returned a negative voltage so return 0  
-
-      pga = self.__pga / 2.048
-      if self.__bitrate == 12: lsb = 2.048 / 4096
-      if self.__bitrate == 14: lsb = 2.048 / 16384
-      if self.__bitrate == 16: lsb = 2.048 / 65536
-      if self.__bitrate == 18: lsb = 2.048 / 262144
-
-      voltage = (raw * (lsb/pga)) * 2.448579823702253
+      
+      raw = self.readRaw(channel)
+      voltage = (raw * (self.__lsb/self.__pga)) * 2.448579823702253
 
       return voltage
 
+  
   def readRaw(self, channel): 
       # reads the raw value from the selected adc channel - channels 1 to 8
       
@@ -196,25 +191,25 @@ class ADCPi :
         self.__config1 = self.__updatebyte(self.__config1, 1, 0)
         self.__config2 = self.__updatebyte(self.__config2, 0, 0)
         self.__config2 = self.__updatebyte(self.__config2, 1, 0)
-        self.__pga = 1
+        self.__pga = 0.48828125
       if gain == 2:
         self.__config1 = self.__updatebyte(self.__config1, 0, 1)
         self.__config1 = self.__updatebyte(self.__config1, 1, 0)
         self.__config2 = self.__updatebyte(self.__config2, 0, 1)
         self.__config2 = self.__updatebyte(self.__config2, 1, 0)
-        self.__pga = 2
+        self.__pga = 0.9765625
       if gain == 4:
         self.__config1 = self.__updatebyte(self.__config1, 0, 0)
         self.__config1 = self.__updatebyte(self.__config1, 1, 1)
         self.__config2 = self.__updatebyte(self.__config2, 0, 0)
         self.__config2 = self.__updatebyte(self.__config2, 1, 1)
-        self.__pga = 4
+        self.__pga = 1.953125
       if gain == 8:
         self.__config1 = self.__updatebyte(self.__config1, 0, 1)
         self.__config1 = self.__updatebyte(self.__config1, 1, 1)
         self.__config2 = self.__updatebyte(self.__config2, 0, 1)
         self.__config2 = self.__updatebyte(self.__config2, 1, 1)
-        self.__pga = 8
+        self.__pga = 3.90625
        
       bus.write_byte(self.__address, self.__config1)
       bus.write_byte(self.__address2, self.__config2)
@@ -232,24 +227,28 @@ class ADCPi :
         self.__config2 = self.__updatebyte(self.__config2, 2, 0)
         self.__config2 = self.__updatebyte(self.__config2, 3, 0)
         self.__bitrate = 12
+        self.__lsb = 0.0005
       if rate == 14:
         self.__config1 = self.__updatebyte(self.__config1, 2, 1)
         self.__config1 = self.__updatebyte(self.__config1, 3, 0)
         self.__config2 = self.__updatebyte(self.__config2, 2, 1)
         self.__config2 = self.__updatebyte(self.__config2, 3, 0)
         self.__bitrate = 14
+        self.__lsb = 0.000125
       if rate == 16:
         self.__config1 = self.__updatebyte(self.__config1, 2, 0)
         self.__config1 = self.__updatebyte(self.__config1, 3, 1)
         self.__config2 = self.__updatebyte(self.__config2, 2, 0)
         self.__config2 = self.__updatebyte(self.__config2, 3, 1)
         self.__bitrate = 16
+        self.__lsb = 0.00003125
       if rate == 18:
         self.__config1 = self.__updatebyte(self.__config1, 2, 1)
         self.__config1 = self.__updatebyte(self.__config1, 3, 1)
         self.__config2 = self.__updatebyte(self.__config2, 2, 1)
         self.__config2 = self.__updatebyte(self.__config2, 3, 1)
         self.__bitrate = 18
+        self.__lsb = 0.0000078125
        
       bus.write_byte(self.__address, self.__config1)
       bus.write_byte(self.__address2, self.__config2)
