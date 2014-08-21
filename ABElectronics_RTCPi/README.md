@@ -63,7 +63,7 @@ To use the RTC Pi library in your code you must first import the library:
 ```
 from ABElectronics_RTCPi import RTC
 ```
-Next you must initialise the ServoPi object:
+Next you must initialise the RTC object:
 ```
 rtc = RTC()
 ```
