@@ -23,7 +23,7 @@ class ADCPi :
   __currentchannel2 = 1 # channel variable for adc2
   __bitrate = 18 # current bitrate
   __pga = 0.48828125 # current pga setting
-  __signbit = 0 # signed bit checker
+  __signbit = False # signed bit checker
   __lsb = 0.0000078125 # default lsb value for 18 bit
 
   
@@ -62,10 +62,11 @@ class ADCPi :
 
   def __checkbit(self, byte, bit): 
       # internal method for reading the value of a single bit within a byte
-    if byte & (1 << bit):
-        return 1
+    bitval = ((byte&(1<<bit))!=0)
+    if (bitval == 1):
+        return True
     else:
-        return 0
+        return False
   
   def __twos_comp(self, val, bits):
     if( (val&(1<<(bits-1))) != 0 ):
@@ -121,16 +122,20 @@ class ADCPi :
 
   def readVoltage(self, channel): 
       # returns the voltage from the selected adc channel - channels 1 to 8
-      if self.__signbit == 1: return 0 # returned a negative voltage so return 0  
-      
       raw = self.readRaw(channel)
-      voltage = (raw * (self.__lsb/self.__pga)) * 2.448579823702253
-
-      return voltage
+      if (self.__signbit): 
+          return float(0.0) # returned a negative voltage so return 0  
+      else:          
+          voltage = (raw * (self.__lsb/self.__pga)) * 2.448579823702253
+          return float(voltage)
 
   
   def readRaw(self, channel): 
       # reads the raw value from the selected adc channel - channels 1 to 8
+      h = 0
+      l = 0
+      m = 0
+      s = 0
       
       self.__setchannel(channel) # get the config and i2c address for the selected channel
       if (channel < 5):
@@ -139,7 +144,7 @@ class ADCPi :
       else:
           config = self.__config2
           address = self.__address2
-      
+
       while 1:  # keep reading the adc data until the conversion result is ready
           __adcreading = bus.read_i2c_block_data(address,config)
           if self.__bitrate == 18:
@@ -154,28 +159,25 @@ class ADCPi :
           if self.__checkbit(s, 7) == 0:
               break;      
           
-      self.__signbit = 0
+      self.__signbit = False
       t = 0.0
       # extract the returned bytes and combine in the correct order
       if self.__bitrate == 18:
-          t = ((h & 0b00000001) << 16) | (m << 8) | l
-          if self.__checkbit(h, 1) == 1:
-             self.__signbit = 1
+          t = ((h & 0b00000011) << 16) | (m << 8) | l
+          self.__signbit = bool(self.__checkbit(t, 17))
 
       if self.__bitrate == 16:
           t = (h << 8) | m
-          if self.__checkbit(h, 7) == 1:
-             self.__signbit = 1
+          if self.__checkbit(h, 1) == 1:
+             self.__signbit = bool(self.__checkbit(t, 15))
       
       if self.__bitrate == 14:
           t = ((h & 0b00011111) << 8) | m
-          if self.__checkbit(h, 5) == 1:
-             self.__signbit = 1
+          self.__signbit = self.__checkbit(t, 13)
 
       if self.__bitrate == 12:
           t = ((h & 0b00000111) << 8) | m
-          if self.__checkbit(h, 3) == 1:
-             self.__signbit = 1
+          self.__signbit = self.__checkbit(t, 11)
      
       return t
 
