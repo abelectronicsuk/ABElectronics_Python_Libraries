@@ -22,9 +22,9 @@ class DeltaSigma :
   __config2 = 0x1C # PGAx1, 18 bit, one-shot conversion, channel 1
   __currentchannel2 = 1 # channel variable for adc2
   __bitrate = 18 # current bitrate
-  __pga = 1 # current pga setting
-  __signbit = 0 # signed bit checker
-
+  __signbit = False # signed bit checker
+  __pga = float(0.5) # current pga setting
+  __lsb = float(0.0000078125) # default lsb value for 18 bit
 
   
   # create byte array and fill with initial values to define size
@@ -121,20 +121,21 @@ class DeltaSigma :
   def readVoltage(self, channel): 
       # returns the voltage from the selected adc channel - channels 1 to 8
       raw = self.readRaw(channel)
- 
+          
+      voltage = float((raw * (self.__lsb/self.__pga)))
+      if (self.__signbit):
+          voltage = ((raw * (self.__lsb/self.__pga)) - 2.048)
+      else:
+          voltage = (raw * (self.__lsb/self.__pga))
+      return float(voltage) 
 
-      pga = self.__pga / 2.048
-      if self.__bitrate == 12: lsb = 2.048 / 4096
-      if self.__bitrate == 14: lsb = 2.048 / 16384
-      if self.__bitrate == 16: lsb = 2.048 / 65536
-      if self.__bitrate == 18: lsb = 2.048 / 262144
-
-      voltage = raw * (lsb/pga)
-
-      return voltage
 
   def readRaw(self, channel): 
       # reads the raw value from the selected adc channel - channels 1 to 8
+      h = 0
+      l = 0
+      m = 0
+      s = 0
       
       self.__setchannel(channel) # get the config and i2c address for the selected channel
       if (channel < 5):
@@ -143,7 +144,7 @@ class DeltaSigma :
       else:
           config = self.__config2
           address = self.__address2
-      
+
       while 1:  # keep reading the adc data until the conversion result is ready
           __adcreading = bus.read_i2c_block_data(address,config)
           if self.__bitrate == 18:
@@ -158,28 +159,33 @@ class DeltaSigma :
           if self.__checkbit(s, 7) == 0:
               break;      
           
-      sign = 0
+      self.__signbit = False
       t = 0.0
       # extract the returned bytes and combine in the correct order
       if self.__bitrate == 18:
-          t = ((h & 0b00000001) << 16) | (m << 8) | l
-          if self.__checkbit(h, 1) == 1:
-             t = ~(0x020000 - t)
+          t = ((h & 0b00000011) << 16) | (m << 8) | l
+          self.__signbit = bool(self.__checkbit(t, 17))
+          if self.__signbit:
+              t = self.__updatebyte(t, 17, 0)
+
 
       if self.__bitrate == 16:
           t = (h << 8) | m
-          if self.__checkbit(h, 7) == 1:
-             t = ~(0x10000 - t)
+          self.__signbit = bool(self.__checkbit(t, 15))
+          if self.__signbit:
+              t = self.__updatebyte(t, 15, 0)
       
       if self.__bitrate == 14:
-          t = ((h & 0b00001111) << 8) | m
-          if self.__checkbit(h, 5) == 1:
-             t = ~(0x1000 - t)
+          t = ((h & 0b00111111) << 8) | m
+          self.__signbit = self.__checkbit(t, 13)
+          if self.__signbit:
+              t = self.__updatebyte(t, 13, 0)
 
       if self.__bitrate == 12:
-          t = ((h & 0b00000111) << 8) | m
-          if self.__checkbit(h, 3) == 1:
-             t = ~(0x800 - t)
+          t = ((h & 0b00001111) << 8) | m
+          self.__signbit = self.__checkbit(t, 11)
+          if self.__signbit:
+              t = self.__updatebyte(t, 11, 0)
      
       return t
 
@@ -195,25 +201,25 @@ class DeltaSigma :
         self.__config1 = self.__updatebyte(self.__config1, 1, 0)
         self.__config2 = self.__updatebyte(self.__config2, 0, 0)
         self.__config2 = self.__updatebyte(self.__config2, 1, 0)
-        self.__pga = 1
+        self.__pga = 0.5
       if gain == 2:
         self.__config1 = self.__updatebyte(self.__config1, 0, 1)
         self.__config1 = self.__updatebyte(self.__config1, 1, 0)
         self.__config2 = self.__updatebyte(self.__config2, 0, 1)
         self.__config2 = self.__updatebyte(self.__config2, 1, 0)
-        self.__pga = 2
+        self.__pga = 1
       if gain == 4:
         self.__config1 = self.__updatebyte(self.__config1, 0, 0)
         self.__config1 = self.__updatebyte(self.__config1, 1, 1)
         self.__config2 = self.__updatebyte(self.__config2, 0, 0)
         self.__config2 = self.__updatebyte(self.__config2, 1, 1)
-        self.__pga = 4
+        self.__pga = 2
       if gain == 8:
         self.__config1 = self.__updatebyte(self.__config1, 0, 1)
         self.__config1 = self.__updatebyte(self.__config1, 1, 1)
         self.__config2 = self.__updatebyte(self.__config2, 0, 1)
         self.__config2 = self.__updatebyte(self.__config2, 1, 1)
-        self.__pga = 8
+        self.__pga = 4
        
       bus.write_byte(self.__address, self.__config1)
       bus.write_byte(self.__address2, self.__config2)
@@ -231,24 +237,28 @@ class DeltaSigma :
         self.__config2 = self.__updatebyte(self.__config2, 2, 0)
         self.__config2 = self.__updatebyte(self.__config2, 3, 0)
         self.__bitrate = 12
+        self.__lsb = 0.0005
       if rate == 14:
         self.__config1 = self.__updatebyte(self.__config1, 2, 1)
         self.__config1 = self.__updatebyte(self.__config1, 3, 0)
         self.__config2 = self.__updatebyte(self.__config2, 2, 1)
         self.__config2 = self.__updatebyte(self.__config2, 3, 0)
         self.__bitrate = 14
+        self.__lsb = 0.000125
       if rate == 16:
         self.__config1 = self.__updatebyte(self.__config1, 2, 0)
         self.__config1 = self.__updatebyte(self.__config1, 3, 1)
         self.__config2 = self.__updatebyte(self.__config2, 2, 0)
         self.__config2 = self.__updatebyte(self.__config2, 3, 1)
         self.__bitrate = 16
+        self.__lsb = 0.00003125
       if rate == 18:
         self.__config1 = self.__updatebyte(self.__config1, 2, 1)
         self.__config1 = self.__updatebyte(self.__config1, 3, 1)
         self.__config2 = self.__updatebyte(self.__config2, 2, 1)
         self.__config2 = self.__updatebyte(self.__config2, 3, 1)
         self.__bitrate = 18
+        self.__lsb = 0.0000078125
        
       bus.write_byte(self.__address, self.__config1)
       bus.write_byte(self.__address2, self.__config2)
