@@ -22,9 +22,8 @@ class ADCPi :
   __config2 = 0x1C # PGAx1, 18 bit, one-shot conversion, channel 1
   __currentchannel2 = 1 # channel variable for adc2
   __bitrate = 18 # current bitrate
-  __pga = 0.48828125 # current pga setting
-  __signbit = False # signed bit checker
-  __lsb = 0.0000078125 # default lsb value for 18 bit
+  __pga = float(0.5) # current pga setting
+  __lsb = float(0.0000078125) # default lsb value for 18 bit
 
   
   # create byte array and fill with initial values to define size
@@ -126,7 +125,7 @@ class ADCPi :
       if (self.__signbit): 
           return float(0.0) # returned a negative voltage so return 0  
       else:          
-          voltage = (raw * (self.__lsb/self.__pga)) * 2.448579823702253
+          voltage = float((raw * (self.__lsb/self.__pga)) * 2.448579823702253)
           return float(voltage)
 
   
@@ -165,19 +164,27 @@ class ADCPi :
       if self.__bitrate == 18:
           t = ((h & 0b00000011) << 16) | (m << 8) | l
           self.__signbit = bool(self.__checkbit(t, 17))
+          if self.__signbit:
+              t = self.__updatebyte(t, 17, 0)
+
 
       if self.__bitrate == 16:
           t = (h << 8) | m
-          if self.__checkbit(h, 1) == 1:
-             self.__signbit = bool(self.__checkbit(t, 15))
+          self.__signbit = bool(self.__checkbit(t, 15))
+          if self.__signbit:
+              t = self.__updatebyte(t, 15, 0)
       
       if self.__bitrate == 14:
-          t = ((h & 0b00011111) << 8) | m
+          t = ((h & 0b00111111) << 8) | m
           self.__signbit = self.__checkbit(t, 13)
+          if self.__signbit:
+              t = self.__updatebyte(t, 13, 0)
 
       if self.__bitrate == 12:
-          t = ((h & 0b00000111) << 8) | m
+          t = ((h & 0b00001111) << 8) | m
           self.__signbit = self.__checkbit(t, 11)
+          if self.__signbit:
+              t = self.__updatebyte(t, 11, 0)
      
       return t
 
@@ -193,25 +200,25 @@ class ADCPi :
         self.__config1 = self.__updatebyte(self.__config1, 1, 0)
         self.__config2 = self.__updatebyte(self.__config2, 0, 0)
         self.__config2 = self.__updatebyte(self.__config2, 1, 0)
-        self.__pga = 0.48828125
+        self.__pga = 0.5
       if gain == 2:
         self.__config1 = self.__updatebyte(self.__config1, 0, 1)
         self.__config1 = self.__updatebyte(self.__config1, 1, 0)
         self.__config2 = self.__updatebyte(self.__config2, 0, 1)
         self.__config2 = self.__updatebyte(self.__config2, 1, 0)
-        self.__pga = 0.9765625
+        self.__pga = 1
       if gain == 4:
         self.__config1 = self.__updatebyte(self.__config1, 0, 0)
         self.__config1 = self.__updatebyte(self.__config1, 1, 1)
         self.__config2 = self.__updatebyte(self.__config2, 0, 0)
         self.__config2 = self.__updatebyte(self.__config2, 1, 1)
-        self.__pga = 1.953125
+        self.__pga = 2
       if gain == 8:
         self.__config1 = self.__updatebyte(self.__config1, 0, 1)
         self.__config1 = self.__updatebyte(self.__config1, 1, 1)
         self.__config2 = self.__updatebyte(self.__config2, 0, 1)
         self.__config2 = self.__updatebyte(self.__config2, 1, 1)
-        self.__pga = 3.90625
+        self.__pga = 4
        
       bus.write_byte(self.__address, self.__config1)
       bus.write_byte(self.__address2, self.__config2)
