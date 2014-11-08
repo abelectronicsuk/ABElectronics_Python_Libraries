@@ -78,8 +78,8 @@ class IOPI :
     #init object with i2c address, default is 0x20, 0x21 for IOPi board, load default configuration, set all pins low and to output
     self.address = address
     bus.write_byte_data(self.address,self.IOCON,self.config)
-    bus.write_byte_data(self.address,self.GPIOA,0x00)
-    bus.write_byte_data(self.address,self.GPIOB,0x00)
+    self.portA_val = bus.read_byte_data(self.address,self.GPIOA)
+    self.portB_val = bus.read_byte_data(self.address,self.GPIOB)
     bus.write_byte_data(self.address,self.IODIRA,0x00)
     bus.write_byte_data(self.address,self.IODIRB,0x00)
     return
@@ -123,10 +123,10 @@ class IOPI :
       # 1 = input, 0 = output           
       if port == 1:
         bus.write_byte_data(self.address,self.IODIRB,direction)
-        portB_dir = direction
+        self.portB_dir = direction
       else:
         bus.write_byte_data(self.address,self.IODIRA,direction)
-        portA_dir = direction
+        self.portA_dir = direction
       return
 
 
@@ -173,10 +173,10 @@ class IOPI :
       # value = number between 0 and 255 or 0x00 and 0xFF
       if port == 1:
         bus.write_byte_data(self.address,self.GPIOB,value)
-        portB_val = value
+        self.portB_val = value
       else:
         bus.write_byte_data(self.address,self.GPIOA,value)
-        portA_val = value
+        self.portA_val = value
       return
 
 
@@ -185,12 +185,12 @@ class IOPI :
       # returns 0 = logic level low, 1 = logic level high
       pin = pin - 1;
       if pin < 8:
-        portA_val = bus.read_byte_data(self.address,self.GPIOA)  
-        return self.__checkbit(portA_val, pin)
+        self.portA_val = bus.read_byte_data(self.address,self.GPIOA)  
+        return self.__checkbit(self.portA_val, pin)
       else:
         pin = pin - 8
-        portB_val = bus.read_byte_data(self.address,self.GPIOB)     
-        return self.__checkbit(portB_val, pin)
+        self.portB_val = bus.read_byte_data(self.address,self.GPIOB)     
+        return self.__checkbit(self.portB_val, pin)
 
 
   def readPort(self, port):
@@ -198,22 +198,22 @@ class IOPI :
       # port 0 = pins 1 to 8, port 1 = pins 8 to 16
       # returns number between 0 and 255 or 0x00 and 0xFF
       if port == 1:
-        portB_val = bus.read_byte_data(self.address,self.GPIOB)
-        return portB_val
+        self.portB_val = bus.read_byte_data(self.address,self.GPIOB)
+        return self.portB_val
       else:
-        portA_val = bus.read_byte_data(self.address,self.GPIOA)
-        return portA_val
+        self.portA_val = bus.read_byte_data(self.address,self.GPIOA)
+        return self.portA_val
       
   def invertPort(self, port, polarity): 
       # invert the polarity of the pins on a selected port
       # port 0 = pins 1 to 8, port 1 = pins 8 to 16
       # polarity 0 = same logic state of the input pin, 1 = inverted logic state of the input pin
       if port == 1:
-        bus.write_byte_data(self.address,self.IPOLB,value)
-        portB_polarity = value
+        bus.write_byte_data(self.address,self.IPOLB,polarity)
+        self.portB_polarity = polarity
       else:
-        bus.write_byte_data(self.address,self.IPOLA,value)
-        portA_polarity = value
+        bus.write_byte_data(self.address,self.IPOLA,polarity)
+        self.portA_polarity = polarity
       return
 
   def invertPin(self, pin, polarity):
