@@ -159,8 +159,8 @@ class IO :
   def __init__(self):
     #init object with i2c address, default is 0x20, 0x21 for IOPi board, load default configuration, set all pins low and to output
     bus.write_byte_data(self.__ioaddress,self.IOCON,self.__ioconfig)
-    bus.write_byte_data(self.__ioaddress,self.GPIOA,0x00)
-    bus.write_byte_data(self.__ioaddress,self.GPIOB,0x00)
+    self.portA_val = bus.read_byte_data(self.__ioaddress,self.GPIOA)
+    self.portB_val = bus.read_byte_data(self.__ioaddress,self.GPIOB)
     bus.write_byte_data(self.__ioaddress,self.IODIRA,0x00)
     bus.write_byte_data(self.__ioaddress,self.IODIRB,0x00)
     return
@@ -204,10 +204,10 @@ class IO :
       # 1 = input, 0 = output           
       if port == 1:
         bus.write_byte_data(self.__ioaddress,self.IODIRB,direction)
-        __portB_dir = direction
+        self.__portB_dir = direction
       else:
         bus.write_byte_data(self.__ioaddress,self.IODIRA,direction)
-        __portA_dir = direction
+        self.__portA_dir = direction
       return
 
 
@@ -254,10 +254,10 @@ class IO :
       # value = number between 0 and 255 or 0x00 and 0xFF
       if port == 1:
         bus.write_byte_data(self.__ioaddress,self.GPIOB,value)
-        __portB_val = value
+        self.__portB_val = value
       else:
         bus.write_byte_data(self.__ioaddress,self.GPIOA,value)
-        __portA_val = value
+        self.__portA_val = value
       return
 
 
@@ -266,12 +266,12 @@ class IO :
       # returns 0 = logic level low, 1 = logic level high
       pin = pin - 1;
       if pin < 8:
-        __portA_val = bus.read_byte_data(self.__ioaddress,self.GPIOA)  
-        return self.__checkbit(__portA_val, pin)
+        self.__portA_val = bus.read_byte_data(self.__ioaddress,self.GPIOA)  
+        return self.__checkbit(self.__portA_val, pin)
       else:
         pin = pin - 8
-        __portB_val = bus.read_byte_data(self.__ioaddress,self.GPIOB)     
-        return self.__checkbit(__portB_val, pin)
+        self.__portB_val = bus.read_byte_data(self.__ioaddress,self.GPIOB)     
+        return self.__checkbit(self.__portB_val, pin)
 
 
   def readPort(self, port):
@@ -279,11 +279,11 @@ class IO :
       # port 0 = pins 1 to 8, port 1 = pins 8 to 16
       # returns number between 0 and 255 or 0x00 and 0xFF
       if port == 1:
-        __portB_val = bus.read_byte_data(self.__ioaddress,self.GPIOB)
-        return __portB_val
+        self.__portB_val = bus.read_byte_data(self.__ioaddress,self.GPIOB)
+        return self.__portB_val
       else:
-        __portA_val = bus.read_byte_data(self.__ioaddress,self.GPIOA)
-        return __portA_val
+        self.__portA_val = bus.read_byte_data(self.__ioaddress,self.GPIOA)
+        return self.__portA_val
       
   def invertPort(self, port, polarity): 
       # invert the polarity of the pins on a selected port
@@ -291,10 +291,10 @@ class IO :
       # polarity 0 = same logic state of the input pin, 1 = inverted logic state of the input pin
       if port == 1:
         bus.write_byte_data(self.__ioaddress,self.IPOLB,value)
-        __portB_polarity = value
+        self.__portB_polarity = value
       else:
         bus.write_byte_data(self.__ioaddress,self.IPOLA,value)
-        __portA_polarity = value
+        self.__portA_polarity = value
       return
 
   def invertPin(self, pin, polarity):
