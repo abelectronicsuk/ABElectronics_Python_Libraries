@@ -5,7 +5,7 @@ Python 2.x Libraries to work with Raspberry Pi expansion boards from http://www.
 
 Python 2.x with smbus
 
-These libraries have been updated to be formatted in PEP8 python formatting on 16 November 2014 and class and function names have been changed to meet the PEP8 styles.  Previous versions of the Python libraries can be found at ```https://github.com/abelectronicsuk/Archive```
+These libraries have been updated to be formatted in PEP8 python formatting on 16 November 2014 and class and function names have been changed to meet the PEP8 styles.  Previous versions of the Python libraries can be found at https://github.com/abelectronicsuk/Archive
 
 To download to your Raspberry Pi type in terminal: 
 
