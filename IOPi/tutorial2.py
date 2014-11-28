@@ -17,9 +17,9 @@ from ABE_IoPi import IoPi
 import time
 
 i2c_helper = ABEHelpers()
-newbus = i2c_helper.get_smbus()
+i2c_bus = i2c_helper.get_smbus()
 
-bus = IoPi(newbus, 0x20)
+bus = IoPi(i2c_bus, 0x20)
 
 bus.set_pin_direction(1, 1)  # set pin 1 as an input
 
