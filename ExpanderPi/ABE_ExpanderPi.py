@@ -239,30 +239,17 @@ class IO:
 
     def set_pin_direction(self, pin, direction):
         """
-        set IO direction for an individual pin
-        pins 1 to 16
-        direction 1 = input, 0 = output
-        """
-
+         set IO direction for an individual pin
+         pins 1 to 16
+         direction 1 = input, 0 = output
+         """
         pin = pin - 1
         if pin < 8:
-            self.__portA_val = self.__updatebyte(
-                self.__portA_val,
-                pin,
-                direction)
-            self._bus.write_byte_data(
-                self.__ioaddress,
-                self.IODIRA,
-                direction)
+            self.port_a_dir = self.__updatebyte(self.port_a_dir, pin, direction)
+            self._bus.write_byte_data(self.address, self.IODIRA, self.port_a_dir)
         else:
-            self.__portB_val = self.__updatebyte(
-                self.__portB_val,
-                pin - 8,
-                direction)
-            self._bus.write_byte_data(
-                self.__ioaddress,
-                self.IODIRB,
-                direction)
+            self.port_b_dir  = self.__updatebyte(self.port_b_dir, pin - 8, direction)
+            self._bus.write_byte_data(self.address, self.IODIRB, self.port_b_dir)
         return
 
     def set_port_direction(self, port, direction):
@@ -286,27 +273,13 @@ class IO:
         pins 1 to 16
         value 1 = enabled, 0 = disabled
         """
-
         pin = pin - 1
         if pin < 8:
-            self.__portA_pullup = self.__updatebyte(
-                self.__portA_val,
-                pin,
-                value)
-            self._bus.write_byte_data(
-                self.__ioaddress,
-                self.GPPUA,
-                self.__portA_pullup)
+            self.porta_pullup = self.__updatebyte(self.porta_pullup, pin, value)
+            self._bus.write_byte_data(self.address, self.GPPUA, self.porta_pullup)
         else:
-            self.__portB_pullup = self.__updatebyte(
-                self.__portB_val,
-                pin -
-                8,
-                value)
-            self._bus.write_byte_data(
-                self.__ioaddress,
-                self.GPPUB,
-                self.__portB_pullup)
+            self.portb_pullup = self.__updatebyte(self.portb_pullup,pin - 8,value)
+            self._bus.write_byte_data(self.address, self.GPPUB, self.portb_pullup)
         return
 
     def set_port_pullups(self, port, value):

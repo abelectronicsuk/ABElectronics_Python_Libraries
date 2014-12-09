@@ -99,11 +99,13 @@ class IoPi(object):
         self.address = address
         self._bus.write_byte_data(self.address, self.IOCON, self.config)
         self.portaval = self._bus.read_byte_data(self.address, self.GPIOA)
-        self.portbval = self._bus.read_byte_data(self.address, self.GPIOB)
+        self.portbval = self._bus.read_byte_data(self.address, self.GPIOB)        
         self._bus.write_byte_data(self.address, self.IODIRA, 0xFF)
         self._bus.write_byte_data(self.address, self.IODIRB, 0xFF)
-        self.set_port_pullups(0,0x00);
-        self.set_port_pullups(1,0x00);
+        self.set_port_pullups(0,0x00)
+        self.set_port_pullups(1,0x00)
+        self.invert_port(0, 0x00)
+        self.invert_port(1, 0x00)
         return
 
     # local methods
@@ -136,14 +138,11 @@ class IoPi(object):
          """
         pin = pin - 1
         if pin < 8:
-            self.portaval = self.__updatebyte(self.portaval, pin, direction)
-            self._bus.write_byte_data(self.address, self.IODIRA, direction)
+            self.port_a_dir = self.__updatebyte(self.port_a_dir, pin, direction)
+            self._bus.write_byte_data(self.address, self.IODIRA, self.port_a_dir)
         else:
-            self.portbval = self.__updatebyte(
-                self.portbval,
-                pin - 8,
-                direction)
-            self._bus.write_byte_data(self.address, self.IODIRB, direction)
+            self.port_b_dir  = self.__updatebyte(self.port_b_dir, pin - 8, direction)
+            self._bus.write_byte_data(self.address, self.IODIRB, self.port_b_dir)
         return
 
     def set_port_direction(self, port, direction):
@@ -160,22 +159,18 @@ class IoPi(object):
             self.port_a_dir = direction
         return
 
-    def set_pin_pullup(self, pin, value):
+    def set_pin_pullup(self, pinval, value):
         """
         set the internal 100K pull-up resistors for an individual pin
         pins 1 to 16
         value 1 = enabled, 0 = disabled
         """
-        pin = pin - 1
+        pin = pinval - 1
         if pin < 8:
-            self.porta_pullup = self.__updatebyte(self.portaval, pin, value)
+            self.porta_pullup = self.__updatebyte(self.porta_pullup, pin, value)
             self._bus.write_byte_data(self.address, self.GPPUA, self.porta_pullup)
         else:
-            self.portb_pullup = self.__updatebyte(
-                self.portbval,
-                pin -
-                8,
-                value)
+            self.portb_pullup = self.__updatebyte(self.portb_pullup,pin - 8,value)
             self._bus.write_byte_data(self.address, self.GPPUB, self.portb_pullup)
         return
 
@@ -184,10 +179,10 @@ class IoPi(object):
         set the internal 100K pull-up resistors for the selected IO port
         """
         if port == 1:
-            self.porta_pullup = value
+            self.portb_pullup = value
             self._bus.write_byte_data(self.address, self.GPPUB, value)
         else:
-            self.portb_pullup = value
+            self.porta_pullup = value
             self._bus.write_byte_data(self.address, self.GPPUA, value)
         return
 
@@ -218,12 +213,12 @@ class IoPi(object):
             self.portaval = value
         return
 
-    def read_pin(self, pin):
+    def read_pin(self, pinval):
         """
         read the value of an individual pin 1 - 16
         returns 0 = logic level low, 1 = logic level high
         """
-        pin = pin - 1
+        pin = pinval - 1
         if pin < 8:
             self.portaval = self._bus.read_byte_data(self.address, self.GPIOA)
             return self.__checkbit(self.portaval, pin)
