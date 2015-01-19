@@ -255,7 +255,7 @@ class IO:
     def set_port_direction(self, port, direction):
         """
         set direction for an IO port
-        port 0 = pins 1 to 8, port 1 = pins 8 to 16
+        port 0 = pins 1 to 8, port 1 = pins 9 to 16
         1 = input, 0 = output
         """
 
@@ -322,7 +322,7 @@ class IO:
     def write_port(self, port, value):
         """
         write to all pins on the selected port
-        port 0 = pins 1 to 8, port 1 = pins 8 to 16
+        port 0 = pins 1 to 8, port 1 = pins 9 to 16
         value = number between 0 and 255 or 0x00 and 0xFF
         """
 
@@ -356,7 +356,7 @@ class IO:
     def read_port(self, port):
         """
         read all pins on the selected port
-        port 0 = pins 1 to 8, port 1 = pins 8 to 16
+        port 0 = pins 1 to 8, port 1 = pins 9 to 16
         returns number between 0 and 255 or 0x00 and 0xFF
         """
 
@@ -374,7 +374,7 @@ class IO:
     def invert_port(self, port, polarity):
         """
         invert the polarity of the pins on a selected port
-        port 0 = pins 1 to 8, port 1 = pins 8 to 16
+        port 0 = pins 1 to 8, port 1 = pins 9 to 16
         polarity 0 = same logic state of the input pin, 1 = inverted logic
         state of the input pin
         """
@@ -477,7 +477,7 @@ class IO:
     def set_interrupt_on_port(self, port, value):
         """
         Enable interrupts for the pins on the selected port
-        port 0 = pins 1 to 8, port 1 = pins 8 to 16
+        port 0 = pins 1 to 8, port 1 = pins 9 to 16
         value = number between 0 and 255 or 0x00 and 0xFF
         """
 
@@ -508,7 +508,7 @@ class IO:
     def read_interrupt_status(self, port):
         """
         read the interrupt status for the pins on the selected port
-        port 0 = pins 1 to 8, port 1 = pins 8 to 16
+        port 0 = pins 1 to 8, port 1 = pins 9 to 16
         """
 
         if port == 0:
@@ -520,7 +520,7 @@ class IO:
         """
         read the value from the selected port at the time of the last
         interrupt trigger
-        port 0 = pins 1 to 8, port 1 = pins 8 to 16
+        port 0 = pins 1 to 8, port 1 = pins 9 to 16
         """
 
         if port == 0:
