@@ -380,10 +380,10 @@ class IO:
         """
 
         if port == 1:
-            self._bus.write_byte_data(self.address, self.IPOLB, polarity)
+            self._bus.write_byte_data(self.__ioaddress, self.IPOLB, polarity)
             self.portb_polarity = polarity
         else:
-            self._bus.write_byte_data(self.address, self.IPOLA, polarity)
+            self._bus.write_byte_data(self.__ioaddress, self.IPOLA, polarity)
             self.porta_polarity = polarity
         return
 
