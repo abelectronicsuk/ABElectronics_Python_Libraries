@@ -1,12 +1,14 @@
 #!/usr/bin/python
-
-import smbus
+try:
+    import smbus
+except ImportError:
+    raise ImportError("python-smbus not found. Install with 'sudo apt-get install python-smbus'")
 import re
 
 """
 ================================================
 ABElectronics Python Helper Functions
-Version 1.0 Created 15/11/2014
+Version 1.1 Created 20/01/2015
 Python 2 only
 Requires python 2 smbus to be installed with: sudo apt-get install python-smbus
 This file contains functions to load puthon smbus into an instance variable.
@@ -17,9 +19,6 @@ The bus object can then be used by multiple devices without conflicts.
 
 class ABEHelpers:
     
-    def init(self):
-        return
-
     def get_smbus(self):
         # detect i2C port number and assign to i2c_bus
         i2c_bus = 0
@@ -33,4 +32,9 @@ class ABEHelpers:
                     else:
                         i2c_bus = 1
                     break
-        return smbus.SMBus(i2c_bus)
+        try:        
+            return smbus.SMBus(i2c_bus)
+        except IOError:
+                print ("Could not open the i2c bus.")
+                print ("Please check that i2c is enabled and python-smbus and i2c-tools are installed.")
+                print ("Visit https://www.abelectronics.co.uk/i2c-raspbian-wheezy/info.aspx for more information.")    
