@@ -48,7 +48,7 @@ Set the gain of the PDA on the chip
 **Returns:** null
 
 ```
-set_bit_rate(rate)
+adc.setBitRate(rate)
 ```
 Set the sample bit rate of the adc  
 **Parameters:** rate -  12, 14, 16, 18  
