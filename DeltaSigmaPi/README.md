@@ -42,7 +42,7 @@ Read the raw int value from the selected channel
 ```
 set_pga(gain)
 ```
-Set the gain of the PDA on the chip  
+Set the gain of the PGA on the chip  
 **Parameters:** gain -  1, 2, 4, 8  
 **Returns:** null
 
