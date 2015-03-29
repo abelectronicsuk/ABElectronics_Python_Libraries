@@ -57,6 +57,14 @@ Set the sample bit rate of the adc
 14 = 14 bit (60SPS max)  
 16 = 16 bit (15SPS max)  
 18 = 18 bit (3.75SPS max)  
+
+```
+set_conversion_mode(mode)
+```
+Set the conversion mode for the adc  
+**Parameters:** mode -  0 = One-shot conversion, 1 = Continuous conversion  
+**Returns:** null
+
 Usage
 ====
 

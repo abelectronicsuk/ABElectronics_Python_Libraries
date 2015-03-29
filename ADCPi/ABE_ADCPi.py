@@ -16,11 +16,12 @@ class ADCPi:
 
     __address = 0x68  # default address for adc 1 on adc pi and delta-sigma pi
     __address2 = 0x69  # default address for adc 2 on adc pi and delta-sigma pi
-    __config1 = 0x1C  # PGAx1, 18 bit, one-shot conversion, channel 1
+    __config1 = 0x9C  # PGAx1, 18 bit, continuous conversion, channel 1
     __currentchannel1 = 1  # channel variable for adc 1
-    __config2 = 0x1C  # PGAx1, 18 bit, one-shot conversion, channel 1
+    __config2 = 0x9C  # PGAx1, 18 bit, continuous-shot conversion, channel 1
     __currentchannel2 = 1  # channel variable for adc2
     __bitrate = 18  # current bitrate
+    __conversionmode = 1 # Conversion Mode
     __pga = float(0.5)  # current pga setting
     __lsb = float(0.0000078125)  # default lsb value for 18 bit
 
@@ -102,7 +103,7 @@ class ADCPi:
         self._bus = bus
         self.__address = address
         self.__address2 = address2
-        self.setBitRate(rate)
+        self.set_bit_rate(rate)
 
     def read_voltage(self, channel):
         # returns the voltage from the selected adc channel - channels 1 to
@@ -124,16 +125,22 @@ class ADCPi:
 
         # get the config and i2c address for the selected channel
         self.__setchannel(channel)
-        if (channel < 5):
+        if (channel < 5):            
             config = self.__config1
             address = self.__address
         else:
             config = self.__config2
             address = self.__address2
-
+            
+        # if the conversion mode is set to one-shot update the ready bit to 1
+        if (self.__conversionmode == 0):
+                config = self.__updatebyte(config, 7, 1)
+                self._bus.write_byte(address, config)
+                config = self.__updatebyte(config, 7, 0)
         # keep reading the adc data until the conversion result is ready
         while True:
-            __adcreading = self._bus.read_i2c_block_data(address, config)
+            
+            __adcreading = self._bus.read_i2c_block_data(address, config, 4)
             if self.__bitrate == 18:
                 h = __adcreading[0]
                 m = __adcreading[1]
@@ -213,7 +220,7 @@ class ADCPi:
         self._bus.write_byte(self.__address2, self.__config2)
         return
 
-    def setBitRate(self, rate):
+    def set_bit_rate(self, rate):
         """
         sample rate and resolution
         12 = 12 bit (240SPS max)
@@ -253,4 +260,22 @@ class ADCPi:
 
         self._bus.write_byte(self.__address, self.__config1)
         self._bus.write_byte(self.__address2, self.__config2)
+        return
+    
+    def set_conversion_mode(self, mode):
+        """
+        conversion mode for adc
+        0 = One shot conversion mode
+        1 = Continuous conversion mode
+        """
+        if (mode == 0):
+            self.__config1 = self.__updatebyte(self.__config1, 4, 0)
+            self.__config2 = self.__updatebyte(self.__config2, 4, 0)
+            self.__conversionmode = 0
+        if (mode == 1):
+            self.__config1 = self.__updatebyte(self.__config1, 4, 1)
+            self.__config2 = self.__updatebyte(self.__config2, 4, 1)
+            self.__conversionmode = 1
+        #self._bus.write_byte(self.__address, self.__config1)
+        #self._bus.write_byte(self.__address2, self.__config2)    
         return
