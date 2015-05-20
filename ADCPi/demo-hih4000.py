@@ -12,8 +12,12 @@ ABElectronics ADC Pi HIH4000 humidity sensor demo
 Version 1.0 Created 20/05/2015
 
 Requires python smbus to be installed
-run with: python demo-tmp36.py
+run with: python demo-hih4000.py
 ================================================
+
+The HIH4000 humidity sensor needs a load of at least 80K between the output
+and ground pin so add a 100K resistor between the sensor output and the 
+ADC Pi input pin to make the sensor work correctly
 
 Initialise the ADC device using the default addresses and sample rate,
 change this value if you have changed the address selection jumpers
