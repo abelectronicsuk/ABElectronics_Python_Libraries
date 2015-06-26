@@ -9,7 +9,7 @@ import os
 """
 # ================================================
 # ABElectronics Expander Pi | - IO Interrupts Demo
-# Version 1.0 Created 21/08/2014
+# Version 1.0 Created 26/06/2015
 #
 # Requires python smbus to be installed with: sudo apt-get install python-smbus
 # run with: sudo python demo-iointerruptsthreading.py
