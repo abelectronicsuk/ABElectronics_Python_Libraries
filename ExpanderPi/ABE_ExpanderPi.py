@@ -191,8 +191,8 @@ class IO:
     __portB_dir = 0x00  # port b direction
     __portA_val = 0x00  # port a value
     __portB_val = 0x00  # port b value
-    ____portA_pullup = 0x00  # port a pull-up resistors
-    ____portB_pullup = 0x00  # port a pull-up resistors
+    __portA_pullup = 0x00  # port a pull-up resistors
+    __portB_pullup = 0x00  # port a pull-up resistors
     __portA_polarity = 0x00  # input polarity for port a
     __portB_polarity = 0x00  # input polarity for port b
     __intA = 0x00  # interrupt control for port a
@@ -209,8 +209,8 @@ class IO:
         """
         self._bus = bus
         self._bus.write_byte_data(self.__ioaddress, self.IOCON, self.__ioconfig)
-        self.portA_val = self._bus.read_byte_data(self.__ioaddress, self.GPIOA)
-        self.portB_val = self._bus.read_byte_data(self.__ioaddress, self.GPIOB)
+        self.__portA_val = self._bus.read_byte_data(self.__ioaddress, self.GPIOA)
+        self.__portB_val = self._bus.read_byte_data(self.__ioaddress, self.GPIOB)
         self._bus.write_byte_data(self.__ioaddress, self.IODIRA, 0xFF)
         self._bus.write_byte_data(self.__ioaddress, self.IODIRB, 0xFF)
         return
@@ -288,10 +288,10 @@ class IO:
         """
 
         if port == 1:
-            self.____portA_pullup = value
+            self.__portA_pullup = value
             self._bus.write_byte_data(self.__ioaddress, self.GPPUB, value)
         else:
-            self.____portB_pullup = value
+            self.__portB_pullup = value
             self._bus.write_byte_data(self.__ioaddress, self.GPPUA, value)
         return
 
