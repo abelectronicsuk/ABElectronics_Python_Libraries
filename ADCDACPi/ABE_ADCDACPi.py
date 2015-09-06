@@ -116,7 +116,7 @@ class ADCDACPi:
         """
         if ((channel > 2) or (channel < 1)):
             print 'DAC channel needs to be 1 or 2'
-        if (voltage >= 0.0) and (voltage < 2.048):
+        if (voltage >= 0.0) and (voltage < self.__adcrefvoltage):
             rawval = (voltage / 2.048) * 4096 / self.gain
             self.set_dac_raw(channel, int(rawval))
         return
