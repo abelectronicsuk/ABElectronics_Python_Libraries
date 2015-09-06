@@ -59,6 +59,13 @@ class ADCDACPi:
     spiDAC.open(0, 1)
     spiDAC.max_speed_hz = (4000000)
 
+    #Max DAC output voltage. Depends on gain factor
+    #The following table is in the form <gain factor>:<max voltage>
+    __dacMaxOutput__ = {
+                            1:2.048, #This is Vref
+                            2:3.3 #This is Vdd for ABE ADCDACPi board
+                       }
+
     # public methods
     def __init__(self, gainFactor = 1):
         """Class Constructor
@@ -74,6 +81,8 @@ class ADCDACPi:
             self.gain = 1
         else:
             self.gain = gainFactor
+
+            self.maxDacVoltage = self.__dacMaxOutput__[self.gain]
 
     def read_adc_voltage(self, channel):
         """
@@ -116,9 +125,11 @@ class ADCDACPi:
         """
         if ((channel > 2) or (channel < 1)):
             print 'DAC channel needs to be 1 or 2'
-        if (voltage >= 0.0) and (voltage < self.__adcrefvoltage):
+        if (voltage >= 0.0) and (voltage < self.maxDacVoltage):
             rawval = (voltage / 2.048) * 4096 / self.gain
             self.set_dac_raw(channel, int(rawval))
+        else:
+            print "Invalid DAC Vout value %f. Must be between 0 and %f (non-inclusive) " % (voltage, self.maxDacVoltage)
         return
 
     def set_dac_raw(self, channel, value):
