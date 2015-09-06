@@ -15,7 +15,7 @@ run with: python demo-adcread.py
 this demo reads the voltage from channel 1 on the ADC inputs
 """
 
-adcdac = ADCDACPi()  # create an instance of ADCDACPi
+adcdac = ADCDACPi(1)  # create an instance of the ADCDAC Pi with a DAC gain set to 1
 
 # set the reference voltage.  this should be set to the exact voltage
 # measured on the raspberry pi 3.3V rail.

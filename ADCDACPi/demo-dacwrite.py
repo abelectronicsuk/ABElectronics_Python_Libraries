@@ -14,7 +14,7 @@ run with: python demo-dacwrite.py
 this demo will generate a 1.5V p-p square wave at 1Hz
 """
 
-adcdac = ADCDACPi()
+adcdac = ADCDACPi(1) # create an instance of the ADCDAC Pi with a DAC gain set to 1
 
 while True:
     adcdac.set_dac_voltage(1, 1.5)  # set the voltage on channel 1 to 1.5V

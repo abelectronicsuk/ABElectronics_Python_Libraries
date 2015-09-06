@@ -17,7 +17,7 @@ run with: python demo-dacsinewave.py
 # predefined set of values
 """
 
-adcdac = ADCDACPi()
+adcdac = ADCDACPi(1) # create an instance of the ADCDAC Pi with a DAC gain set to 1
 
 DACLookup_FullSine_12Bit = \
     [2048, 2073, 2098, 2123, 2148, 2174, 2199, 2224,

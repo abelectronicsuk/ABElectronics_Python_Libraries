@@ -47,7 +47,7 @@ The ADC uses the raspberry pi 3.3V power as a voltage reference so using this me
 ```
 set_dac_voltage(channel, voltage)
 ```
-Set the voltage for the selected channel on the DAC  
+Set the voltage for the selected channel on the DAC.  The DAC has two gain values, 1 or 2, which can be set when the ADCDAC object is created.  A gain of 1 will give a voltage between 0 and 2.047 volts.  A gain of 2 will give a voltage between 0 and 3.3 volts.  
 **Parameters:** channel - 1 or 2,  voltage can be between 0 and 2.047 volts  
 **Returns:** null 
 
@@ -64,9 +64,9 @@ To use the ADCDAC Pi library in your code you must first import the library:
 ```
 from ABE_ADCDACPi import ADCDACPi
 ```
-Next you must initialise the adcdac object:
+Next you must initialise the adcdac object and set a gain of 1 or 2 for the DAC:
 ```
-adcdac = ADCDACPi()
+adcdac = ADCDACPi(1)
 ```
 Set the reference voltage.
 ```
