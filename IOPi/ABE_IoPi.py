@@ -265,13 +265,13 @@ class IoPi(object):
         pin = pin - 1
         if pin < 8:
             self.porta_polarity = self.__updatebyte(
-                self.portaval,
+                self.porta_polarity,
                 pin,
                 polarity)
             self._bus.write_byte_data(self.address, self.IPOLA, self.porta_polarity)
         else:
             self.portb_polarity = self.__updatebyte(
-                self.portbval,
+                self.portb_polarity,
                 pin -
                 8,
                 polarity)
