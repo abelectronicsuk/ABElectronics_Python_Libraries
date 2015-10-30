@@ -62,7 +62,7 @@ def calcTemp(resistance):
 while (True):
     # read from adc channels and print to screen
    
-    bridgeVoltage =  adc.read_voltage(7)
+    bridgeVoltage =  adc.read_voltage(1)
     thermresistance = calcResistance(bridgeVoltage)
     temperature = calcTemp(thermresistance)
     
