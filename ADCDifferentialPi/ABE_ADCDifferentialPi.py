@@ -110,9 +110,8 @@ class ADCDifferentialPi:
             # 8
         raw = self.read_raw(channel)
 
-        voltage = float((raw * (self.__lsb / self.__pga)))
         if (self.__signbit):
-            voltage = ((raw * (self.__lsb / self.__pga)) - 2.048)
+            voltage = (raw * (self.__lsb / self.__pga)) - (2.048 / (self.__pga * 2))
         else:
             voltage = (raw * (self.__lsb / self.__pga))
         return float(voltage)
