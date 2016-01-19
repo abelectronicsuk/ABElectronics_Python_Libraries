@@ -97,6 +97,31 @@ class PWM:
         """
 
         GPIO.output(7, False)
+        
+    def set_allcall_address(self, i2caddress):
+        """
+        Set the I2C address for the All Call function
+        """
+        oldmode = self.read(self.address, self.MODE1)
+        newmode = oldmode | (1 << 0)
+        self.write(self.address, self.MODE1, newmode)
+        self.write(self.address, self.ALLCALLADR, i2caddress << 1)
+        
+    def enable_allcall_address(self):
+        """
+        Enable the I2C address for the All Call function
+        """
+        oldmode = self.read(self.address, self.MODE1)
+        newmode = oldmode | (1 << 0)
+        self.write(self.address, self.MODE1, newmode)
+        
+    def disable_allcall_address(self):
+        """
+        Disable the I2C address for the All Call function
+        """
+        oldmode = self.read(self.address, self.MODE1)
+        newmode = oldmode  & ~(1 << 0)
+        self.write(self.address, self.MODE1, newmode)
 
 
     def write(self, address, reg, value):

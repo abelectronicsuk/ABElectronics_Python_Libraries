@@ -18,6 +18,10 @@ Add the location where you downloaded the python libraries into PYTHONPATH e.g. 
 export PYTHONPATH=${PYTHONPATH}:~/Desktop/ABElectronics_Python_Libraries/ServoPi/
 ```
 
+The library requires i2c to be enabled and python-smbus to be installed.
+
+Follow the tutorial at [https://www.abelectronics.co.uk/kb/article/1/i2c--smbus-and-raspbian-linux](https://www.abelectronics.co.uk/kb/article/1/i2c--smbus-and-raspbian-linux) to enable i2c and install python-smbus.
+
 The example python files in /ABElectronics_Python_Libraries/ServoPi/ will now run from the terminal.
 
 Functions:
@@ -58,6 +62,29 @@ output_enable()
 Enable the output via OE pin
 **Parameters:** null
 **Returns:** null
+
+```
+set_allcall_address(address)
+```
+Set the I2C address for the All Call function
+**Parameters:** address
+**Returns:** null
+
+```
+enable_allcall_address()
+```
+Enable the I2C address for the All Call function
+**Parameters:** null
+**Returns:** null
+
+```
+disable_allcall_address()
+```
+Disable the I2C address for the All Call function
+**Parameters:** null
+**Returns:** null
+
+
 
 Usage
 ====
