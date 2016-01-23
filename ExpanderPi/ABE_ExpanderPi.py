@@ -567,7 +567,8 @@ class RTC:
 
     def __init__(self, bus):
         self._bus = bus
-        self._bus.write_byte_data(self.__rtcaddress, self.CONTROL, self.__rtcconfig)
+        self.__config = self.__rtcconfig
+        self._bus.write_byte_data(self.__rtcaddress, self.CONTROL, self.__config)
         return
 
     def __bcd_to_dec(self, x):
@@ -663,9 +664,9 @@ class RTC:
         Enable the output pin
         """
 
-        self.__config = self.__updatebyte(self.__rtcconfig, 7, 1)
-        self.__config = self.__updatebyte(self.__rtcconfig, 4, 1)
-        self._bus.write_byte_data(self.__rtcaddress, self.CONTROL, self.__rtcconfig)
+        self.__config = self.__updatebyte(self.__config, 7, 1)
+        self.__config = self.__updatebyte(self.__config, 4, 1)
+        self._bus.write_byte_data(self.__rtcaddress, self.CONTROL, self.__config)
         return
 
     def disable_output(self):
@@ -673,9 +674,9 @@ class RTC:
         Disable the output pin
         """
 
-        self.__config = self.__updatebyte(self.__rtcconfig, 7, 0)
-        self.__config = self.__updatebyte(self.__rtcconfig, 4, 0)
-        self._bus.write_byte_data(self.__rtcaddress, self.CONTROL, self.__rtcconfig)
+        self.__config = self.__updatebyte(self.__config, 7, 0)
+        self.__config = self.__updatebyte(self.__config, 4, 0)
+        self._bus.write_byte_data(self.__rtcaddress, self.CONTROL, self.__config)
         return
 
     def set_frequency(self, frequency):
@@ -685,16 +686,16 @@ class RTC:
         """
 
         if frequency == 1:
-            self.__config = self.__updatebyte(self.__rtcconfig, 0, 0)
-            self.__config = self.__updatebyte(self.__rtcconfig, 1, 0)
+            self.__config = self.__updatebyte(self.__config, 0, 0)
+            self.__config = self.__updatebyte(self.__config, 1, 0)
         if frequency == 2:
-            self.__config = self.__updatebyte(self.__rtcconfig, 0, 1)
-            self.__config = self.__updatebyte(self.__rtcconfig, 1, 0)
+            self.__config = self.__updatebyte(self.__config, 0, 1)
+            self.__config = self.__updatebyte(self.__config, 1, 0)
         if frequency == 3:
-            self.__config = self.__updatebyte(self.__rtcconfig, 0, 0)
-            self.__config = self.__updatebyte(self.__rtcconfig, 1, 1)
+            self.__config = self.__updatebyte(self.__config, 0, 0)
+            self.__config = self.__updatebyte(self.__config, 1, 1)
         if frequency == 4:
-            self.__config = self.__updatebyte(self.__rtcconfig, 0, 1)
-            self.__config = self.__updatebyte(self.__rtcconfig, 1, 1)
-        self._bus.write_byte_data(self.__rtcaddress, self.CONTROL, self.__rtcconfig)
+            self.__config = self.__updatebyte(self.__config, 0, 1)
+            self.__config = self.__updatebyte(self.__config, 1, 1)
+        self._bus.write_byte_data(self.__rtcaddress, self.CONTROL, self.__config)
         return
