@@ -30,7 +30,7 @@ read_voltage(channel)
 ```
 Read the voltage from the selected channel  
 **Parameters:** channel - 1 to 8 
-**Returns:** number as float between 0 and 5.0
+**Returns:** number as float between -2.048 and +2.048
 
 ```
 read_raw(channel) 
