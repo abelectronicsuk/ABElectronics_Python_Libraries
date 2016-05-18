@@ -53,7 +53,7 @@ class ADCDACPi:
     # Define SPI bus and init
     spiADC = spidev.SpiDev()
     spiADC.open(0, 0)
-    spiADC.max_speed_hz = (4000000)
+    spiADC.max_speed_hz = (900000)
 
     spiDAC = spidev.SpiDev()
     spiDAC.open(0, 1)
