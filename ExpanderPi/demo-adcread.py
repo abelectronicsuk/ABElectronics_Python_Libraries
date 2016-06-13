@@ -22,6 +22,6 @@ adc = ADC()  # create an instance of the ADC
 adc.set_adc_refvoltage(4.096)
 
 while True:
-    # read the voltage from channel 1 and display on the screen
-    print adc.read_adc_voltage(1)
+    # read the voltage from channel 1 in single ended mode and display on the screen
+    print adc.read_adc_voltage(1,0)
     time.sleep(0.5)
