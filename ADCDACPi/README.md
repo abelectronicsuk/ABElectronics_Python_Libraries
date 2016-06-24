@@ -24,17 +24,17 @@ Functions:
 ----------
 
 ```
-read_adc_voltage(channel) 
+read_adc_voltage(channel, mode) 
 ```
 Read the voltage from the selected channel on the ADC  
-**Parameters:** channel - 1 or 2  
+**Parameters:** channel - 1 or 2; mode - 0 = single ended, 1 = differential
 **Returns:** number as float between 0 and 2.048
 
 ```
-read_adc_raw(channel) 
+read_adc_raw(channel, mode) 
 ```
 Read the raw value from the selected channel on the ADC  
-**Parameters:** channel - 1 or 2  
+**Parameters:** channel - 1 or 2; mode - 0 = single ended, 1 = differential
 **Returns:** int
 ```
 set_adc_refvoltage(voltage)

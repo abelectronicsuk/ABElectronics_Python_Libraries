@@ -84,24 +84,35 @@ class ADCDACPi:
 
             self.maxDacVoltage = self.__dacMaxOutput__[self.gain]
 
-    def read_adc_voltage(self, channel):
+    def read_adc_voltage(self, channel, mode):
         """
         Read the voltage from the selected channel on the ADC
          Channel = 1 or 2
         """
         if ((channel > 2) or (channel < 1)):
             print 'ADC channel needs to be 1 or 2'
-        raw = self.read_adc_raw(channel)
+        if ((mode > 1) or (mode < 0)):
+            print 'ADC mode needs to be 0 or 1. 0 = Single Ended, 1 = Differential'
+        raw = self.read_adc_raw(channel, mode)
         voltage = (self.__adcrefvoltage / 4096) * raw
         return voltage
 
-    def read_adc_raw(self, channel):
+    def read_adc_raw(self, channel, mode):
         # Read the raw value from the selected channel on the ADC
         # Channel = 1 or 2
         if ((channel > 2) or (channel < 1)):
             print 'ADC channel needs to be 1 or 2'
-        r = self.spiADC.xfer2([1, (1 + channel) << 6, 0])
-        ret = ((r[1] & 0x0F) << 8) + (r[2])
+        if ((mode > 1) or (mode < 0)):
+            print 'ADC mode needs to be 0 or 1. 0 = Single Ended, 1 = Differential'
+        if (mode == 0):            
+            r = self.spiADC.xfer2([1, (1 + channel) << 6, 0])
+            ret = ((r[1] & 0x0F) << 8) + (r[2])
+        if (mode == 1):
+            if (channel == 1):            
+                r = self.spiADC.xfer2([1, 0xA0, 0])
+            else:
+                r = self.spiADC.xfer2([1, 0xE0, 0])
+            ret = ((r[1]) << 8) + (r[2])
         return ret
 
     def set_adc_refvoltage(self, voltage):
