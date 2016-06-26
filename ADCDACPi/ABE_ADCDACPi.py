@@ -109,9 +109,9 @@ class ADCDACPi:
             ret = ((r[1] & 0x0F) << 8) + (r[2])
         if (mode == 1):
             if (channel == 1):            
-                r = self.spiADC.xfer2([1, 0xA0, 0])
+                r = self.spiADC.xfer2([1, 0x00, 0])
             else:
-                r = self.spiADC.xfer2([1, 0xE0, 0])
+                r = self.spiADC.xfer2([1, 0x40, 0])
             ret = ((r[1]) << 8) + (r[2])
         return ret
 
