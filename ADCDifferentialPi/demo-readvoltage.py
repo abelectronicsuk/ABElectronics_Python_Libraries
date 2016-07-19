@@ -7,7 +7,7 @@ import os
 
 """
 ================================================
-ABElectronics Delta-Sigma Pi 8-Channel ADC demo
+ABElectronics ADC Differential Pi 8-Channel ADC demo
 Version 1.0 Created 09/05/2014
 Version 1.1 16/11/2014 updated code and functions to PEP8 format
 

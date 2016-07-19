@@ -7,9 +7,9 @@ import time
 
 """
 ================================================
-ABElectronics ADC Pi 8-Channel ADC data-logger demo
-Version 1.0 Created 11/05/2014
-Version 1.1 16/11/2014 updated code and functions to PEP8 format
+ABElectronics ADC Differential 8-Channel ADC data-logger demo
+Version 1.0 Created 19/07/2016
+
 
 Requires python smbus to be installed
 run with: python demo-read_voltage.py
