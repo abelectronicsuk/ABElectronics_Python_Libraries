@@ -12,7 +12,7 @@ Version 1.0 Created 19/07/2016
 
 
 Requires python smbus to be installed
-run with: python demo-read_voltage.py
+run with: python demo-logvoltage.py
 ================================================
 
 Initialise the ADC device using the default addresses and sample rate, change
