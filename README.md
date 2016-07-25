@@ -1,7 +1,7 @@
 AB Electronics Python Libraries
 =====
 
-Python 2.x Libraries to work with Raspberry Pi expansion boards from http://www.abelectronics.co.uk
+Python 2.x Libraries to work with Raspberry Pi expansion boards from https://www.abelectronics.co.uk
 
 Python 2.x with smbus
 
@@ -13,19 +13,21 @@ To download to your Raspberry Pi type in terminal:
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
 ###ADCDACPi
-This directory contains ADC DAC Pi Python Library with ADC read and DAC write demos to use with the ADC DAC Pi from  https://www.abelectronics.co.uk/products/3/Raspberry-Pi/39/ADC-DAC-Pi-Raspberry-Pi-ADC-and-DAC-expansion-board
+This directory contains ADC DAC Pi Python Library with ADC read and DAC write demos to use with the ADC DAC Pi https://www.abelectronics.co.uk/p/39/ADC-DAC-Pi-Raspberry-Pi-ADC-and-DAC-expansion-board and the ADC DAC Pi Zero https://www.abelectronics.co.uk/p/74/ADC-DAC-Pi-Zero-Raspberry-Pi-ADC-and-DAC-expansion-board
 ###ADCPi 
-This directory contains ADC Pi Python Library  and read voltage demo to use with the ADC Pi v2 from  http://www.abelectronics.co.uk/products/3/Raspberry-Pi/17/ADC-Pi-V2---Raspberry-Pi-Analogue-to-Digital-converter
+This directory contains ADC Pi Python Library  and read voltage demo to use with the ADC Pi Plus https://www.abelectronics.co.uk/p/56/ADC-Pi-Plus-Raspberry-Pi-Analogue-to-Digital-converter and ADC Pi Zero https://www.abelectronics.co.uk/p/69/ADC-Pi-Zero-Raspberry-Pi-Analogue-to-Digital-converter
+###ADCDifferentialPi 
+This directory contains ADC Differential Pi Python Library and read voltage demo to use with the ADC Differential Pi https://www.abelectronics.co.uk/p/65/ADC-Differential-Pi-Raspberry-Pi-Analogue-to-Digital-converter
 ###DeltaSigmaPi
-This directory contains Expander Pi Python Library and demos to use with the Expander Pi from http://www.abelectronics.co.uk/products/3/Raspberry-Pi/14/Delta-Sigma-Pi-18-bit-Analogue-to-Digital-converter
+This directory contains Expander Pi Python Library and demos to use with the Delta Sigma Pi https://www.abelectronics.co.uk/kb/article/1041/delta-sigma-pi
 ###ExpanderPi
-This directory contains IO Pi Python Library  and demos to use with the IO Pi from https://www.abelectronics.co.uk/products/3/Raspberry-Pi/50/Expander-Pi
+This directory contains IO Pi Python Library  and demos to use with the Expander Pi https://www.abelectronics.co.uk/kb/article/1046/expander-pi
 ###IOPi
-This directory contains IO Pi Python Library  and demos to use with the IO Pi from http://www.abelectronics.co.uk/products/3/Raspberry-Pi/18/IO-Pi-32-Channel-Port-Expander-for-the-Raspberry-Pi
+This directory contains IO Pi Python Library  and demos to use with the IO Pi Plus https://www.abelectronics.co.uk/p/54/IO-Pi-Plus and IO Pi Zero https://www.abelectronics.co.uk/p/71/IO-Pi-Zero
 ###RTCPi
-This directory contains RTC Pi Python Library and demos to use with the RTC Pi from https://www.abelectronics.co.uk/products/3/Raspberry-Pi/15/RTC-Pi
+This directory contains RTC Pi Python Library and demos to use with the RTC Pi https://www.abelectronics.co.uk/p/15/RTC-Pi , RTC Pi Plus https://www.abelectronics.co.uk/p/52/RTC-Pi-Plus and RTC Pi Zero https://www.abelectronics.co.uk/p/70/RTC-Pi-Zero
 ###ServoPi
-This directory contains ServoPi Python Library  and read voltage demo to use with the ServoPi from http://www.abelectronics.co.uk/products/3/Raspberry-Pi/44/Servo-Pi---PWM-Controller
+This directory contains ServoPi Python Library  and read voltage demo to use with the ServoPi https://www.abelectronics.co.uk/p/44/Servo-PWM-Pi and Sero Pi Zero https://www.abelectronics.co.uk/p/72/Servo-PWM-Pi-Zero
 
 ##Helper class
-We have now added ABE_helpers.py class to the libraries which use Puthon smbus to enable a single bus instance to be used with multiple expansion boards and to avoid smbus conflicts. 
+We have now added ABE_helpers.py class to the libraries which use Python smbus to enable a single bus instance to be used with multiple expansion boards and to avoid smbus conflicts. 

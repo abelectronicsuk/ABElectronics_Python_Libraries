@@ -1,7 +1,7 @@
 AB Electronics UK Expander Pi Python Library
 =====
 
-Python Library to use with Expander Pi board from http://www.abelectronics.co.uk
+Python Library to use with Expander Pi board from https://www.abelectronics.co.uk
 
 The Expander Pi contains separate classes for the real-time clock, analogue to digital converter, digital to analogue converter and the digital I/O pins.  Examples are included to show how each of the classes can be used.
 

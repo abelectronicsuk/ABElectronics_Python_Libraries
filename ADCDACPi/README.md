@@ -1,7 +1,7 @@
 AB Electronics UK ADCDAC Pi Python Library
 =====
 
-Python 2 Library to use with ADCDAC Pi Raspberry Pi expansion board from http://www.abelectronics.co.uk
+Python 2 Library to use with ADCDAC Pi Raspberry Pi expansion board from https://www.abelectronics.co.uk
 
 Install
 ====

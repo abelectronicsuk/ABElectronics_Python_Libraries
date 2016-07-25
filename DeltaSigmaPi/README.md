@@ -1,7 +1,7 @@
 AB Electronics UK Delta-Sigma Pi Python Library
 =====
 
-Python 2 Library to use with Delta-Sigma Pi Raspberry Pi expansion board from http://www.abelectronics.co.uk
+Python 2 Library to use with Delta-Sigma Pi Raspberry Pi expansion board from https://www.abelectronics.co.uk
 Install
 ====
 To download to your Raspberry Pi type in terminal: 

@@ -1,7 +1,7 @@
 AB Electronics UK RTC Pi Python Library
 =====
 
-Python Library to use with RTC Pi Raspberry Pi real-time clock board from http://www.abelectronics.co.uk
+Python Library to use with RTC Pi Raspberry Pi real-time clock board from https://www.abelectronics.co.uk
 
 Install
 ====
