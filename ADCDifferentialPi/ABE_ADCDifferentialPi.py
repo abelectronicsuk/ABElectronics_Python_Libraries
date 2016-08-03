@@ -181,6 +181,10 @@ class ADCDifferentialPi:
                 t = self.__updatebyte(t, 11, 0)
 
         return t
+        
+    def get_signbit(self):
+        # returns the value of the sign bit for the previous sample
+        return self.__signbit        
 
     def set_pga(self, gain):
         """
