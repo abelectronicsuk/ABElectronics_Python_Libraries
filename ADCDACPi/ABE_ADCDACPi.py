@@ -124,7 +124,7 @@ class ADCDACPi:
         accuracy of the ADC readings.
         """
         if (voltage >= 0.0) and (voltage <= 7.0):
-            __adcrefvoltage = voltage
+            self.__adcrefvoltage = voltage
         else:
             print 'reference voltage out of range'
         return
