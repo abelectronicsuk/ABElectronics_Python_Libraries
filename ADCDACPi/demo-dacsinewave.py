@@ -3,6 +3,7 @@
 from ABE_ADCDACPi import ADCDACPi
 import time
 import math
+import RPi.GPIO as GPIO
 
 """
 ================================================
@@ -17,7 +18,17 @@ run with: python demo-dacsinewave.py
 # predefined set of values
 """
 
+# The ADCDAC Pi uses GPIO pin 22 to control the DAC.  
+# This will need to be turned off for the DAC to operate correctly.
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(22, GPIO.OUT)
+GPIO.output(22, False)
+
 adcdac = ADCDACPi(1) # create an instance of the ADCDAC Pi with a DAC gain set to 1
+
+
 
 DACLookup_FullSine_12Bit = \
     [2048, 2073, 2098, 2123, 2148, 2174, 2199, 2224,

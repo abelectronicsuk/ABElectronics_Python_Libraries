@@ -2,6 +2,7 @@
 
 from ABE_ADCDACPi import ADCDACPi
 import time
+import RPi.GPIO as GPIO
 
 """
 ================================================
@@ -13,6 +14,14 @@ run with: python demo-dacwrite.py
 
 this demo will generate a 1.5V p-p square wave at 1Hz
 """
+
+# The ADCDAC Pi uses GPIO pin 22 to control the DAC.  
+# This will need to be turned off for the DAC to operate correctly.
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(22, GPIO.OUT)
+GPIO.output(22, False)
 
 adcdac = ADCDACPi(1) # create an instance of the ADCDAC Pi with a DAC gain set to 1
 
