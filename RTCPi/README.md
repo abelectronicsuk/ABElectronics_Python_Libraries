@@ -59,7 +59,7 @@ Set the frequency for the square-wave output on the SQW pin.
 ```
 write_memory(address, valuearray)
 ```
-Write to the memory on the ds1307. The ds1307 contains 56-Byte, battery-backed RAM with Unlimited Writes
+Write to the memory on the ds1307. The ds1307 contains 56-Byte, battery-backed RAM with Unlimited Writes  
 **Parameters:** address - 0x08 to 0x3F  
 valuearray - byte array containing data to be written to memory  
 **Returns:** null
