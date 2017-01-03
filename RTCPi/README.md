@@ -50,11 +50,27 @@ Disable the square-wave output on the SQW pin.
 **Returns:** null
 
 ```
-set_frequency()
+set_frequency(frequency)
 ```
 Set the frequency for the square-wave output on the SQW pin.   
 **Parameters:** frequency - options are: 1 = 1Hz, 2 = 4.096KHz, 3 = 8.192KHz, 4 = 32.768KHz   
 **Returns:** null
+
+```
+write_memory(address, valuearray)
+```
+Write to the memory on the ds1307. The ds1307 contains 56-Byte, battery-backed RAM with Unlimited Writes
+**Parameters:** address - 0x08 to 0x3F   
+valuearray - byte array containing data to be written to memory 
+**Returns:** null
+
+```
+read_memory(address, length)
+```
+Read from the memory on the ds1307 
+**Parameters:** address - 0x08 to 0x3F 
+length - up to 32 bytes.  length can not exceed the avaiable address space.
+**Returns:** array of bytes
 
 Usage
 ====

@@ -170,3 +170,39 @@ class RTC:
             self.__config = self.__updatebyte(self.__config, 1, 1)
         self._bus.write_byte_data(self.__rtcAddress, self.CONTROL, self.__config)
         return
+    
+    def write_memory(self, address, valuearray):
+    	"""
+    	write to the memory on the ds1307
+    	the ds1307 contains 56-Byte, battery-backed RAM with Unlimited Writes
+    	variables are:
+    	address: 0x08 to 0x3F
+    	valuearray: byte array containing data to be written to memory
+    	"""
+    	
+    	if address >= 0x08 and address <= 0x3F:
+    	    if address + len(valuearray) <= 0x3F:
+    	        self._bus.write_i2c_block_data(self.__rtcAddress, address, valuearray)
+    	    else:
+    	        print 'memory overflow error: address + length exceeds 0x3F'
+    	else:
+    	    print 'address out of range'
+    	    
+    	    
+    def read_memory(self, address, length):
+    	"""
+    	read from the memory on the ds1307
+    	the ds1307 contains 56-Byte, battery-backed RAM with Unlimited Writes
+    	variables are:
+    	address: 0x08 to 0x3F
+    	length: up to 32 bytes.  length can not exceed the avaiable address space.
+    	"""
+    	
+    	if address >= 0x08 and address <= 0x3F:
+    	    if address <= (0x3F - length):
+    	        return self._bus.read_i2c_block_data(self.__rtcAddress, address, length)
+    	    else:
+    	        print 'memory overflow error: address + length exceeds 0x3F'
+    	else:
+    	    print 'address out of range'
+    	
