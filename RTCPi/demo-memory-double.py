@@ -6,11 +6,11 @@ import struct
 
 """
 ================================================
-ABElectronics RTC Pi real-time clock | RTC double number memory demo
-Version 1.0 Created 26/01/2017
+ABElectronics RTC Pi real-time clock | RTC memory demo
+Version 1.0 Created 03/01/2017
 
 
-run with: python demo-memory-double.py
+run with: python demo-memory.py
 ================================================
 
 This demo shows how to write to and read from the internal battery 
@@ -30,9 +30,8 @@ def double_to_array(val):
     
 def array_to_double(val):
     # convert an eight byte array into a double
-    buf = bytearray(val)
-    val, = struct.unpack('d', buf)
-    return (val)
+    dval, = struct.unpack('d', bytearray(val))
+    return (dval)
 
 
 # create an instance of the helper class and create an i2c bus object
