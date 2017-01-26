@@ -9,7 +9,7 @@ ABElectronics RTC Pi real-time clock | RTC memory demo
 Version 1.0 Created 03/01/2017
 
 
-run with: python demo-memory.py
+run with: python demo-memory-int.py
 ================================================
 
 This demo shows how to write to and read from the internal battery 
