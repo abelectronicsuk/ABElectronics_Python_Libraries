@@ -36,7 +36,7 @@ while True:
         bus1.write_port(1, x)
 
     # turn off all of the pins on bank 1
-    bus1.writePort(1, 0x00)
+    bus1.write_port(1, 0x00)
 
     # now turn on all of the leds in turn by writing to one pin at a time
     bus1.write_pin(9, 1)
