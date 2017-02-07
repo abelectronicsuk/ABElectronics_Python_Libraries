@@ -262,10 +262,10 @@ class IO:
         pin = pin - 1
         if pin < 8:
             self.__portA_dir = self.__updatebyte(self.__portA_dir, pin, direction)
-            self._bus.write_byte_data(self.address, self.IODIRA, self.__portA_dir)
+            self._bus.write_byte_data(self.__ioaddress, self.IODIRA, self.__portA_dir)
         else:
             self.__portB_dir  = self.__updatebyte(self.__portB_dir, pin - 8, direction)
-            self._bus.write_byte_data(self.address, self.IODIRB, self.__portB_dir)
+            self._bus.write_byte_data(self.__ioaddress, self.IODIRB, self.__portB_dir)
         return
 
     def set_port_direction(self, port, direction):
@@ -292,10 +292,10 @@ class IO:
         pin = pin - 1
         if pin < 8:
             self.__portA_pullup = self.__updatebyte(self.__portA_pullup, pin, value)
-            self._bus.write_byte_data(self.address, self.GPPUA, self.__portA_pullup)
+            self._bus.write_byte_data(self.__ioaddress, self.GPPUA, self.__portA_pullup)
         else:
             self.__portB_pullup = self.__updatebyte(self.__portB_pullup,pin - 8,value)
-            self._bus.write_byte_data(self.address, self.GPPUB, self.__portB_pullup)
+            self._bus.write_byte_data(self.__ioaddress, self.GPPUB, self.__portB_pullup)
         return
 
     def set_port_pullups(self, port, value):
