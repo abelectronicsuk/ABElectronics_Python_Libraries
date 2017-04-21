@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
 from ABE_ADCDACPi import ADCDACPi
 import time
