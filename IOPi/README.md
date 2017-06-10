@@ -43,7 +43,7 @@ Sets the IO direction for the specified IO port
 **Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16, direction - 1 = input, 0 = output  
 **Returns:** null
 ```
-set_port_pullups(self, port, value)
+set_port_pullups(port, value)
 ```
 Set the internal 100K pull-up resistors for the selected IO port  
 **Parameters:** port - 1 to 16, value: 1 = Enabled, 0 = Disabled  
@@ -56,7 +56,7 @@ Write to an individual pin 1 - 16
 **Parameters:** pin - 1 to 16, value - 1 = Enabled, 0 = Disabled
 **Returns:** null
 ```
-write_port(self, port, value)
+write_port(port, value)
 ```
 Write to all pins on the selected port  
 **Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16, value -  number between 0 and 255 or 0x00 and 0xFF  
