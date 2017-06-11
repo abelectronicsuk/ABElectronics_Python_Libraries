@@ -199,7 +199,7 @@ set_port_direction(port, direction):
 ```
 
 Sets the IO direction for the specified IO port  
-**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 8 to 16, direction - 1 = input, 0 = output  
+**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16, direction - 1 = input, 0 = output  
 **Returns:** null
 
 ```
@@ -223,7 +223,7 @@ write_port(port, value)
 ```
 
 Write to all pins on the selected port  
-**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 8 to 16, value -  number between 0 and 255 or 0x00 and 0xFF  
+**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16, value -  number between 0 and 255 or 0x00 and 0xFF  
 **Returns:** null
 
 ```
@@ -239,7 +239,7 @@ read_port(port)
 ```
 
 Read all pins on the selected port  
-**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 8 to 16  
+**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16  
 **Returns:** number between 0 and 255 or 0x00 and 0xFF
 
 ```
@@ -247,7 +247,7 @@ invert_port(port, polarity)
 ```
 
 Invert the polarity of the pins on a selected port  
-**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 8 to 16, polarity - 0 = same logic state of the input pin, 1 = inverted logic state of the input pin  
+**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16, polarity - 0 = same logic state of the input pin, 1 = inverted logic state of the input pin  
 **Returns:** null
 
 ```
@@ -271,7 +271,7 @@ set_interrupt_type(port, value)
 ```
 
 Sets the type of interrupt for each pin on the selected port  
-**Parameters:** port 0 = pins 1 to 8, port 1 = pins 8 to 16, value: 1 = interrupt is fired when the pin matches the default value, 0 = the interrupt is fired on state change  
+**Parameters:** port 0 = pins 1 to 8, port 1 = pins 9 to 16, value: 1 = interrupt is fired when the pin matches the default value, 0 = the interrupt is fired on state change  
 **Returns:** null
 
 ```
@@ -280,7 +280,7 @@ set_interrupt_defaults(port, value)
 
 These bits set the compare value for pins configured for interrupt-on-change on the selected port.  
 If the associated pin level is the opposite from the register bit, an interrupt occurs.    
-**Parameters:** port 0 = pins 1 to 8, port 1 = pins 8 to 16, value: compare value  
+**Parameters:** port 0 = pins 1 to 8, port 1 = pins 9 to 16, value: compare value  
 **Returns:** null
 
 ```
@@ -288,7 +288,7 @@ set_interrupt_on_port(port, value)
 ```
 
 Enable interrupts for the pins on the selected port  
-**Parameters:** port 0 = pins 1 to 8, port 1 = pins 8 to 16, value: number between 0 and 255 or 0x00 and 0xFF  
+**Parameters:** port 0 = pins 1 to 8, port 1 = pins 9 to 16, value: number between 0 and 255 or 0x00 and 0xFF  
 **Returns:** null
 
 ```
@@ -304,7 +304,7 @@ read_interrupt_status(port)
 ```
 
 Enable interrupts for the selected pin  
-**Parameters:** port 0 = pins 1 to 8, port 1 = pins 8 to 16  
+**Parameters:** port 0 = pins 1 to 8, port 1 = pins 9 to 16  
 **Returns:** status
 
 ```
@@ -312,7 +312,7 @@ read_interrupt_capture(port)
 ```
 
 Read the value from the selected port at the time of the last interrupt trigger  
-**Parameters:** port 0 = pins 1 to 8, port 1 = pins 8 to 16  
+**Parameters:** port 0 = pins 1 to 8, port 1 = pins 9 to 16  
 **Returns:** status
 
 ```
