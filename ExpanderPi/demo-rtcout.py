@@ -1,13 +1,13 @@
 #!/usr/bin/python
 
 from ABE_ExpanderPi import RTC
-from ABE_helpers import ABEHelpers
 import time
 
 """
 ================================================
 ABElectronics Expander Pi | RTC clock output demo
 Version 1.0 Created 21/08/2014
+Version 1.1 Updated 11/06/2017 updated to include changes to Expander Pi library
 
 run with: python demo-rtcout.py
 ================================================
@@ -17,9 +17,7 @@ Expander Pi real-time clock and set the frequency
 """
 
 
-i2c_helper = ABEHelpers()
-bus = i2c_helper.get_smbus()
-rtc = RTC(bus)  # create a new instance of the RTC class
+rtc = RTC()  # create a new instance of the RTC class
 
 
 # set the frequency of the output square-wave, options are: 1 = 1Hz, 2 =

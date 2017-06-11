@@ -8,6 +8,7 @@ import math
 ================================================
 ABElectronics Expander Pi | DAC sine wave generator demo
 Version 1.0 Created 21/08/2014
+Version 1.1 Updated 11/06/2017 updated to include changes to Expander Pi library
 
 run with: python demo-dacsinewave.py
 ================================================
@@ -16,7 +17,7 @@ this demo uses the set_dac_raw method to generate a sine wave from a
 predefined set of values
 """
 
-dac = DAC()
+dac = DAC(1)
 
 DACLookup_FullSine_12Bit = \
     [2048, 2073, 2098, 2123, 2148, 2174, 2199, 2224,

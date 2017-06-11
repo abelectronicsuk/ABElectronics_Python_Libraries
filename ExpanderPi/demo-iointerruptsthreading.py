@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 from ABE_ExpanderPi import IO
-from ABE_helpers import ABEHelpers
 import time
 import threading
 import os
@@ -10,8 +9,10 @@ import os
 # ================================================
 # ABElectronics Expander Pi | - IO Interrupts Demo
 # Version 1.0 Created 26/06/2015
+# Version 1.1 Updated 11/06/2017 updated to include changes to Expander Pi library
 #
 # Requires python smbus to be installed with: sudo apt-get install python-smbus
+#
 # run with: sudo python demo-iointerruptsthreading.py
 # ================================================
 
@@ -54,11 +55,9 @@ def background_thread():
         time.sleep(0.5)
 
     
+# Create an instance of the IO object
 
-
-i2c_helper = ABEHelpers()
-bus = i2c_helper.get_smbus()
-io = IO(bus)
+io = IO()
 
 # Set all pins on the IO bus to be inputs with internal pull-ups enabled.
 

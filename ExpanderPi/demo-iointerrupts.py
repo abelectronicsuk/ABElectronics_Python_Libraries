@@ -1,13 +1,13 @@
 #!/usr/bin/python
 
 from ABE_ExpanderPi import IO
-from ABE_helpers import ABEHelpers
 import time
 
 """
 # ================================================
 # ABElectronics Expander Pi | - IO Interrupts Demo
 # Version 1.0 Created 21/08/2014
+# Version 1.1 Updated 11/06/2017 updated to include changes to Expander Pi library
 #
 # Requires python smbus to be installed with: sudo apt-get install python-smbus
 # run with: sudo python demo-iointerrupts.py
@@ -21,9 +21,8 @@ import time
 
 # Initialise the IOPi and create an instance called io.
 """
-i2c_helper = ABEHelpers()
-bus = i2c_helper.get_smbus()
-io = IO(bus)
+
+io = IO()
 
 # Set all pins on the IO bus to be inputs with internal pull-ups disabled.
 

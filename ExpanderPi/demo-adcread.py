@@ -8,6 +8,8 @@ import time
 ABElectronics Expander Pi | ADC Read Demo
 Version 1.0 Created 21/08/2014
 Version 1.1 16/11/2014 updated code and functions to PEP8 format
+Version 1.2 11/06/2017 updated to include changes to Expander Pi library
+
 run with: python demo-adcread.py
 ================================================
 

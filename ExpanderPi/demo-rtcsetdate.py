@@ -1,13 +1,13 @@
 #!/usr/bin/python
 
 from ABE_ExpanderPi import RTC
-from ABE_helpers import ABEHelpers
 import time
 
 """
 ================================================
 ABElectronics Expander Pi |  Set Time Demo
 Version 1.0 Created 21/08/2014
+Version 1.1 Updated 11/06/2017 updated to include changes to Expander Pi library
 
 run with: python demo-rtcset_date.py
 ===============================================
@@ -17,9 +17,8 @@ and then read the current time at 1 second intervals
 """
 
 
-i2c_helper = ABEHelpers()
-bus = i2c_helper.get_smbus()
-rtc = RTC(bus)  # create a new instance of the RTC class
+
+rtc = RTC()  # create a new instance of the RTC class
 
 
 # set the date using ISO 8601 format - YYYY-MM-DDTHH:MM:SS
