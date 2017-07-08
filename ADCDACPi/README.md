@@ -31,7 +31,7 @@ For Python 2.7:
 sudo python2.7 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
 
-For Python 34:
+For Python 3.4:
 ```
 sudo python3.4 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
