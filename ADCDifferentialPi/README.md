@@ -1,28 +1,54 @@
 AB Electronics UK ADC Differential Pi Python Library
 =====
 
-Python 2 Library to use with ADC Differential Pi Raspberry Pi expansion board from https://www.abelectronics.co.uk
-Install
-====
+Python Library to use with ADC Differential Pi Raspberry Pi expansion board from https://www.abelectronics.co.uk
+
+The example python files can be found in /ABElectronics_Python_Libraries/ADCDifferentialPi/demos  
+
+### Downloading and Installing the library
+
 To download to your Raspberry Pi type in terminal: 
 
 ```
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
 
+To install the python library navigate into the ABElectronics_Python_Libraries folder and run:  
+
+For Python 2.7:
+```
+sudo python setup.py install
+```
+For Python 3.4:
+```
+sudo python3 setup.py install
+```
+
+If you have PIP installed you can install the library directly from github with the following command:
+
+For Python 2.7:
+```
+python2.7 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python3_Libraries.git
+```
+
+For Python 34:
+```
+python3.4 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python3_Libraries.git
+```
+
 The ADC Differential Pi library is located in the ADCDifferentialPi directory
 
-The library requires python-smbus to be installed.
+The library requires python-smbus to be installed.  
+For Python 2.7:
 ```
-sudo apt-get update
 sudo apt-get install python-smbus
 ```
-Add the location where you downloaded the python libraries into PYTHONPATH e.g. download location is Desktop
+For Python 3.4:
 ```
-export PYTHONPATH=${PYTHONPATH}:~/Desktop/ABElectronics_Python_Libraries/DeltaSigmaPi/
+sudo apt-get install python3-smbus
 ```
 
-The example python files in /ABElectronics_Python_Libraries/ADCDifferentialPi/ will now run from the terminal.
+
 Functions:
 ----------
 ```
@@ -69,24 +95,18 @@ Usage
 
 To use the ADC Differential Pi library in your code you must first import the library:
 ```
-from ABE_ADCDifferentialPi import ADCDifferentialPi
+from ADCDifferentialPi import ADCDifferentialPi
 ```
-Now import the helper class
+Next you must initialise the adc object:
 ```
-from ABE_helpers import ABEHelpers
+adc = ADCDifferentialPi(0x68, 0x69, 18)
 ```
-Next you must initialise the adc object and smbus:
-```
-i2c_helper = ABEHelpers()
-bus = i2c_helper.get_smbus()
-adc = ADCDifferentialPi(bus, 0x68, 0x69, 18)
-```
-The first argument is the smbus object folled by the two I2C addresses of the ADC chips. The values shown are the default addresses of the ADC board.
+The first two arguments are the I2C addresses of the ADC chips. The values shown are the default addresses of the ADC board.  
 
-The forth argument is the sample bit rate you want to use on the adc chips. Sample rate can be 12, 14, 16 or 18
+The third argument is the sample bit rate you want to use on the adc chips. Sample rate can be 12, 14, 16 or 18  
 
 
-You can now read the voltage from channel 1 with:
+You can now read the voltage from channel 1 with:  
 ```
 adc.read_voltage(1)
 ```

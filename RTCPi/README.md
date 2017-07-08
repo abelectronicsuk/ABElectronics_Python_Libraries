@@ -3,22 +3,50 @@ AB Electronics UK RTC Pi Python Library
 
 Python Library to use with RTC Pi Raspberry Pi real-time clock board from https://www.abelectronics.co.uk
 
-Install
-====
+The example python files can be found in /ABElectronics_Python_Libraries/RTCPi/demos  
+
+### Downloading and Installing the library
 
 To download to your Raspberry Pi type in terminal: 
 
 ```
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
+
+To install the python library navigate into the ABElectronics_Python_Libraries folder and run:  
+
+For Python 2.7:
+```
+sudo python setup.py install
+```
+For Python 3.4:
+```
+sudo python3 setup.py install
+```
+
+If you have PIP installed you can install the library directly from github with the following command:
+
+For Python 2.7:
+```
+python2.7 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python3_Libraries.git
+```
+
+For Python 34:
+```
+python3.4 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python3_Libraries.git
+```
+
 The RTC Pi library is located in the RTCPi directory
 
-Add the location where you downloaded the python libraries into PYTHONPATH e.g. download location is Desktop
+The library requires python-smbus to be installed.  
+For Python 2.7:
 ```
-export PYTHONPATH=${PYTHONPATH}:~/Desktop/ABElectronics_Python_Libraries/RTCPi/
+sudo apt-get install python-smbus
 ```
-
-The example python files in /ABElectronics_Python_Libraries/RTCPi/ will now run from the terminal.
+For Python 3.4:
+```
+sudo apt-get install python3-smbus
+```
 
 Functions:
 ----------
@@ -78,18 +106,12 @@ Usage
 
 To use the RTC Pi library in your code you must first import the library:
 ```
-from ABE_RTCPi import RTC
+from RTCPi import RTC
 ```
 
-Now import the helper class
-```
-from ABE_helpers import ABEHelpers
-```
-Next you must initialise the RTC object with the smbus object using the helpers:
+Next you must initialise the RTC object:
 
 ```
-i2c_helper = ABEHelpers()
-bus = i2c_helper.get_smbus()
 rtc = RTC()
 ```
 Set the current time in ISO 8601 format:

@@ -3,27 +3,50 @@ AB Electronics UK IO Pi Python Library
 
 Python Library to use with IO Pi Raspberry Pi expansion board from https://www.abelectronics.co.uk
 
-Install
-====
+The example python files can be found in /ABElectronics_Python_Libraries/IOPi/demos  
+
+### Downloading and Installing the library
+
 To download to your Raspberry Pi type in terminal: 
 
 ```
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
 
+To install the python library navigate into the ABElectronics_Python_Libraries folder and run:  
+
+For Python 2.7:
+```
+sudo python setup.py install
+```
+For Python 3.4:
+```
+sudo python3 setup.py install
+```
+
+If you have PIP installed you can install the library directly from github with the following command:
+
+For Python 2.7:
+```
+python2.7 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python3_Libraries.git
+```
+
+For Python 34:
+```
+python3.4 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python3_Libraries.git
+```
+
 The IO Pi library is located in the IOPi directory
 
-The library requires python-smbus to be installed.
+The library requires python-smbus to be installed.  
+For Python 2.7:
 ```
-sudo apt-get update
 sudo apt-get install python-smbus
 ```
-Add the location where you downloaded the python libraries into PYTHONPATH e.g. download location is Desktop
+For Python 3.4:
 ```
-export PYTHONPATH=${PYTHONPATH}:~/Desktop/ABElectronics_Python_Libraries/IOPi/
+sudo apt-get install python3-smbus
 ```
-
-The example python files in /ABElectronics_Python_Libraries/IOPi/ will now run from the terminal.
 
 
 Functions:
@@ -53,7 +76,7 @@ Set the internal 100K pull-up resistors for the selected IO port
 write_pin(pin, value)
 ```
 Write to an individual pin 1 - 16  
-**Parameters:** pin - 1 to 16, value - 1 = Enabled, 0 = Disabled
+**Parameters:** pin - 1 to 16, value - 1 = Enabled, 0 = Disabled  
 **Returns:** null
 ```
 write_port(port, value)
@@ -138,22 +161,18 @@ reset_interrupts()
 Set the interrupts A and B to 0  
 **Parameters:** null  
 **Returns:** null
+
 Usage
 ====
 To use the IO Pi library in your code you must first import the library:
 ```
-from ABE_IOPi import IOPI
+from IOPi import IOPi
 ```
-Now import the helper class
-```
-from ABE_helpers import ABEHelpers
-```
-Next you must initialise the IO object with the smbus object using the helpers:
+
+Next you must initialise the IO object with the I2C address of the I/O controller chip.  The default addresses for the IO Pi are 0x20 and 0x21:
 
 ```
-i2c_helper = ABEHelpers()
-bus = i2c_helper.get_smbus()
-bus1 = IOPI(bus,0x20)
+bus1 = IOPI(0x20)
 ```
 
 We will read the inputs 1 to 8 from bus 2 so set port 0 to be inputs and enable the internal pull-up resistors 

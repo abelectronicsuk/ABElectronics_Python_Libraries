@@ -5,29 +5,54 @@ Python Library to use with Expander Pi board from https://www.abelectronics.co.u
 
 The Expander Pi contains separate classes for the real-time clock, analogue to digital converter, digital to analogue converter and the digital I/O pins.  Examples are included to show how each of the classes can be used.
 
-Install
-====
+The example python files can be found in /ABElectronics_Python_Libraries/ExpanderPi/demos  
+
+### Downloading and Installing the library
 
 To download to your Raspberry Pi type in terminal: 
 
 ```
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
+
+To install the python library navigate into the ABElectronics_Python_Libraries folder and run:  
+
+For Python 2.7:
+```
+sudo python setup.py install
+```
+For Python 3.4:
+```
+sudo python3 setup.py install
+```
+
+If you have PIP installed you can install the library directly from github with the following command:
+
+For Python 2.7:
+```
+python2.7 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python3_Libraries.git
+```
+
+For Python 34:
+```
+python3.4 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python3_Libraries.git
+```
+
 The Expander Pi library is located in the ExpanderPi directory
 
-Add the location where you downloaded the python libraries into PYTHONPATH e.g. download location is Desktop
+The library requires python-smbus to be installed.  
+For Python 2.7:
 ```
-export PYTHONPATH=${PYTHONPATH}:~/Desktop/ABElectronics_Python_Libraries/ExpanderPi/
+sudo apt-get install python-smbus
 ```
-
-The example python files in /ABElectronics_Python_Libraries/ExpanderPi/ will now run from the terminal.
+For Python 3.4:
+```
+sudo apt-get install python3-smbus
+```
 
 # Class: ADC #
 
 The ADC class controls the functions on the 12 bit 8 channel Analogue to Digital converter.  The Expander Pi comes with an on board  4.096 voltage reference.  To use an external voltage reference remover the solder bridge from jumper J1 and connect the external voltage reference to the Vref pin.
-
-
-
 
 Functions:
 ----------
@@ -110,7 +135,7 @@ Usage
 To use the ADC class in your code you must first import the library:
 
 ```
-from ABE_ExpanderPi import ADC
+from ExpanderPi import ADC
 ```
 
 Next you must initialise the ADC object:
@@ -163,7 +188,7 @@ Usage
 To use the DAC class in your code you must first import the library:
 
 ```
-from ABE_ExpanderPi import DAC
+from ExpanderPi import DAC
 ```
 
 Next you must initialise the DAC object with a gain setting of 1 or 2:
@@ -329,7 +354,7 @@ Usage
 To use the IO Pi library in your code you must first import the library:
 
 ```
-from ABE_ExpanderPi import IO
+from ExpanderPi import IO
 ```
 
 Next you must initialise the IO object:
@@ -418,7 +443,7 @@ Usage
 To use the RTC class in your code you must first import the library:
 
 ```
-from ABE_ExpanderPi import RTC
+from ExpanderPi import RTC
 ```
 
 Next you must initialise the RTC object:

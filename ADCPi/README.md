@@ -1,9 +1,12 @@
 AB Electronics UK ADC Pi Python Library
 =====
 
-Python Library to use with ADC Pi Raspberry Pi expansion board from https://www.abelectronics.co.uk
-Install
-====
+Python Library to use with ADC Pi Raspberry Pi expansion board from  
+https://www.abelectronics.co.uk  
+
+The example python files can be found in /ABElectronics_Python_Libraries/ADCPi/demos  
+
+### Downloading and Installing the library
 
 To download to your Raspberry Pi type in terminal: 
 
@@ -11,33 +14,56 @@ To download to your Raspberry Pi type in terminal:
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
 
-The ADC Pi library is located in the ADCPi directory
+To install the python library navigate into the ABElectronics_Python_Libraries folder and run:  
 
-The library requires python-smbus to be installed.
+For Python 2.7:
 ```
-sudo apt-get update
+sudo python setup.py install
+```
+For Python 3.4:
+```
+sudo python3 setup.py install
+```
+
+If you have PIP installed you can install the library directly from github with the following command:
+
+For Python 2.7:
+```
+python2.7 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python3_Libraries.git
+```
+
+For Python 34:
+```
+python3.4 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python3_Libraries.git
+```
+
+The ADC Pi library is located in the ADCPi directory  
+
+The library requires python-smbus to be installed.  
+
+For Python 2.7:
+```
 sudo apt-get install python-smbus
 ```
-Add the location where you downloaded the python libraries into PYTHONPATH e.g. download location is Desktop
+For Python 3.4:
 ```
-export PYTHONPATH=${PYTHONPATH}:~/Desktop/ABElectronics_Python_Libraries/ADCPi/
+sudo apt-get install python3-smbus
 ```
 
-The example python files in /ABElectronics_Python_Libraries/ADCPi/ will now run from the terminal.
 Functions:
 ----------
 ```
 read_voltage(channel) 
 ```
 Read the voltage from the selected channel  
-**Parameters:** channel - 1 to 8 
+**Parameters:** channel - 1 to 8  
 **Returns:** number as float between 0 and 5.0
 
 ```
 read_raw(channel) 
 ```
 Read the raw int value from the selected channel  
-**Parameters:** channel - 1 to 8 
+**Parameters:** channel - 1 to 8  
 **Returns:** number as int
 
 ```
@@ -70,21 +96,16 @@ Usage
 
 To use the ADC Pi library in your code you must first import the library:
 ```
-from ABE_ADCPi import ADCPi
+from ADCPi import ADCPi
 ```
-Now import the helper class
-```
-from ABE_helpers import ABEHelpers
-```
-Next you must initialise the adc object and smbus:
-```
-i2c_helper = ABEHelpers()
-bus = i2c_helper.get_smbus()
-adc = ADCPi(bus, 0x68, 0x69, 18)
-```
-The first argument is the smbus object folled by the two I2C addresses of the ADC chips. The values shown are the default addresses of the ADC board.
 
-The forth argument is the sample bit rate you want to use on the adc chips. Sample rate can be 12, 14, 16 or 18
+Next you must initialise the adc object:
+```
+adc = ADCPi(0x68, 0x69, 18)
+```
+The first two arguments are the I2C addresses of the ADC chips. The values shown are the default addresses of the ADC board.  
+
+The third argument is the sample bit rate you want to use on the adc chips. Sample rate can be 12, 14, 16 or 18  
 
 You can now read the voltage from channel 1 with:
 ```
