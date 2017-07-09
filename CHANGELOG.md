@@ -4,7 +4,7 @@ Classes renamed: removed ABE_ from all class names.
 ABE_ADCDACPi > ADCDACPi  
 ABE_ADCDifferentialPi > ADCDifferentialPi  
 ABE_ADCPi > ADCPi  
-ABE_DeltaSigmaPi > DeltaSigmaPi  
+ABE_DeltaSigmaPi > ADCDifferentialPi  
 ABE_ExpanderPi > ExpanderPi  
 ABE_IOPi > IOPi  
 ABE_RTCPi > RTCPi  
