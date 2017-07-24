@@ -1,1 +1,1 @@
-from ServoPi import *
+from .ServoPi import *

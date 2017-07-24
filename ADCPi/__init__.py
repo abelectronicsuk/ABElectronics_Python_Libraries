@@ -1,1 +1,1 @@
-from ADCPi import *
+from .ADCPi import *

@@ -1,2 +1,2 @@
-from ADCDifferentialPi import *
+from .ADCDifferentialPi import *
 

@@ -1,2 +1,2 @@
-from IOPi import *
+from .IOPi import *
 
