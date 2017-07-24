@@ -1,10 +1,15 @@
+
+#### 2017-07-24 Andrew Dorey
+* 2.0.1
+Fixed a bug wit the __init__.py files where the import would work in Python 2 but fail in Python 3. 
+
 #### 2017-07-07 Andrew Dorey
 * 2.0.0 Major Update  
 Classes renamed: removed ABE_ from all class names.  
 ABE_ADCDACPi > ADCDACPi  
 ABE_ADCDifferentialPi > ADCDifferentialPi  
 ABE_ADCPi > ADCPi  
-ABE_DeltaSigmaPi > ADCDifferentialPi  
+ABE_DeltaSigmaPi > DeltaSigmaPi  
 ABE_ExpanderPi > ExpanderPi  
 ABE_IOPi > IOPi  
 ABE_RTCPi > RTCPi  
