@@ -1,4 +1,11 @@
 
+#### 2017-07-29 Andrew Dorey
+* 2.0.2 Updates to the ServoPi library  
+* ServoPi - Added Servo class.
+* ServoPi - Changed the channel parameters for the PWM and Servo class to be 1 to 16 instead of 0 to 15.  This now matches the channel numbering on the Servo PWM Pi Zero.
+* ServoPi - Added parameter checks for function inputs.
+* ServoPi - updated demo_servomove.py to use the new Servo class.
+
 #### 2017-07-24 Andrew Dorey
 * 2.0.1
 Fixed a bug wit the __init__.py files where the import would work in Python 2 but fail in Python 3. 

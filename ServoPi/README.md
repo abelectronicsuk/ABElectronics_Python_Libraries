@@ -48,6 +48,16 @@ For Python 3.4:
 sudo apt-get install python3-smbus
 ```
 
+# Class: PWM #
+
+The PWM class provides control over the pulse-width modution outputs on the PCA9685 controller.  Functions include setting the frequency and duty cycle for each channel.  
+
+Initialise with the I2C address for the Servo Pi.
+
+```
+pwmobject = PWM(0x40)
+```
+
 Functions:
 ----------
 
@@ -108,7 +118,64 @@ Disable the I2C address for the All Call function
 **Parameters:** null  
 **Returns:** null  
 
+# Class: Servo #
 
+The Servo class provides functions for controlling the position of servo motors commonly used on radio control models and small robots.  The Servo class initialises with a default frequency of 50Hz and low and high limits of 1ms and 2ms.
+
+Initialise with the I2C address for the Servo Pi.
+
+```
+servo_object = Servo(0x40)
+```
+**Optional Parameters:**  
+low_limit = Pulse length in milliseconds for the lower servo limit.  
+high_limit = Pulse length in milliseconds for the upper servo limit.  
+
+Functions:
+----------
+
+```
+move(channel, position, steps=250) 
+```
+Set the servo position  
+**Parameters:** 
+channel - 1 to 16  
+position - value between 0 and the maximum number of steps.  
+steps (optional) - The number of steps between the the low and high servo limits.  This is preset at 250 but can be any number between 0 and 4095.  On a typical RC servo a step value of 250 is recommended.  
+**Returns:** null  
+
+```
+set_low_limit(low_limit)
+```
+Set the pulse length for the lower servo limits.  Typically around 1ms.  
+**Parameters:** low_limit - Pulse length in milliseconds for the lower servo limit.  
+**Returns:** null  
+```
+set_high_limit(high_limit)
+```
+Set the pulse length for the upper servo limits.  Typically around 1ms.  
+**Parameters:** high_limit - Pulse length in milliseconds for the upper servo limit.  
+**Returns:** null  
+```
+set_frequency(freq) 
+```
+Set the PWM frequency  
+**Parameters:** freq - required frequency for the servo.  
+**Returns:** null  
+
+```
+output_disable()
+```
+Disable the output via OE pin  
+**Parameters:** null  
+**Returns:** null  
+
+```
+output_enable()
+```
+Enable the output via OE pin  
+**Parameters:** null  
+**Returns:** null  
 
 Usage
 ====
@@ -124,7 +191,7 @@ pwm = PWM(0x40)
 Set PWM frequency to 60 Hz
 ```
 pwm.set_pwm_freq(60)  
-pwm.output_enable()
+pwm.output_enable()  
 ```
 Set three variables for pulse length
 ```
@@ -132,14 +199,13 @@ servoMin = 250  # Min pulse length out of 4096
 servoMed = 400  # Min pulse length out of 4096
 servoMax = 500  # Max pulse length out of 4096
 ```
-Loop to move the servo on port 0 between three points
+Loop to change the duty cycle on pin 1 between three points
 ```
 while True:
-  pwm.set_pwm(0, 0, servoMin)
+  pwm.set_pwm(1, 0, servoMin)
   time.sleep(0.5)
-  pwm.set_pwm(0, 0, servoMed)
+  pwm.set_pwm(1, 0, servoMed)
   time.sleep(0.5)
-  pwm.set_pwm(0, 0, servoMax)
+  pwm.set_pwm(1, 0, servoMax)
   time.sleep(0.5)
-  # use set_all_pwm to set PWM on all outputs
-```
+

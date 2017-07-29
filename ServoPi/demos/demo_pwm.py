@@ -41,9 +41,9 @@ def main():
 
     while True:
         for count in range(1, 4095, 5):
-            pwm.set_pwm(0, 0, count)
+            pwm.set_pwm(1, 0, count)
         for count in range(4095, 1, -5):
-            pwm.set_pwm(0, 0, count)
+            pwm.set_pwm(1, 0, count)
 
 if __name__ == "__main__":
     main()
