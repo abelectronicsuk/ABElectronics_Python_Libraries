@@ -338,14 +338,14 @@ class IOPi(object):
         pin = pin - 1
         if pin < 8:
             self.__port_a[3] = self.__updatebyte(
-                self.__port_a[1],
+                self.__port_a[3],
                 pin,
                 polarity)
             self.__bus.write_byte_data(
                 self.__ioaddress, self.IPOLA, self.__port_a[3])
         else:
             self.__port_b[3] = self.__updatebyte(
-                self.__port_b[1],
+                self.__port_b[3],
                 pin - 8,
                 polarity)
             self.__bus.write_byte_data(
