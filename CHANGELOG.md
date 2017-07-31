@@ -1,6 +1,6 @@
 
 #### 2017-07-31 Andrew Dorey
-* 2.0.3 Fixed a bug with the IO Pi invert_pin() function
+* 2.0.3 Fixed several bugs with the IO Pi library
 
 #### 2017-07-29 Andrew Dorey
 * 2.0.2 Updates to the ServoPi library  

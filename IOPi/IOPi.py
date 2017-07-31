@@ -85,8 +85,17 @@ class IOPi(object):
     # variables
     # create a byte array for each port
     # index: 0 = Direction, 1 = value, 2 = pullup, 3 = polarity
-    __port_a = bytearray([0x00, 0x00, 0x00, 0x00])
-    __port_b = bytearray([0x00, 0x00, 0x00, 0x00])
+    __port_a_direction = 0x00
+    __port_b_direction = 0x00
+
+    __port_a_value = 0x00
+    __port_b_value = 0x00
+
+    __port_a_pullup = 0x00
+    __port_b_pullup = 0x00
+
+    __port_a_polarity = 0x00
+    __port_b_polarity = 0x00
 
     __ioaddress = 0x20  # I2C address
     __inta = 0x00  # interrupt control for port a
@@ -106,9 +115,9 @@ class IOPi(object):
         self.__bus = self.__get_smbus()
         self.__bus.write_byte_data(
             self.__ioaddress, self.IOCON, self.__ioconfig)
-        self.__port_a[1] = self.__bus.read_byte_data(
+        self.__port_a_value = self.__bus.read_byte_data(
             self.__ioaddress, self.GPIOA)
-        self.__port_b[1] = self.__bus.read_byte_data(
+        self.__port_b_value = self.__bus.read_byte_data(
             self.__ioaddress, self.GPIOB)
         self.__bus.write_byte_data(self.__ioaddress, self.IODIRA, 0xFF)
         self.__bus.write_byte_data(self.__ioaddress, self.IODIRB, 0xFF)
@@ -159,18 +168,16 @@ class IOPi(object):
     def __checkbit(byte, bit):
         """ internal method for reading the value of a single bit
         within a byte """
-
+        value = 0
         if byte & (1 << bit):
-            return 1
-        else:
-            return 0
+            value = 1
+        return value
 
     @staticmethod
     def __updatebyte(byte, bit, value):
         """
         internal method for setting the value of a single bit within a byte
         """
-
         if value == 0:
             return byte & ~(1 << bit)
         elif value == 1:
@@ -186,15 +193,15 @@ class IOPi(object):
          """
         pin = pin - 1
         if pin < 8:
-            self.__port_a[0] = self.__updatebyte(
-                self.__port_a[0], pin, direction)
+            self.__port_a_direction = self.__updatebyte(
+                self.__port_a_direction, pin, direction)
             self.__bus.write_byte_data(
-                self.__ioaddress, self.IODIRA, self.__port_a[0])
+                self.__ioaddress, self.IODIRA, self.__port_a_direction)
         else:
-            self.__port_b[0] = self.__updatebyte(
-                self.__port_b[0], pin - 8, direction)
+            self.__port_b_direction = self.__updatebyte(
+                self.__port_b_direction, pin - 8, direction)
             self.__bus.write_byte_data(
-                self.__ioaddress, self.IODIRB, self.__port_b[0])
+                self.__ioaddress, self.IODIRB, self.__port_b_direction)
         return
 
     def set_port_direction(self, port, direction):
@@ -207,11 +214,11 @@ class IOPi(object):
         if port == 1:
             self.__bus.write_byte_data(
                 self.__ioaddress, self.IODIRB, direction)
-            self.__port_b[0] = direction
+            self.__port_b_direction = direction
         else:
             self.__bus.write_byte_data(
                 self.__ioaddress, self.IODIRA, direction)
-            self.__port_a[0] = direction
+            self.__port_a_direction = direction
         return
 
     def set_pin_pullup(self, pin, value):
@@ -222,15 +229,15 @@ class IOPi(object):
         """
         pin = pin - 1
         if pin < 8:
-            self.__port_a[2] = self.__updatebyte(
-                self.__port_a[2], pin, value)
+            self.__port_a_pullup = self.__updatebyte(
+                self.__port_a_pullup, pin, value)
             self.__bus.write_byte_data(
-                self.__ioaddress, self.GPPUA, self.__port_a[2])
+                self.__ioaddress, self.GPPUA, self.__port_a_pullup)
         else:
-            self.__port_b[2] = self.__updatebyte(
-                self.__port_b[2], pin - 8, value)
+            self.__port_b_pullup = self.__updatebyte(
+                self.__port_b_pullup, pin - 8, value)
             self.__bus.write_byte_data(
-                self.__ioaddress, self.GPPUB, self.__port_b[2])
+                self.__ioaddress, self.GPPUB, self.__port_b_pullup)
         return
 
     def set_port_pullups(self, port, value):
@@ -239,10 +246,10 @@ class IOPi(object):
         """
 
         if port == 1:
-            self.__port_a[2] = value
+            self.__port_b_pullup = value
             self.__bus.write_byte_data(self.__ioaddress, self.GPPUB, value)
         else:
-            self.__port_b[2] = value
+            self.__port_a_pullup = value
             self.__bus.write_byte_data(self.__ioaddress, self.GPPUA, value)
         return
 
@@ -250,18 +257,18 @@ class IOPi(object):
         """
         write to an individual pin 1 - 16
         """
-
         pin = pin - 1
         if pin < 8:
-            self.__port_a[1] = self.__updatebyte(
-                self.__port_a[1], pin, value)
-            self.__bus.write_byte_data(
-                self.__ioaddress, self.GPIOA, self.__port_a[1])
+            self.__port_a_value = self.__updatebyte(self.__port_a_value,
+                                                    pin, value)
+            self.__bus.write_byte_data(self.__ioaddress, self.GPIOA,
+                                       self.__port_a_value)
         else:
-            self.__port_b[1] = self.__updatebyte(
-                self.__port_b[1], pin - 8, value)
-            self.__bus.write_byte_data(
-                self.__ioaddress, self.GPIOB, self.__port_b[1])
+            pin = pin - 8
+            self.__port_b_value = self.__updatebyte(self.__port_b_value,
+                                                    pin, value)
+            self.__bus.write_byte_data(self.__ioaddress, self.GPIOB,
+                                       self.__port_b_value)
         return
 
     def write_port(self, port, value):
@@ -273,10 +280,10 @@ class IOPi(object):
 
         if port == 1:
             self.__bus.write_byte_data(self.__ioaddress, self.GPIOB, value)
-            self.__port_b[1] = value
+            self.__port_b_value = value
         else:
             self.__bus.write_byte_data(self.__ioaddress, self.GPIOA, value)
-            self.__port_a[1] = value
+            self.__port_a_value = value
         return
 
     def read_pin(self, pin):
@@ -284,16 +291,18 @@ class IOPi(object):
         read the value of an individual pin 1 - 16
         returns 0 = logic level low, 1 = logic level high
         """
+        value = 0
         pin = pin - 1
         if pin < 8:
-            self.__port_a[1] = self.__bus.read_byte_data(
+            self.__port_a_value = self.__bus.read_byte_data(
                 self.__ioaddress, self.GPIOA)
-            return self.__checkbit(self.__port_a[1], pin)
+            value = self.__checkbit(self.__port_a_value, pin)
         else:
             pin = pin - 8
-            self.__port_b[1] = self.__bus.read_byte_data(
+            self.__port_b_value = self.__bus.read_byte_data(
                 self.__ioaddress, self.GPIOB)
-            return self.__checkbit(self.__port_b[1], pin)
+            value = self.__checkbit(self.__port_b_value, pin)
+        return value
 
     def read_port(self, port):
         """
@@ -301,15 +310,16 @@ class IOPi(object):
         port 0 = pins 1 to 8, port 1 = pins 9 to 16
         returns number between 0 and 255 or 0x00 and 0xFF
         """
-
+        value = 0
         if port == 1:
-            self.__port_b[1] = self.__bus.read_byte_data(
+            self.__port_b_value = self.__bus.read_byte_data(
                 self.__ioaddress, self.GPIOB)
-            return self.__port_b[1]
+            value = self.__port_b_value
         else:
-            self.__port_a[1] = self.__bus.read_byte_data(
+            self.__port_a_value = self.__bus.read_byte_data(
                 self.__ioaddress, self.GPIOA)
-            return self.__port_a[1]
+            value = self.__port_a_value
+        return value
 
     def invert_port(self, port, polarity):
         """
@@ -321,10 +331,10 @@ class IOPi(object):
 
         if port == 1:
             self.__bus.write_byte_data(self.__ioaddress, self.IPOLB, polarity)
-            self.__port_b[3] = polarity
+            self.__port_b_polarity = polarity
         else:
             self.__bus.write_byte_data(self.__ioaddress, self.IPOLA, polarity)
-            self.__port_a[3] = polarity
+            self.__port_a_polarity = polarity
         return
 
     def invert_pin(self, pin, polarity):
@@ -337,19 +347,19 @@ class IOPi(object):
 
         pin = pin - 1
         if pin < 8:
-            self.__port_a[3] = self.__updatebyte(
-                self.__port_a[3],
+            self.__port_a_polarity = self.__updatebyte(
+                self.__port_a_polarity,
                 pin,
                 polarity)
             self.__bus.write_byte_data(
-                self.__ioaddress, self.IPOLA, self.__port_a[3])
+                self.__ioaddress, self.IPOLA, self.__port_a_polarity)
         else:
-            self.__port_b[3] = self.__updatebyte(
-                self.__port_b[3],
+            self.__port_b_polarity = self.__updatebyte(
+                self.__port_b_polarity,
                 pin - 8,
                 polarity)
             self.__bus.write_byte_data(
-                self.__ioaddress, self.IPOLB, self.__port_b[3])
+                self.__ioaddress, self.IPOLB, self.__port_b_polarity)
         return
 
     def mirror_interrupts(self, value):
@@ -451,11 +461,12 @@ class IOPi(object):
         read the interrupt status for the pins on the selected port
         port 0 = pins 1 to 8, port 1 = pins 9 to 16
         """
-
+        value = 0
         if port == 0:
-            return self.__bus.read_byte_data(self.__ioaddress, self.INTFA)
+            value = self.__bus.read_byte_data(self.__ioaddress, self.INTFA)
         else:
-            return self.__bus.read_byte_data(self.__ioaddress, self.INTFB)
+            value = self.__bus.read_byte_data(self.__ioaddress, self.INTFB)
+        return value
 
     def read_interrupt_capture(self, port):
         """
@@ -463,11 +474,12 @@ class IOPi(object):
         interrupt trigger
         port 0 = pins 1 to 8, port 1 = pins 9 to 16
         """
-
+        value = 0
         if port == 0:
-            return self.__bus.read_byte_data(self.__ioaddress, self.INTCAPA)
+            value = self.__bus.read_byte_data(self.__ioaddress, self.INTCAPA)
         else:
-            return self.__bus.read_byte_data(self.__ioaddress, self.INTCAPB)
+            value = self.__bus.read_byte_data(self.__ioaddress, self.INTCAPB)
+        return value
 
     def reset_interrupts(self):
         """
