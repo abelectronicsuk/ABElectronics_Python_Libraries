@@ -1,6 +1,8 @@
+#### 2017-08-01 Andrew Dorey
+* 2.0.4 Fixed several bugs with the Expander Pi library where it was saving the wrong values during any pin read or write operation.
 
 #### 2017-07-31 Andrew Dorey
-* 2.0.3 Fixed several bugs with the IO Pi library
+* 2.0.3 Fixed several bugs with the IO Pi library where it was saving the wrong values during any pin read or write operation.
 
 #### 2017-07-29 Andrew Dorey
 * 2.0.2 Updates to the ServoPi library  
