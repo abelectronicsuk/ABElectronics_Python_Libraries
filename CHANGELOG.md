@@ -1,3 +1,6 @@
+#### 2017-08-05 Andrew Dorey
+* 2.0.5 Changed ADC Pi library so config variables are not stored in a byte array.
+
 #### 2017-08-01 Andrew Dorey
 * 2.0.4 Fixed several bugs with the Expander Pi library where it was saving the wrong values during any pin read or write operation.
 
