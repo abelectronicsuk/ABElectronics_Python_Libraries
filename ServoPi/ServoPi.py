@@ -233,7 +233,7 @@ class Servo(object):
     __lowpos = 0
     __highpos = 4095
     __frequency = 50
-    __channel = 0
+    __channel = 1
 
     def __init__(self, address=0x40, low_limit=1.0, high_limit=2.0):
         """
@@ -252,7 +252,7 @@ class Servo(object):
         """
         set the position of the servo
         """
-        if channel >= 0 and channel <= 15:
+        if channel >= 1 and channel <= 16:
             self.__channel = channel
         else:
             raise ValueError('move: channel out of range')
