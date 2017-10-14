@@ -36,6 +36,8 @@ except ImportError:
             "Failed to import library from parent folder")
 
 
+bus = None
+
 def checkbit(byte, bit):
     """
     method for reading the value of a single bit within a byte
@@ -46,13 +48,17 @@ def checkbit(byte, bit):
         return 0
 
 
-def button_pressed(bus):
+def button_pressed(interrupt_pin):
+    global bus
+    
     """
     this function will be called when GPIO 23 falls low
     """
     # read the interrupt status for ports 0 and 1 and store them in
     # variables porta and portb
-
+    print("Button pressed")
+    print(interrupt_pin)
+    
     porta = bus.read_interrupt_status(0)
     portb = bus.read_interrupt_status(1)
 
@@ -85,11 +91,12 @@ def main():
     """
     Main program function
     """
-
+    global bus
+    
     # Create an instance of the IOPi class called bus and 
     # set the I2C address to be 0x20 or Bus 1.
 
-    bus = IOPi(0x21)
+    bus = IOPi(0x20)
 
     # Set all pins on the bus to be inputs with internal pull-ups enabled.
 
@@ -133,7 +140,7 @@ def main():
 
     # set the GPIO mode to be BCM
 
-    GPIO.setmode(GPIO.BCM)
+    GPIO.setmode(GPIO.BCM)           # Numbers GPIOs by GPIO Order Number
 
     # Set up GPIO 23 as an input. The pull-up resistor is disabled as the
     # level shifter will act as a pull-up.
