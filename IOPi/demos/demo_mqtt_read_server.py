@@ -76,6 +76,6 @@ client.loop_start()
 
 
 while True:
-  sensor_data = [iobus1.read_port(0), iobus2.read_port(1)]
+  sensor_data = [iobus1.read_port(0),iobus1.read_port(1), iobus2.read_port(0),iobus2.read_port(1)]
   client.publish("sensor/iopi/ports", str(sensor_data))
   time.sleep(10)
