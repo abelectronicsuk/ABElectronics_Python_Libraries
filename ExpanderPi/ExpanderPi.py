@@ -328,7 +328,7 @@ class IO:
     __helper = None
     __bus = None
 
-    def __init__(self):
+    def __init__(self, reset=True):
         """
         init object with i2c address, default is 0x20, 0x21 for IOPi board,
         load default configuration
@@ -342,12 +342,13 @@ class IO:
             self.__ioaddress, self.GPIOA)
         self.__port_b_value = self.__bus.read_byte_data(
             self.__ioaddress, self.GPIOB)
-        self.__bus.write_byte_data(self.__ioaddress, self.IODIRA, 0xFF)
-        self.__bus.write_byte_data(self.__ioaddress, self.IODIRB, 0xFF)
-        self.set_port_pullups(0, 0x00)
-        self.set_port_pullups(1, 0x00)
-        self.invert_port(0, 0x00)
-        self.invert_port(1, 0x00)
+        if reset is True:
+            self.__bus.write_byte_data(self.__ioaddress, self.IODIRA, 0xFF)
+            self.__bus.write_byte_data(self.__ioaddress, self.IODIRB, 0xFF)
+            self.set_port_pullups(0, 0x00)
+            self.set_port_pullups(1, 0x00)
+            self.invert_port(0, 0x00)
+            self.invert_port(1, 0x00)
 
         return
 
@@ -399,6 +400,21 @@ class IO:
             self.__port_a_direction = direction
         return
 
+    def get_port_direction(self, port):
+        """
+        get the direction from an IO port
+        port 0 = pins 1 to 8, port 1 = pins 9 to 16
+        """
+        if port == 1:
+            self.__port_b_direction = self.__bus.read_byte_data(
+                self.__ioaddress, self.IODIRB)
+            return self.__port_b_direction
+        else:
+            self.__port_a_direction = self.__bus.read_byte_data(
+                self.__ioaddress, self.IODIRA)
+            return self.__port_a_direction
+        return
+
     def set_pin_pullup(self, pin, value):
         """
         set the internal 100K pull-up resistors for an individual pin
@@ -422,13 +438,27 @@ class IO:
         """
         set the internal 100K pull-up resistors for the selected IO port
         """
-
         if port == 1:
-            self.__port_a_pullup = value
+            self.__port_b_pullup = value
             self.__bus.write_byte_data(self.__ioaddress, self.GPPUB, value)
         else:
-            self.__port_b_pullup = value
+            self.__port_a_pullup = value
             self.__bus.write_byte_data(self.__ioaddress, self.GPPUA, value)
+        return
+
+    def get_port_pullups(self, port):
+        """
+        get the internal pull-up status for the selected IO port
+        port 0 = pins 1 to 8, port 1 = pins 9 to 16
+        """
+        if port == 1:
+            self.__port_b_pullup = self.__bus.read_byte_data(
+                self.__ioaddress, self.GPPUB)
+            return self.__port_b_pullup
+        else:
+            self.__port_a_pullup = self.__bus.read_byte_data(
+                self.__ioaddress, self.GPPUA)
+            return self.__port_a_pullup
         return
 
     def write_pin(self, pin, value):
@@ -513,6 +543,21 @@ class IO:
         else:
             self.__bus.write_byte_data(self.__ioaddress, self.IPOLA, polarity)
             self.__port_a_polarity = polarity
+        return
+
+    def get_port_polarity(self, port):
+        """
+        get the polarity for the selected IO port
+        port 0 = pins 1 to 8, port 1 = pins 9 to 16
+        """
+        if port == 1:
+            self.__port_b_polarity = self.__bus.read_byte_data(
+                self.__ioaddress, self.IPOLB)
+            return self.__port_b_pullup
+        else:
+            self.__port_a_polarity = self.__bus.read_byte_data(
+                self.__ioaddress, self.IPOLA)
+            return self.__port_a_pullup
         return
 
     def invert_pin(self, pin, polarity):

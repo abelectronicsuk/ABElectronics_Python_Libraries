@@ -224,7 +224,23 @@ set_port_direction(port, direction):
 ```
 
 Sets the IO direction for the specified IO port  
-**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16, direction - 1 = input, 0 = output  
+**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16, direction - byte value between 0 and 255, each bit of the byte represents one pin. 1 = input, 0 = output  
+**Returns:** null
+
+```
+get_port_direction(port): 
+```
+
+Gets the IO direction for the specified IO port  
+**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16 
+**Returns:** value between 0 and 255
+
+```
+set_pin_pullup(pin, value)
+```
+
+Set the internal 100K pull-up resistors for the selected IO port  
+**Parameters:** pin - 1 to 16, value: 1 = Enabled, 0 = Disabled  
 **Returns:** null
 
 ```
@@ -232,7 +248,15 @@ set_port_pullups(port, value)
 ```
 
 Set the internal 100K pull-up resistors for the selected IO port  
-**Parameters:** port - 1 to 16, value: 1 = Enabled, 0 = Disabled  
+**Parameters:** port - 0 or 1, value: 0 to 255  
+**Returns:** null
+
+```
+get_port_pullups(port)
+```
+
+Get the value of the internal 100K pull-up resistors for the selected IO port  
+**Parameters:** port - 1 to 16
 **Returns:** null
 
 ```
@@ -272,8 +296,16 @@ invert_port(port, polarity)
 ```
 
 Invert the polarity of the pins on a selected port  
-**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16, polarity - 0 = same logic state of the input pin, 1 = inverted logic state of the input pin  
+**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16, polarity - byte value between 0 and 255, each bit of the byte represents one pin. 0 = same logic state of the input pin, 1 = inverted logic state of the input pin  
 **Returns:** null
+
+```
+get_port_polarity(port)
+```
+
+Get the polarity for the selected IO port
+**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16 
+**Returns:** byte value between 0 and 255, each bit of the byte represents one pin. 0 = same logic state of the input pin, 1 = inverted logic state of the input pin 
 
 ```
 invert_pin(pin, polarity)
@@ -361,6 +393,12 @@ Next you must initialise the IO object:
 
 ```
 io = IO()
+```
+
+By default the IO object will be initialised in a reset state with the ports set as inputs, pull-up resistors disabled and the pins non-inverted.  If you want to initialase the IO object without updating the port direction or the pull-up status you can add a reset=False parameter.
+
+```
+io = IO(reset=False)
 ```
 
 We will read the inputs 1 to 8 from the I/O bus so set port 0 to be inputs and enable the internal pull-up resistors 
