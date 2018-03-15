@@ -54,7 +54,10 @@ class ADCDifferentialPi:
         if device == "orangepione":  # running on orange pi one
             i2c__bus = 0
 
-        elif device == "orangepiplus":  # running on orange pi one
+        elif device == "orangepiplus":  # running on orange pi plus
+            i2c__bus = 0
+
+        elif device == "orangepipcplus":  # running on orange pi pc plus
             i2c__bus = 0
 
         elif device == "linaro-alip":  # running on Asus Tinker Board
