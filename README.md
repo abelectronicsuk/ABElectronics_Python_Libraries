@@ -59,8 +59,8 @@ This directory contains ADC DAC Pi Python Library with ADC read and DAC write de
 https://www.abelectronics.co.uk/p/39/ADC-DAC-Pi-Raspberry-Pi-ADC-and-DAC-expansion-board and the ADC DAC Pi Zero  
 https://www.abelectronics.co.uk/p/74/ADC-DAC-Pi-Zero-Raspberry-Pi-ADC-and-DAC-expansion-board
 ### ADCPi 
-This directory contains ADC Pi Python Library  and read voltage demo to use with the ADC Pi Plus  
-https://www.abelectronics.co.uk/p/56/ADC-Pi-Plus-Raspberry-Pi-Analogue-to-Digital-converter and ADC Pi Zero https://www.abelectronics.co.uk/p/69/ADC-Pi-Zero-Raspberry-Pi-Analogue-to-Digital-converter
+This directory contains ADC Pi Python Library  and read voltage demo to use with the ADC Pi   
+https://www.abelectronics.co.uk/p/69/ADC-Pi-Raspberry-Pi-Analogue-to-Digital-converter
 ### ADCDifferentialPi 
 This directory contains ADC Differential Pi Python Library and read voltage demo to use with the ADC Differential Pi.  
 https://www.abelectronics.co.uk/p/65/ADC-Differential-Pi-Raspberry-Pi-Analogue-to-Digital-converter  
