@@ -99,10 +99,11 @@ class ADC:
     # variables
     __adcrefvoltage = 4.096  # reference voltage for the ADC chip.
 
-    # Define SPI bus and init
-    __spiADC = spidev.SpiDev()
-    __spiADC.open(0, 0)
-    __spiADC.max_speed_hz = (1900000)
+    def __init__():
+        # Define SPI bus and init
+        __spiADC = spidev.SpiDev()
+        __spiADC.open(0, 0)
+        __spiADC.max_speed_hz = (1900000)
 
     # public methods
 
