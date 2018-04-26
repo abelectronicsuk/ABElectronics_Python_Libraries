@@ -99,11 +99,13 @@ class ADC:
     # variables
     __adcrefvoltage = 4.096  # reference voltage for the ADC chip.
 
-    def __init__():
+    __spiADC = None
+
+    def __init__(self):
         # Define SPI bus and init
-        __spiADC = spidev.SpiDev()
-        __spiADC.open(0, 0)
-        __spiADC.max_speed_hz = (1900000)
+        self.__spiADC = spidev.SpiDev()
+        self.__spiADC.open(0, 0)
+        self.__spiADC.max_speed_hz = (1900000)
 
     # public methods
 
@@ -174,9 +176,8 @@ class DAC:
 
     Define SPI bus and init
     """
-    spiDAC = spidev.SpiDev()
-    spiDAC.open(0, 1)
-    spiDAC.max_speed_hz = (20000000)
+
+    __spiDAC = None
     dactx = [0, 0]
 
     # Max DAC output voltage.  Depends on gain factor
@@ -198,6 +199,12 @@ class DAC:
            Where G is gain factor, Vref (for this chip) is 2.048 and
            D is the 12-bit digital value
         """
+
+        # Define SPI bus and init
+        self.__spiDAC = spidev.SpiDev()
+        self.__spiDAC.open(0, 1)
+        self.__spiDAC.max_speed_hz = (20000000)
+
         if (gainFactor != 1) and (gainFactor != 2):
             raise ValueError('DAC __init__: Invalid gain factor. \
                             Must be 1 or 2')
@@ -243,7 +250,7 @@ class DAC:
                              1 << 4)
 
         # Write to device
-        self.spiDAC.xfer2(self.dactx)
+        self.__spiDAC.xfer2(self.dactx)
         return
 
 
