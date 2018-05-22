@@ -6,7 +6,8 @@ ABElectronics ADC Differential Pi 8-Channel ADC
 Requires python smbus to be installed
 ================================================
 """
-
+from __future__ import absolute_import, division, print_function, \
+                                                    unicode_literals
 try:
     import smbus
 except ImportError:
@@ -79,7 +80,7 @@ class ADCDifferentialPi:
         try:
             return smbus.SMBus(i2c__bus)
         except IOError:
-            raise 'Could not open the i2c bus'
+            raise IOError('Could not open the i2c bus')
 
     def __updatebyte(self, byte, mask, value):
         byte &= mask
