@@ -153,7 +153,7 @@ class ADCPi:
 
         # get the config and i2c address for the selected channel
         self.__setchannel(channel)
-        if channel < 5:
+        if channel > 0 and channel < 5:
             config = self.__adc1_conf
             address = self.__adc1_address
         elif channel < 9:
