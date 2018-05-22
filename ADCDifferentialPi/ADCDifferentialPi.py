@@ -13,6 +13,7 @@ except ImportError:
     raise ImportError("python-smbus not found")
 import re
 import platform
+import time
 
 
 class ADCDifferentialPi:
@@ -165,6 +166,18 @@ class ADCDifferentialPi:
             config = config | (1 << 7)
             self.__bus.write_byte(address, config)
             config = config & ~(1 << 7)  # reset the ready bit to 0
+
+        # determine a reasonable amount of time to wait for a conversion
+        if self.__bitrate == 18:
+            seconds_per_sample = 1 / 3.75
+        elif self.__bitrate == 16:
+            seconds_per_sample = 1 / 15
+        elif self.__bitrate == 14:
+            seconds_per_sample = 1 / 60
+        elif self.__bitrate == 12:
+            seconds_per_sample = 1 / 240
+        timeout_time = time.time() + 4 * seconds_per_sample
+
         # keep reading the adc data until the conversion result is ready
         while True:
             __adcreading = self.__bus.read_i2c_block_data(address, config, 4)
@@ -180,6 +193,9 @@ class ADCDifferentialPi:
             # check if bit 7 of the command byte is 0.
             if(cmdbyte & (1 << 7)) == 0:
                 break
+            elif time.time() > timeout_time:
+                msg = 'read_raw: channel %i conversion timed out' % channel
+                raise TimeoutError(msg)
 
         self.__signbit = False
         raw = 0
