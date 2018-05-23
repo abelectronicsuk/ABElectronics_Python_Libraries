@@ -1,3 +1,43 @@
+#### 2018-05-22 Alan Kinnaman
+* 2.1.7 With this change, an error will be thrown if a channel numbered 0 or lower is specified..
+
+#### 2018-05-21 Alan Kinnaman 
+* 2.1.6 If the ADC is defective, it might never set the ready flag.  With this change, an exception is raised if the ADC doesn’t set the ready bit within a reasonable amount of time.
+
+#### 2018-04-26 qpeten 
+* 2.1.5 When importing this library in a project which does not use the SPI bus, the library raised an exception on import.
+This commit fixes that bug by moving the access to the SPI bus to __init__().
+
+#### 2018-03-15 Andrew Dorey
+* 2.1.4 Added support for the Orange Pi PC Plus.
+
+#### 2018-03-07 Andrew Dorey
+* 2.1.3 Added a new demo for the ADC Pi to read values from two ADC Pi boards and write them to a log file.
+
+#### 2018-01-21 Andrew Dorey
+* 2.1.2 Fixed several bugs with the ADC Pi and ADC Differential Pi libraries where the wrong channel was read if the channels were selected in a certain order..
+
+#### 2018-01-17 Andrew Dorey
+* 2.1.1 A new demo showing how to use a button to toggle the state of a variable.
+
+#### 2018-01-03 Andrew Dorey
+* 2.1.0 Added new functions for getting the port direction, pull-up status and polarity for the IO bus..
+
+#### 2017-12-24 Andrew Dorey
+* 2.0.9 Added MQTT read server and client demos. Bug fix on sensordata.
+
+#### 2017-12-23 Andrew Dorey
+* 2.0.8 Added MQTT demos.
+
+#### 2017-10-14 Andrew Dorey
+* 2.0.7 Bug fixes for the interrupt tutorial.
+
+#### 2017-09-12 Andrew Dorey
+* 2.0.6 Fixed a bug with the ServoPi Servo class where it was not validating the channel number corrrectly.
+
+#### 2017-08-05 Andrew Dorey
+* 2.0.5 Changed ADC Pi library so config variables are not stored in a byte array.
+
 #### 2017-08-05 Andrew Dorey
 * 2.0.5 Changed ADC Pi library so config variables are not stored in a byte array.
 
