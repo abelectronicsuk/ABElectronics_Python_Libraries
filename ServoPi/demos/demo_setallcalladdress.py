@@ -16,7 +16,7 @@ from __future__ import absolute_import, division, print_function, \
 try:
     from ServoPi import PWM
 except ImportError:
-    print("Failed to import IOPi from python system path")
+    print("Failed to import ServoPi from python system path")
     print("Importing from parent folder instead")
     try:
         import sys
