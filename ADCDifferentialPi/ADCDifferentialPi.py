@@ -170,14 +170,14 @@ class ADCDifferentialPi:
 
         # determine a reasonable amount of time to wait for a conversion
         if self.__bitrate == 18:
-            seconds_per_sample = 1 / 3.75
+            seconds_per_sample = 0.26666
         elif self.__bitrate == 16:
-            seconds_per_sample = 1 / 15
+            seconds_per_sample = 0.06666
         elif self.__bitrate == 14:
-            seconds_per_sample = 1 / 60
+            seconds_per_sample = 0.01666
         elif self.__bitrate == 12:
-            seconds_per_sample = 1 / 240
-        timeout_time = time.time() + 4 * seconds_per_sample
+            seconds_per_sample = 0.00416
+        timeout_time = time.time() + (10 * seconds_per_sample)
 
         # keep reading the adc data until the conversion result is ready
         while True:
