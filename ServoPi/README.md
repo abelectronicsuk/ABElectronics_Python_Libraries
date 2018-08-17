@@ -62,25 +62,53 @@ Functions:
 ----------
 
 ```
-set_pwm_freq(freq) 
+set_pwm_freq(freq, calibration) 
 ```
 Set the PWM frequency  
-**Parameters:** freq - required frequency  
+**Parameters:** freq - required frequency, calibration - optional integer value to offset oscillator errors.    
 **Returns:** null  
 
 ```
 set_pwm(channel, on, off) 
 ```
 Set the output on single channels  
-**Parameters:** channel - 1 to 16, on - time period, off - time period  
+**Parameters:** channel - 1 to 16, on - time period 0 to 4095 , off - time period 0 to 4095.  Total on time and off time can not exceed 4095
 **Returns:** null  
+
+```
+set_pwm_on_time(self, channel, on_time) 
+```
+Set the output on time for a single channels  
+**Parameters:** channel - 1 to 16, on - time period 0 to 4095  
+**Returns:** null  
+
+```
+set_pwm_off_time(self, channel, off_time) 
+```
+Set the output off time for a single channels  
+**Parameters:** channel - 1 to 16, off_time - time period 0 to 4095 
+**Returns:** null  
+
+```
+get_pwm_on_time(self, channel) 
+```
+Get the output on time for a single channels  
+**Parameters:** channel - 1 to 16
+**Returns:** on time - integer 0 to 4095  
+
+```
+get_pwm_off_time(self, channel) 
+```
+Get the output off time for a single channels  
+**Parameters:** channel - 1 to 16
+**Returns:** on time - integer 0 to 4095  
 
 
 ```
 set_all_pwm( on, off) 
 ```
 Set the output on all channels  
-**Parameters:** on - time period, off - time period  
+**Parameters:** on - time period, off - time period 0 to 4095.  Total on time and off time can not exceed 4095 
 **Returns:** null  
 
 ```
@@ -145,22 +173,36 @@ steps (optional) - The number of steps between the the low and high servo limits
 **Returns:** null  
 
 ```
-set_low_limit(low_limit)
+get_position(channel, steps=250) 
+```
+Get the servo position  
+**Parameters:** 
+channel - 1 to 16  
+steps (optional) - The number of steps between the the low and high servo limits.  This is preset at 250 but can be any number between 0 and 4095.  On a typical RC servo a step value of 250 is recommended.  
+**Returns:** position - value between 0 and the maximum number of steps. Due to rounding errors when calculating the position, the returned value may not be exactly the same as the set value. 
+
+```
+set_low_limit(low_limit, channel)
 ```
 Set the pulse length for the lower servo limits.  Typically around 1ms.  
 **Parameters:** low_limit - Pulse length in milliseconds for the lower servo limit.  
+channel (optional) - The channel for which the low limit will be set.  If this value is omitted the low limit will be set for all channels.  
 **Returns:** null  
+
 ```
-set_high_limit(high_limit)
+set_high_limit(high_limit, channel=0)
 ```
 Set the pulse length for the upper servo limits.  Typically around 1ms.  
 **Parameters:** high_limit - Pulse length in milliseconds for the upper servo limit.  
+channel (optional) - The channel for which the low limit will be set.  If this value is omitted the low limit will be set for all channels.  
 **Returns:** null  
+
 ```
-set_frequency(freq) 
+set_frequency(freq, calibration) 
 ```
 Set the PWM frequency  
 **Parameters:** freq - required frequency for the servo.  
+calibration - optional integer value to offset oscillator errors.   
 **Returns:** null  
 
 ```

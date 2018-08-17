@@ -1,5 +1,8 @@
+#### 2018-08-17 Andrew Dorey
+* 2.1.8 Updates to Servo Pi library adding new functions to get the values from PWM and servo positions and improve the accuracy of the clock using a calibration parameter.
+
 #### 2018-05-22 Alan Kinnaman
-* 2.1.7 With this change, an error will be thrown if a channel numbered 0 or lower is specified..
+* 2.1.7 With this change, an error will be thrown if a channel numbered 0 or lower is specified.
 
 #### 2018-05-21 Alan Kinnaman 
 * 2.1.6 If the ADC is defective, it might never set the ready flag.  With this change, an exception is raised if the ADC doesn’t set the ready bit within a reasonable amount of time.

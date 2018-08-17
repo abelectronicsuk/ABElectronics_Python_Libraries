@@ -96,7 +96,7 @@ class PWM(object):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(7, GPIO.OUT)
 
-    def set_pwm_freq(self, freq):
+    def set_pwm_freq(self, freq, calibration=0):
         """
         Set the PWM frequency - 40 to 1000
         """
@@ -108,10 +108,11 @@ class PWM(object):
         scaleval /= float(freq)
         scaleval -= 1.0
         prescale = math.floor(scaleval + 0.5)
+        prescale = prescale + calibration
         oldmode = self.__read(self.MODE1)
         newmode = (oldmode & 0x7F) | 0x10
         self.__write(self.MODE1, newmode)
-        self.__write(self.PRE_SCALE, int(math.floor(prescale)))
+        self.__write(self.PRE_SCALE, int(prescale))
         self.__write(self.MODE1, oldmode)
         time.sleep(0.005)
         self.__write(self.MODE1, oldmode | 0x80)
@@ -142,6 +143,71 @@ class PWM(object):
                      off_time & 0xFF)
         self.__write(self.LED0_OFF_H + 4 * channel,
                      off_time >> 8)
+
+    def set_pwm_on_time(self, channel, on_time):
+        """
+        set the output on time on a single channel
+        """
+
+        if channel < 1 or channel > 16:
+            raise ValueError('set_pwm_on_time: channel out of range')
+
+        if on_time < 0 or on_time > 4095:
+            raise ValueError('set_pwm_on_time: on_time out of range')
+
+        channel = channel - 1
+
+        self.__write(self.LED0_ON_L + 4 * channel,
+                     on_time & 0xFF)
+        self.__write(self.LED0_ON_H + 4 * channel, on_time >> 8)
+
+    def set_pwm_off_time(self, channel, off_time):
+        """
+        set the output off time on a single channel
+        """
+
+        if channel < 1 or channel > 16:
+            raise ValueError('set_pwm_off_time: channel out of range')
+
+        if off_time < 0 or off_time > 4095:
+            raise ValueError('set_pwm_off_time: off_time out of range')
+
+        channel = channel - 1
+
+        self.__write(self.LED0_OFF_L + 4 * channel,
+                     off_time & 0xFF)
+        self.__write(self.LED0_OFF_H + 4 * channel,
+                     off_time >> 8)
+
+    def get_pwm_on_time(self, channel):
+        """
+        get the on time for the selected channel
+        """
+
+        if channel < 1 or channel > 16:
+            raise ValueError('get_pwm_on_time: channel out of range')
+
+        channel = channel - 1
+        lowbyte = self.__read(self.LED0_ON_L + 4 * channel)
+        highbyte = self.__read(self.LED0_ON_H + 4 * channel)
+        value = lowbyte | highbyte << 8
+
+        return value
+
+    def get_pwm_off_time(self, channel):
+        """
+        get the on time for the selected channel
+        """
+
+        if channel < 1 or channel > 16:
+            raise ValueError('get_pwm_off_time: channel out of range')
+
+        channel = channel - 1
+        lowbyte = self.__read(self.LED0_OFF_L + 4 * channel)
+        highbyte = self.__read(self.LED0_OFF_H + 4 * channel)
+        value = lowbyte | highbyte << 8
+
+        return value
 
     def set_all_pwm(self, on_time, off_time):
         """
@@ -233,10 +299,9 @@ class Servo(object):
     Servo class for controlling RC servos with the Servo PWM Pi Zero
     """
     __pwm = None
-    __lowpos = 0
-    __highpos = 4095
+    __lowpos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    __highpos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     __frequency = 50
-    __channel = 1
 
     def __init__(self, address=0x40, low_limit=1.0, high_limit=2.0):
         """
@@ -248,53 +313,92 @@ class Servo(object):
         self.set_low_limit(low_limit)
         self.set_high_limit(high_limit)
 
-        print(self.__lowpos)
-        print(self.__highpos)
+        # set the on time to be 0 for all channels
+        for i in range(1, 17):
+            self.__pwm.set_pwm_on_time(i, 0)
 
     def move(self, channel, position, steps=250):
         """
         set the position of the servo
         """
-        if channel >= 1 and channel <= 16:
-            self.__channel = channel
-        else:
+        if channel < 1 or channel > 16:
             raise ValueError('move: channel out of range')
 
         if steps < 0 or steps > 4095:
             raise ValueError('move: steps out of range')
 
         if position >= 0 and position <= steps:
-            pwm_value = (((float(self.__highpos)-float(self.__lowpos)) /
-                          steps) * float(position)) + self.__lowpos
-            self.__pwm.set_pwm(channel, 0, int(pwm_value))
+            high = float(self.__highpos[channel - 1])
+            low = float(self.__lowpos[channel - 1])
 
-            print(pwm_value)
+            pwm_value = int((((high - low) / float(steps)) *
+                            float(position)) + low)
+            self.__pwm.set_pwm_off_time(channel, pwm_value)
         else:
             raise ValueError('move: channel out of range')
 
-    def set_low_limit(self, low_limit):
+    def get_position(self, channel, steps=250):
+        """
+        get the position of the servo
+        """
+        if channel < 1 or channel > 16:
+            raise ValueError('get_position: channel out of range')
+
+        pwm_value = float(self.__pwm.get_pwm_off_time(channel))
+        steps = float(steps)
+        high = float(self.__highpos[channel - 1])
+        low = float(self.__lowpos[channel - 1])
+
+        position = int(math.ceil((steps * (pwm_value - low)) / (high - low)))
+
+        return position
+
+    def set_low_limit(self, low_limit, channel=0):
         """
         Set the low limit in milliseconds
         """
-        self.__lowpos = int(4096.0 * (low_limit / 1000.0) * self.__frequency)
+        if channel < 0 or channel > 16:
+            raise ValueError('set_low_limit: channel out of range')
 
-        if (self.__lowpos < 0) or (self.__lowpos > 4095):
-            raise ValueError('set_low_limit: value out of range')
+        lowpos = int(4096.0 * (low_limit / 1000.0) * self.__frequency)
 
-    def set_high_limit(self, high_limit):
+        if (lowpos < 0) or (lowpos > 4095):
+            raise ValueError('set_low_limit: low limit out of range')
+
+        if channel >= 1 and channel <= 16:
+            # update the specified channel
+            self.__lowpos[channel - 1] = lowpos
+        else:
+            # no channel specified so update all channels
+            for i in range(15):
+                self.__lowpos[i] = lowpos
+
+    def set_high_limit(self, high_limit, channel=0):
         """
         Set the high limit in milliseconds
         """
-        self.__highpos = int(4096.0 * (high_limit / 1000.0) * self.__frequency)
+        if channel < 0 or channel > 16:
+            raise ValueError('set_high_limit: channel out of range')
 
-        if (self.__highpos < 0) or (self.__highpos > 4095):
-            raise ValueError('set_high_limit: value out of range')
+        highpos = int(4096.0 * (high_limit / 1000.0) * self.__frequency)
 
-    def set_frequency(self, freq):
+        if (highpos < 0) or (highpos > 4095):
+            raise ValueError('set_high_limit: high limit out of range')
+
+        if channel >= 1 and channel <= 16:
+            # update the specified channel
+            self.__highpos[channel - 1] = highpos
+        else:
+            # no channel specified so update all channels
+            for i in range(15):
+                self.__highpos[i] = highpos
+
+    def set_frequency(self, freq, calibration=0):
         """
         Set the PWM frequency
         """
-        self.__pwm.set_pwm_freq(freq)
+        self.__pwm.set_pwm_freq(freq, calibration)
+        self.__frequency = freq
 
     def output_disable(self):
         """
