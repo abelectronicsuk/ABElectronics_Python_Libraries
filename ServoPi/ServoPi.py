@@ -370,7 +370,7 @@ class Servo(object):
             self.__lowpos[channel - 1] = lowpos
         else:
             # no channel specified so update all channels
-            for i in range(15):
+            for i in range(16):
                 self.__lowpos[i] = lowpos
 
     def set_high_limit(self, high_limit, channel=0):
@@ -390,7 +390,7 @@ class Servo(object):
             self.__highpos[channel - 1] = highpos
         else:
             # no channel specified so update all channels
-            for i in range(15):
+            for i in range(16):
                 self.__highpos[i] = highpos
 
     def set_frequency(self, freq, calibration=0):
