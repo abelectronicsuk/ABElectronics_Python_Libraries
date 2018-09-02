@@ -76,7 +76,7 @@ Set the output on single channels
 **Returns:** null  
 
 ```
-set_pwm_on_time(self, channel, on_time) 
+set_pwm_on_time(channel, on_time) 
 ```
 Set the output on time for a single channels  
 **Parameters:** channel - 1 to 16, on - time period 0 to 4095  
@@ -90,14 +90,14 @@ Set the output off time for a single channels
 **Returns:** null  
 
 ```
-get_pwm_on_time(self, channel) 
+get_pwm_on_time(channel) 
 ```
 Get the output on time for a single channels  
 **Parameters:** channel - 1 to 16
 **Returns:** on time - integer 0 to 4095  
 
 ```
-get_pwm_off_time(self, channel) 
+get_pwm_off_time(channel) 
 ```
 Get the output off time for a single channels  
 **Parameters:** channel - 1 to 16
@@ -105,7 +105,7 @@ Get the output off time for a single channels
 
 
 ```
-set_all_pwm( on, off) 
+set_all_pwm(on, off) 
 ```
 Set the output on all channels  
 **Parameters:** on - time period, off - time period 0 to 4095.  Total on time and off time can not exceed 4095 
@@ -146,6 +146,34 @@ Disable the I2C address for the All Call function
 **Parameters:** null  
 **Returns:** null  
 
+```
+sleep()
+```
+Puts the PCA9685 PWM controller into a sleep state.  
+**Parameters:** null  
+**Returns:** null  
+
+```
+wake()
+```
+Wakes the PCA9685 PWM controller from its sleep state. 
+**Parameters:** null  
+**Returns:** null  
+
+```
+is_sleeping()
+```
+Returns if the PCA9685 PWM controller is in its sleep state.  
+**Parameters:** null  
+**Returns:** True = Is sleeping, False = Is awake.  
+
+```
+invert_output(state)
+```
+Inverts the outputs on all PWM channels. 
+**Parameters:** True = inverted, False = non-inverted  
+**Returns:** null  
+
 # Class: Servo #
 
 The Servo class provides functions for controlling the position of servo motors commonly used on radio control models and small robots.  The Servo class initialises with a default frequency of 50Hz and low and high limits of 1ms and 2ms.
@@ -184,15 +212,17 @@ steps (optional) - The number of steps between the the low and high servo limits
 ```
 set_low_limit(low_limit, channel)
 ```
-Set the pulse length for the lower servo limits.  Typically around 1ms.  
+Set the pulse length for the lower servo limits.  Typically around 1ms. 
+Warning: Setting the pulse limit below 1ms may damage your servo. 
 **Parameters:** low_limit - Pulse length in milliseconds for the lower servo limit.  
 channel (optional) - The channel for which the low limit will be set.  If this value is omitted the low limit will be set for all channels.  
 **Returns:** null  
 
 ```
-set_high_limit(high_limit, channel=0)
+set_high_limit(high_limit, channel)
 ```
-Set the pulse length for the upper servo limits.  Typically around 1ms.  
+Set the pulse length for the upper servo limits.  Typically around 2ms. 
+Warning: Setting the pulse limit above 2ms may damage your servo.  
 **Parameters:** high_limit - Pulse length in milliseconds for the upper servo limit.  
 channel (optional) - The channel for which the low limit will be set.  If this value is omitted the low limit will be set for all channels.  
 **Returns:** null  
@@ -218,6 +248,27 @@ output_enable()
 Enable the output via OE pin  
 **Parameters:** null  
 **Returns:** null  
+
+```
+sleep()
+```
+Puts the PCA9685 PWM controller into a sleep state.  
+**Parameters:** null  
+**Returns:** null  
+
+```
+wake()
+```
+Wakes the PCA9685 PWM controller from its sleep state. 
+**Parameters:** null  
+**Returns:** null  
+
+```
+is_sleeping()
+```
+Returns if the PCA9685 PWM controller is in its sleep state.  
+**Parameters:** null  
+**Returns:** True = Is sleeping, False = Is awake.  
 
 Usage
 ====

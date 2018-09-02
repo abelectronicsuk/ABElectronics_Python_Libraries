@@ -23,23 +23,36 @@ class PWM(object):
     PWM class for controlling the PCA9685 PWM IC
     """
 
-    # Define registers values from datasheet
-    MODE1 = 0x00
-    MODE2 = 0x01
-    SUBADR1 = 0x02
-    SUBADR2 = 0x03
-    SUBADR3 = 0x04
-    ALLCALLADR = 0x05
-    LED0_ON_L = 0x06
-    LED0_ON_H = 0x07
-    LED0_OFF_L = 0x08
-    LED0_OFF_H = 0x09
-    ALL_LED_ON_L = 0xFA
-    ALL_LED_ON_H = 0xFB
-    ALL_LED_OFF_L = 0xFC
-    ALL_LED_OFF_H = 0xFD
-    PRE_SCALE = 0xFE
+    # define registers values from datasheet
+    __MODE1 = 0x00
+    __MODE2 = 0x01
+    __SUBADR1 = 0x02
+    __SUBADR2 = 0x03
+    __SUBADR3 = 0x04
+    __ALLCALLADR = 0x05
+    __LED0_ON_L = 0x06
+    __LED0_ON_H = 0x07
+    __LED0_OFF_L = 0x08
+    __LED0_OFF_H = 0x09
+    __ALL_LED_ON_L = 0xFA
+    __ALL_LED_ON_H = 0xFB
+    __ALL_LED_OFF_L = 0xFC
+    __ALL_LED_OFF_H = 0xFD
+    __PRE_SCALE = 0xFE
 
+    # define mode bits
+    __MODE1_EXTCLK = 6  # use external clock
+    __MODE1_SLEEP = 4  # sleep mode
+    __MODE1_ALLCALL = 0  # all call address
+
+    __MODE2_INVRT = 4  # invert output
+    __MODE2_OCH = 3  # output type
+    __MODE2_OUTDRV = 2  # output type
+    __MODE2_OUTNE1 = 0  # output mode when not enabled
+
+    # local variables
+    __mode1_default = 0x00
+    __mode2_default = 0x0c
     __address = 0x40
     __bus = None
 
@@ -82,6 +95,35 @@ class PWM(object):
         except IOError:
             raise 'Could not open the i2c bus'
 
+    @staticmethod
+    def __checkbit(byte, bit):
+        """
+        internal method for reading the value of a single bit in a byte
+        """
+        value = 0
+        if byte & (1 << bit):
+            value = 1
+        return value
+
+    def __write(self, reg, value):
+        """
+        Write data to I2C bus
+        """
+        try:
+            self.__bus.write_byte_data(self.__address, reg, value)
+        except IOError as err:
+            return err
+
+    def __read(self, reg):
+        """
+        Read data from I2C bus
+        """
+        try:
+            result = self.__bus.read_byte_data(self.__address, reg)
+            return result
+        except IOError as err:
+            return err
+
     # public methods
 
     def __init__(self, address=0x40):
@@ -91,7 +133,8 @@ class PWM(object):
 
         self.__address = address
         self.__bus = self.__get_smbus()
-        self.__write(self.MODE1, 0x00)
+        self.__write(self.__MODE1, self.__mode1_default)
+        self.__write(self.__MODE2, self.__mode2_default)
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(7, GPIO.OUT)
@@ -109,13 +152,13 @@ class PWM(object):
         scaleval -= 1.0
         prescale = math.floor(scaleval + 0.5)
         prescale = prescale + calibration
-        oldmode = self.__read(self.MODE1)
+        oldmode = self.__read(self.__MODE1)
         newmode = (oldmode & 0x7F) | 0x10
-        self.__write(self.MODE1, newmode)
-        self.__write(self.PRE_SCALE, int(prescale))
-        self.__write(self.MODE1, oldmode)
+        self.__write(self.__MODE1, newmode)
+        self.__write(self.__PRE_SCALE, int(prescale))
+        self.__write(self.__MODE1, oldmode)
         time.sleep(0.005)
-        self.__write(self.MODE1, oldmode | 0x80)
+        self.__write(self.__MODE1, oldmode | 0x80)
 
     def set_pwm(self, channel, on_time, off_time):
         """
@@ -131,17 +174,17 @@ class PWM(object):
         if off_time < 0 or off_time > 4095:
             raise ValueError('set_pwm: off_time out of range')
 
-        if (on_time + off_time) > 4095:
-            raise ValueError('set_pwm: on_time + off_time greater than 4095')
+        if on_time > off_time:
+            raise ValueError('set_pwm: on_time greater than off_time')
 
         channel = channel - 1
 
-        self.__write(self.LED0_ON_L + 4 * channel,
+        self.__write(self.__LED0_ON_L + 4 * channel,
                      on_time & 0xFF)
-        self.__write(self.LED0_ON_H + 4 * channel, on_time >> 8)
-        self.__write(self.LED0_OFF_L + 4 * channel,
+        self.__write(self.__LED0_ON_H + 4 * channel, on_time >> 8)
+        self.__write(self.__LED0_OFF_L + 4 * channel,
                      off_time & 0xFF)
-        self.__write(self.LED0_OFF_H + 4 * channel,
+        self.__write(self.__LED0_OFF_H + 4 * channel,
                      off_time >> 8)
 
     def set_pwm_on_time(self, channel, on_time):
@@ -157,9 +200,9 @@ class PWM(object):
 
         channel = channel - 1
 
-        self.__write(self.LED0_ON_L + 4 * channel,
+        self.__write(self.__LED0_ON_L + 4 * channel,
                      on_time & 0xFF)
-        self.__write(self.LED0_ON_H + 4 * channel, on_time >> 8)
+        self.__write(self.__LED0_ON_H + 4 * channel, on_time >> 8)
 
     def set_pwm_off_time(self, channel, off_time):
         """
@@ -174,9 +217,9 @@ class PWM(object):
 
         channel = channel - 1
 
-        self.__write(self.LED0_OFF_L + 4 * channel,
+        self.__write(self.__LED0_OFF_L + 4 * channel,
                      off_time & 0xFF)
-        self.__write(self.LED0_OFF_H + 4 * channel,
+        self.__write(self.__LED0_OFF_H + 4 * channel,
                      off_time >> 8)
 
     def get_pwm_on_time(self, channel):
@@ -188,8 +231,8 @@ class PWM(object):
             raise ValueError('get_pwm_on_time: channel out of range')
 
         channel = channel - 1
-        lowbyte = self.__read(self.LED0_ON_L + 4 * channel)
-        highbyte = self.__read(self.LED0_ON_H + 4 * channel)
+        lowbyte = self.__read(self.__LED0_ON_L + 4 * channel)
+        highbyte = self.__read(self.__LED0_ON_H + 4 * channel)
         value = lowbyte | highbyte << 8
 
         return value
@@ -203,8 +246,8 @@ class PWM(object):
             raise ValueError('get_pwm_off_time: channel out of range')
 
         channel = channel - 1
-        lowbyte = self.__read(self.LED0_OFF_L + 4 * channel)
-        highbyte = self.__read(self.LED0_OFF_H + 4 * channel)
+        lowbyte = self.__read(self.__LED0_OFF_L + 4 * channel)
+        highbyte = self.__read(self.__LED0_OFF_H + 4 * channel)
         value = lowbyte | highbyte << 8
 
         return value
@@ -224,10 +267,10 @@ class PWM(object):
             raise ValueError('set_all_pwm: on_time + off_time must not \
                              exceed 4095')
 
-        self.__write(self.ALL_LED_ON_L, on_time & 0xFF)
-        self.__write(self.ALL_LED_ON_H, on_time >> 8)
-        self.__write(self.ALL_LED_OFF_L, off_time & 0xFF)
-        self.__write(self.ALL_LED_OFF_H, off_time >> 8)
+        self.__write(self.__ALL_LED_ON_L, on_time & 0xFF)
+        self.__write(self.__ALL_LED_ON_H, on_time >> 8)
+        self.__write(self.__ALL_LED_OFF_L, off_time & 0xFF)
+        self.__write(self.__ALL_LED_OFF_H, off_time >> 8)
 
     @classmethod
     def output_disable(cls):
@@ -253,45 +296,66 @@ class PWM(object):
         """
         Set the I2C address for the All Call function
         """
-        oldmode = self.__read(self.MODE1)
-        newmode = oldmode | (1 << 0)
-        self.__write(self.MODE1, newmode)
-        self.__write(self.ALLCALLADR, i2caddress << 1)
+        oldmode = self.__read(self.__MODE1)
+        newmode = oldmode | (1 << self.__MODE1_ALLCALL)
+        self.__write(self.__MODE1, newmode)
+        self.__write(self.__ALLCALLADR, i2caddress << 1)
 
     def enable_allcall_address(self):
         """
         Enable the I2C address for the All Call function
         """
-        oldmode = self.__read(self.MODE1)
-        newmode = oldmode | (1 << 0)
-        self.__write(self.MODE1, newmode)
+        oldmode = self.__read(self.__MODE1)
+        newmode = oldmode | (1 << self.__MODE1_ALLCALL)
+        self.__write(self.__MODE1, newmode)
 
     def disable_allcall_address(self):
         """
         Disable the I2C address for the All Call function
         """
-        oldmode = self.__read(self.MODE1)
-        newmode = oldmode & ~(1 << 0)
-        self.__write(self.MODE1, newmode)
+        oldmode = self.__read(self.__MODE1)
+        newmode = oldmode & ~(1 << self.__MODE1_ALLCALL)
+        self.__write(self.__MODE1, newmode)
 
-    def __write(self, reg, value):
+    def sleep(self):
         """
-        Write data to I2C bus
+        Put the device into a sleep state
         """
-        try:
-            self.__bus.write_byte_data(self.__address, reg, value)
-        except IOError as err:
-            return err
+        oldmode = self.__read(self.__MODE1)
+        newmode = oldmode | (1 << self.__MODE1_SLEEP)
+        self.__write(self.__MODE1, newmode)
 
-    def __read(self, reg):
+    def wake(self):
         """
-        Read data from I2C bus
+        Wake the device from its sleep state
         """
-        try:
-            result = self.__bus.read_byte_data(self.__address, reg)
-            return result
-        except IOError as err:
-            return err
+        oldmode = self.__read(self.__MODE1)
+        newmode = oldmode & ~(1 << self.__MODE1_SLEEP)
+        self.__write(self.__MODE1, newmode)
+
+    def is_sleeping(self):
+        """
+        Check the sleep status of the device
+        """
+        regval = self.__read(self.__MODE1)
+        if (self.__checkbit(regval, self.__MODE1_SLEEP)):
+            return True
+        else:
+            return False
+
+    def invert_output(self, state):
+        """
+        Invert the PWM output on all channels
+        Param: True = inverted, False = non-inverted
+        """
+        if state is True:
+            oldmode = self.__read(self.__MODE2)
+            newmode = oldmode | (1 << self.__MODE2_INVRT)
+            self.__write(self.__MODE2, newmode)
+        else:
+            oldmode = self.__read(self.__MODE2)
+            newmode = oldmode & ~(1 << self.__MODE2_INVRT)
+            self.__write(self.__MODE2, newmode)
 
 
 class Servo(object):
@@ -299,9 +363,41 @@ class Servo(object):
     Servo class for controlling RC servos with the Servo PWM Pi Zero
     """
     __pwm = None
+    __position = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     __lowpos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     __highpos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    __useoffset = False
+    __offset = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     __frequency = 50
+
+    # local methods
+
+    def __refresh_channels(self):
+        for i in range(0, 16):
+            if self.__position == 0:
+                self.__pwm.set_pwm_on_time(i+1, 0)
+                self.__pwm.set_pwm_off_time(i+1, 0)
+            else:
+                if self.__useoffset is True:
+                    self.__pwm.set_pwm(i+1, self.__offset[i],
+                                       self.__position[i] + self.__offset[i])
+                else:
+                    self.__pwm.set_pwm(i+1, 0, self.__position[i])
+
+    def __calculate_offsets(self):
+        """
+        Calculate the start positions to stagger the servo position pulses
+        """
+        x = 0
+        for i in range(0, 16):
+            self.__offset[i] = x
+            x = x + self.__highpos[i]
+            if x > 4095 - self.__highpos[i]:
+                x = self.__highpos[0] / 2
+
+        self.__refresh_channels()
+
+    # public methods
 
     def __init__(self, address=0x40, low_limit=1.0, high_limit=2.0):
         """
@@ -312,6 +408,8 @@ class Servo(object):
         self.set_frequency(50)
         self.set_low_limit(low_limit)
         self.set_high_limit(high_limit)
+
+        self.__calculate_offsets()  # reset the offset values
 
         # set the on time to be 0 for all channels
         for i in range(1, 17):
@@ -333,7 +431,15 @@ class Servo(object):
 
             pwm_value = int((((high - low) / float(steps)) *
                             float(position)) + low)
-            self.__pwm.set_pwm_off_time(channel, pwm_value)
+
+            self.__position[channel - 1] = pwm_value
+
+            if self.__useoffset:
+                self.__pwm.set_pwm(channel, self.__offset[channel - 1],
+                                   pwm_value + self.__offset[channel - 1])
+
+            else:
+                self.__pwm.set_pwm_off_time(channel, pwm_value)
         else:
             raise ValueError('move: channel out of range')
 
@@ -345,6 +451,10 @@ class Servo(object):
             raise ValueError('get_position: channel out of range')
 
         pwm_value = float(self.__pwm.get_pwm_off_time(channel))
+
+        if self.__useoffset:
+            pwm_value = pwm_value - self.__offset[channel - 1]
+
         steps = float(steps)
         high = float(self.__highpos[channel - 1])
         low = float(self.__lowpos[channel - 1])
@@ -357,6 +467,7 @@ class Servo(object):
         """
         Set the low limit in milliseconds
         """
+
         if channel < 0 or channel > 16:
             raise ValueError('set_low_limit: channel out of range')
 
@@ -373,10 +484,13 @@ class Servo(object):
             for i in range(16):
                 self.__lowpos[i] = lowpos
 
+        self.__calculate_offsets()  # update the offset values
+
     def set_high_limit(self, high_limit, channel=0):
         """
         Set the high limit in milliseconds
         """
+
         if channel < 0 or channel > 16:
             raise ValueError('set_high_limit: channel out of range')
 
@@ -392,6 +506,8 @@ class Servo(object):
             # no channel specified so update all channels
             for i in range(16):
                 self.__highpos[i] = highpos
+
+        self.__calculate_offsets()  # update the offset values
 
     def set_frequency(self, freq, calibration=0):
         """
@@ -415,5 +531,46 @@ class Servo(object):
         """
         try:
             self.__pwm.output_enable()
+            self.__calculate_offsets()  # update the offset values
         except:
             raise IOError("Failed to write to GPIO pin")
+
+    def offset_enable(self):
+        """
+        enable pulse offsets.
+        This will set servo pulses to be staggered across the channels
+        to reduce surges in current draw
+        """
+        self.__useoffset = True
+        self.__calculate_offsets()  # update the offset values
+
+    def offset_disable(self):
+        """
+        enable pulse offsets.
+        This will set servo pulses to be staggered across the channels
+        to reduce surges in current draw
+        """
+        self.__useoffset = False
+        self.__refresh_channels() # refresh the channel locations
+
+        # set the on time to be 0 for all channels
+        for i in range(1, 17):
+            self.__pwm.set_pwm_on_time(i, 0)
+
+    def sleep(self):
+        """
+        Put the device into a sleep state
+        """
+        self.__pwm.sleep()
+
+    def wake(self):
+        """
+        Wake the device from its sleep state
+        """
+        self.__pwm.wake()
+
+    def is_sleeping(self):
+        """
+        Check the sleep status of the device
+        """
+        return self.__pwm.is_sleeping()

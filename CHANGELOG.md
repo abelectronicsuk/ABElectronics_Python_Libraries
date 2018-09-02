@@ -1,4 +1,7 @@
 #### 2018-08-17 Andrew Dorey
+* 2.1.9 Updates to Servo Pi library adding new functions for putting the device to sleep and offsetting the pulse value.
+
+#### 2018-08-17 Andrew Dorey
 * 2.1.8 Updates to Servo Pi library adding new functions to get the values from PWM and servo positions and improve the accuracy of the clock using a calibration parameter.
 
 #### 2018-05-22 Alan Kinnaman
