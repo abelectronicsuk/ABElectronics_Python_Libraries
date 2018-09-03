@@ -390,11 +390,10 @@ class Servo(object):
         """
         x = 0
         for i in range(0, 16):
-            self.__offset[i] = x
             x = x + self.__highpos[i]
             if x > 4095 - self.__highpos[i]:
                 x = self.__highpos[0] / 2
-
+            self.__offset[i] = x
         self.__refresh_channels()
 
     # public methods
