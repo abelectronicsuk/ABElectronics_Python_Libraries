@@ -52,7 +52,7 @@ class PWM(object):
 
     # local variables
     __mode1_default = 0x00
-    __mode2_default = 0x0c
+    __mode2_default = 0x0C
     __address = 0x40
     __bus = None
 
@@ -375,8 +375,7 @@ class Servo(object):
     def __refresh_channels(self):
         for i in range(0, 16):
             if self.__position == 0:
-                self.__pwm.set_pwm_on_time(i+1, 0)
-                self.__pwm.set_pwm_off_time(i+1, 0)
+                self.__pwm.set_pwm(i+1, 0, 0)
             else:
                 if self.__useoffset is True:
                     self.__pwm.set_pwm(i+1, self.__offset[i],
@@ -438,7 +437,7 @@ class Servo(object):
                                    pwm_value + self.__offset[channel - 1])
 
             else:
-                self.__pwm.set_pwm_off_time(channel, pwm_value)
+                self.__pwm.set_pwm(channel, 0, pwm_value)
         else:
             raise ValueError('move: channel out of range')
 
