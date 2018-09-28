@@ -65,14 +65,14 @@ Functions:
 set_pwm_freq(freq, calibration) 
 ```
 Set the PWM frequency  
-**Parameters:** freq - required frequency, calibration - optional integer value to offset oscillator errors.    
+**Parameters:** freq - required frequency, calibration - optional integer value to offset oscillator errors.  
 **Returns:** null  
 
 ```
 set_pwm(channel, on, off) 
 ```
 Set the output on single channels  
-**Parameters:** channel - 1 to 16, on - time period 0 to 4095 , off - time period 0 to 4095.  Total on time and off time can not exceed 4095
+**Parameters:** channel - 1 to 16, on - time period 0 to 4095 , off - time period 0 to 4095.  Total on time and off time can not exceed 4095  
 **Returns:** null  
 
 ```
@@ -86,21 +86,21 @@ Set the output on time for a single channels
 set_pwm_off_time(self, channel, off_time) 
 ```
 Set the output off time for a single channels  
-**Parameters:** channel - 1 to 16, off_time - time period 0 to 4095 
+**Parameters:** channel - 1 to 16, off_time - time period 0 to 4095  
 **Returns:** null  
 
 ```
 get_pwm_on_time(channel) 
 ```
 Get the output on time for a single channels  
-**Parameters:** channel - 1 to 16
+**Parameters:** channel - 1 to 16  
 **Returns:** on time - integer 0 to 4095  
 
 ```
 get_pwm_off_time(channel) 
 ```
 Get the output off time for a single channels  
-**Parameters:** channel - 1 to 16
+**Parameters:** channel - 1 to 16  
 **Returns:** on time - integer 0 to 4095  
 
 
@@ -108,7 +108,7 @@ Get the output off time for a single channels
 set_all_pwm(on, off) 
 ```
 Set the output on all channels  
-**Parameters:** on - time period, off - time period 0 to 4095.  Total on time and off time can not exceed 4095 
+**Parameters:** on - time period, off - time period 0 to 4095.  Total on time and off time can not exceed 4095  
 **Returns:** null  
 
 ```
@@ -156,7 +156,7 @@ Puts the PCA9685 PWM controller into a sleep state.
 ```
 wake()
 ```
-Wakes the PCA9685 PWM controller from its sleep state. 
+Wakes the PCA9685 PWM controller from its sleep state.  
 **Parameters:** null  
 **Returns:** null  
 
@@ -170,7 +170,7 @@ Returns if the PCA9685 PWM controller is in its sleep state.
 ```
 invert_output(state)
 ```
-Inverts the outputs on all PWM channels. 
+Inverts the outputs on all PWM channels.  
 **Parameters:** True = inverted, False = non-inverted  
 **Returns:** null  
 
@@ -184,8 +184,9 @@ Initialise with the I2C address for the Servo Pi.
 servo_object = Servo(0x40)
 ```
 **Optional Parameters:**  
-low_limit = Pulse length in milliseconds for the lower servo limit.  
-high_limit = Pulse length in milliseconds for the upper servo limit.  
+low_limit = Pulse length in milliseconds for the lower servo limit. (default = 1.0ms)  
+high_limit = Pulse length in milliseconds for the upper servo limit. (default = 2.0ms)  
+reset = True: reset the servo controller and turn off all channels .  False: initialise with existing servo positions and frequency. (default = true)  
 
 Functions:
 ----------
@@ -194,7 +195,7 @@ Functions:
 move(channel, position, steps=250) 
 ```
 Set the servo position  
-**Parameters:** 
+**Parameters:**  
 channel - 1 to 16  
 position - value between 0 and the maximum number of steps.  
 steps (optional) - The number of steps between the the low and high servo limits.  This is preset at 250 but can be any number between 0 and 4095.  On a typical RC servo a step value of 250 is recommended.  
@@ -212,10 +213,12 @@ steps (optional) - The number of steps between the the low and high servo limits
 ```
 set_low_limit(low_limit, channel)
 ```
-Set the pulse length for the lower servo limits.  Typically around 1ms. 
-Warning: Setting the pulse limit below 1ms may damage your servo. 
-**Parameters:** low_limit - Pulse length in milliseconds for the lower servo limit.  
-channel (optional) - The channel for which the low limit will be set.  If this value is omitted the low limit will be set for all channels.  
+Set the pulse length for the lower servo limits.  Typically around 1ms.  
+Warning: Setting the pulse limit below 1ms may damage your servo.  
+**Parameters:**  
+low_limit - Pulse length in milliseconds for the lower servo limit.  
+channel (optional) - The channel for which the low limit will be set.  
+If this value is omitted the low limit will be set for all channels.  
 **Returns:** null  
 
 ```
@@ -223,8 +226,10 @@ set_high_limit(high_limit, channel)
 ```
 Set the pulse length for the upper servo limits.  Typically around 2ms. 
 Warning: Setting the pulse limit above 2ms may damage your servo.  
-**Parameters:** high_limit - Pulse length in milliseconds for the upper servo limit.  
-channel (optional) - The channel for which the low limit will be set.  If this value is omitted the low limit will be set for all channels.  
+**Parameters:**  
+high_limit - Pulse length in milliseconds for the upper servo limit.  
+channel (optional) - The channel for which the low limit will be set.  
+If this value is omitted the low limit will be set for all channels.  
 **Returns:** null  
 
 ```
@@ -232,7 +237,7 @@ set_frequency(freq, calibration)
 ```
 Set the PWM frequency  
 **Parameters:** freq - required frequency for the servo.  
-calibration - optional integer value to offset oscillator errors.   
+calibration - optional integer value to offset oscillator errors.  
 **Returns:** null  
 
 ```
@@ -259,7 +264,7 @@ Puts the PCA9685 PWM controller into a sleep state.
 ```
 wake()
 ```
-Wakes the PCA9685 PWM controller from its sleep state. 
+Wakes the PCA9685 PWM controller from its sleep state.  
 **Parameters:** null  
 **Returns:** null  
 
@@ -273,32 +278,42 @@ Returns if the PCA9685 PWM controller is in its sleep state.
 Usage
 ====
 
-To use the Servo Pi library in your code you must first import the library:
+**PWM Class**
+
+To use the Servo Pi PWM class in your code you must first import the class:
 ```
 from ServoPi import PWM
 ```
-Next you must initialise the ServoPi object:
+Next you must initialise the PWM object:
 ```
 pwm = PWM(0x40)
 ```
-Set PWM frequency to 60 Hz
+Set PWM frequency to 200 Hz and enable the output
 ```
-pwm.set_pwm_freq(60)  
+pwm.set_pwm_freq(200)  
 pwm.output_enable()  
 ```
-Set three variables for pulse length
+Set the pulse with of channel 1 to 1024 or 25% duty cycle
 ```
-servoMin = 250  # Min pulse length out of 4096
-servoMed = 400  # Min pulse length out of 4096
-servoMax = 500  # Max pulse length out of 4096
+pwm.set_pwm(1, 0, 1024) 
 ```
-Loop to change the duty cycle on pin 1 between three points
+
+**Servo Class**
+
+To use the Servo Pi Servo class in your code you must first import the class:
 ```
-while True:
-  pwm.set_pwm(1, 0, servoMin)
-  time.sleep(0.5)
-  pwm.set_pwm(1, 0, servoMed)
-  time.sleep(0.5)
-  pwm.set_pwm(1, 0, servoMax)
-  time.sleep(0.5)
+from ServoPi import Servo
+```
+Next you must initialise the Servo object:
+```
+servo = Servo(0x40)
+```
+Set PWM frequency to 50 Hz
+```
+servo.set_frequency(50)  
+```
+Move the servo on channel 1 to position 125 out of 250 steps  
+```
+servo.move(1, 125, 250)
+```
 

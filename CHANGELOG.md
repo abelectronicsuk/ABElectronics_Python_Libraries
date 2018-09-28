@@ -1,3 +1,6 @@
+#### 2018-09-28 Andrew Dorey
+* 2.2.0 Updates to Servo Pi library adding a reset option to the servo class and updated readme to include usage examples for the PWM and Servo classes.
+
 #### 2018-08-17 Andrew Dorey
 * 2.1.9 Updates to Servo Pi library adding new functions for putting the device to sleep and offsetting the pulse value.
 

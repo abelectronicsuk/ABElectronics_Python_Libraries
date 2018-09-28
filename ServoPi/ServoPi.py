@@ -397,21 +397,24 @@ class Servo(object):
 
     # public methods
 
-    def __init__(self, address=0x40, low_limit=1.0, high_limit=2.0):
+    def __init__(self, address=0x40, low_limit=1.0, 
+                 high_limit=2.0, reset=True):
         """
         init object with i2c address, default is 0x40 for ServoPi board
         """
 
         self.__pwm = PWM(address)
-        self.set_frequency(50)
         self.set_low_limit(low_limit)
         self.set_high_limit(high_limit)
 
-        self.__calculate_offsets()  # reset the offset values
-
-        # set the on time to be 0 for all channels
-        for i in range(1, 17):
-            self.__pwm.set_pwm_on_time(i, 0)
+        if reset is True:
+            self.set_frequency(50)
+            self.__calculate_offsets()  # reset the offset values
+        else:
+            # get the on and off times from the pwm controller
+            for i in range(0, 16):
+                self.__offset[i] = self.__pwm.get_pwm_on_time(i + 1)
+                self.__position[i] = self.__pwm.get_pwm_off_time(i + 1) - self.__offset[i]
 
     def move(self, channel, position, steps=250):
         """
@@ -482,8 +485,6 @@ class Servo(object):
             for i in range(16):
                 self.__lowpos[i] = lowpos
 
-        self.__calculate_offsets()  # update the offset values
-
     def set_high_limit(self, high_limit, channel=0):
         """
         Set the high limit in milliseconds
@@ -504,8 +505,6 @@ class Servo(object):
             # no channel specified so update all channels
             for i in range(16):
                 self.__highpos[i] = highpos
-
-        self.__calculate_offsets()  # update the offset values
 
     def set_frequency(self, freq, calibration=0):
         """
@@ -550,10 +549,6 @@ class Servo(object):
         """
         self.__useoffset = False
         self.__refresh_channels() # refresh the channel locations
-
-        # set the on time to be 0 for all channels
-        for i in range(1, 17):
-            self.__pwm.set_pwm_on_time(i, 0)
 
     def sleep(self):
         """
