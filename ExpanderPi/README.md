@@ -21,7 +21,7 @@ For Python 2.7:
 ```
 sudo python setup.py install
 ```
-For Python 3.4:
+For Python 3.5:
 ```
 sudo python3 setup.py install
 ```
@@ -33,7 +33,7 @@ For Python 2.7:
 sudo python2.7 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
 
-For Python 3.4:
+For Python 3.5:
 ```
 sudo python3.4 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
@@ -45,7 +45,7 @@ For Python 2.7:
 ```
 sudo apt-get install python-smbus
 ```
-For Python 3.4:
+For Python 3.5:
 ```
 sudo apt-get install python3-smbus
 ```
