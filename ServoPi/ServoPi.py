@@ -81,7 +81,7 @@ class PWM(object):
         elif device == "raspberrypi":  # running on raspberry pi
             # detect i2C port number and assign to i2c__bus
             for line in open('/proc/cpuinfo').readlines():
-                model = re.match('(.*?)\\s*\\s*(.*)', line)
+                model = re.match('(.*?)\\s*:\\s*(.*)', line)
                 if model:
                     (name, value) = (model.group(1), model.group(2))
                     if name == "Revision":
