@@ -1,3 +1,6 @@
+#### 2018-11-06 Andrew Dorey
+* 2.2.1 Fixed a bug in the regex code in all of the I2C based libraries which detects the model of Raspberry Pi is being used.
+
 #### 2018-09-28 Andrew Dorey
 * 2.2.0 Updates to Servo Pi library adding a reset option to the servo class and updated readme to include usage examples for the PWM and Servo classes.
 
