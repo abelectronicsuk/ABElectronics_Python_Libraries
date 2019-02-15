@@ -56,104 +56,131 @@ Functions:
 set_pin_direction(pin, direction):
 ```
 Sets the IO direction for an individual pin  
-**Parameters:** pin - 1 to 16, direction - 1 = input, 0 = output  
+**Parameters:**  
+pin: 1 to 16   
+direction: 1 = input, 0 = output  
 **Returns:** null
 
 ```
 set_port_direction(port, direction): 
 ```
 Sets the IO direction for the specified IO port  
-**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16, direction - 1 = input, 0 = output  
+**Parameters:**  
+port: 0 = pins 1 to 8, 1 = pins 9 to 16   
+direction: 1 = input, 0 = output  
 **Returns:** null
 ```
 set_port_pullups(port, value)
 ```
 Set the internal 100K pull-up resistors for the selected IO port  
-**Parameters:** port - 1 to 16, value: 1 = Enabled, 0 = Disabled  
+**Parameters:**  
+port: 1 to 16  
+value: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = Enabled, 0 = Disabled  
 **Returns:** null
 
 ```
 write_pin(pin, value)
 ```
 Write to an individual pin 1 - 16  
-**Parameters:** pin - 1 to 16, value - 1 = Enabled, 0 = Disabled  
+**Parameters:**  
+pin: 1 to 16  
+value: 1 = Enabled, 0 = Disabled  
 **Returns:** null
 ```
 write_port(port, value)
 ```
 Write to all pins on the selected port  
-**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16, value -  number between 0 and 255 or 0x00 and 0xFF  
+**Parameters:**  
+port: 0 = pins 1 to 8, 1 = pins 9 to 16  
+value:  number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = Enabled, 0 = Disabled  
 **Returns:** null
 ```
 read_pin(pin)
 ```
 Read the value of an individual pin 1 - 16   
-**Parameters:** pin: 1 to 16  
+**Parameters:**  
+pin: 1 to 16  
 **Returns:** 0 = logic level low, 1 = logic level high
 ```
 read_port(port)
 ```
 Read all pins on the selected port  
-**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16  
+**Parameters:**  
+port: 0 = pins 1 to 8, 1 = pins 9 to 16  
 **Returns:** number between 0 and 255 or 0x00 and 0xFF
 ```
 invert_port(port, polarity)
 ```
 Invert the polarity of the pins on a selected port  
-**Parameters:** port - 0 = pins 1 to 8, port 1 = pins 9 to 16, polarity - 0 = same logic state of the input pin, 1 = inverted logic state of the input pin  
+**Parameters:**  
+port: 0 = pins 1 to 8, 1 = pins 9 to 16  
+polarity: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  0 = same logic state of the input pin, 1 = inverted logic state of the input pin  
 **Returns:** null
 
 ```
 invert_pin(pin, polarity)
 ```
 Invert the polarity of the selected pin  
-**Parameters:** pin - 1 to 16, polarity - 0 = same logic state of the input pin, 1 = inverted logic state of the input pin
+**Parameters:**  
+pin: 1 to 16  
+polarity: 0 = same logic state of the input pin, 1 = inverted logic state of the input pin  
 **Returns:** null
 ```
 mirror_interrupts(value)
 ```
 Mirror Interrupts  
-**Parameters:** value - 1 = The INT pins are internally connected, 0 = The INT pins are not connected. INTA is associated with PortA and INTB is associated with PortB  
+**Parameters:**  
+value: 1 = The INT pins are internally connected, 0 = The INT pins are not connected. INTA is associated with PortA and INTB is associated with PortB  
 **Returns:** null
 ```
 set_interrupt_type(port, value)
 ```
 Sets the type of interrupt for each pin on the selected port  
-**Parameters:** port 0 = pins 1 to 8, port 1 = pins 9 to 16, value: 1 = interrupt is fired when the pin matches the default value, 0 = the interrupt is fired on state change  
+**Parameters:**  
+port: 0 = pins 1 to 8, 1 = pins 9 to 16  
+value: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = interrupt is fired when the pin matches the default value, 0 = the interrupt is fired on state change  
 **Returns:** null
 ```
 set_interrupt_defaults(port, value)
 ```
 These bits set the compare value for pins configured for interrupt-on-change on the selected port.  
 If the associated pin level is the opposite from the register bit, an interrupt occurs.    
-**Parameters:** port 0 = pins 1 to 8, port 1 = pins 9 to 16, value: compare value  
+**Parameters:**  
+port: 0 = pins 1 to 8, 1 = pins 9 to 16, 
+value: compare value between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  
 **Returns:** null
 ```
 set_interrupt_on_port(port, value)
 ```
 Enable interrupts for the pins on the selected port  
-**Parameters:** port 0 = pins 1 to 8, port 1 = pins 9 to 16, value: number between 0 and 255 or 0x00 and 0xFF  
+**Parameters:**  
+port: 0 = pins 1 to 8, 1 = pins 9 to 16  
+value: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  
 **Returns:** null
 
 ```
 set_interrupt_on_pin(pin, value)
 ```
 Enable interrupts for the selected pin  
-**Parameters:** pin - 1 to 16, value - 0 = interrupt disabled, 1 = interrupt enabled  
+**Parameters:**  
+pin:1 to 16  
+value: 0 = interrupt disabled, 1 = interrupt enabled  
 **Returns:** null
 
 ```
 read_interrupt_status(port)
 ```
 Read the interrupt status for the pins on the selected port  
-**Parameters:** port 0 = pins 1 to 8, port 1 = pins 9 to 16  
+**Parameters:**  
+port: 0 = pins 1 to 8, 1 = pins 9 to 16  
 **Returns:** status
 
 ```
 read_interrupt_capture(port)
 ```
 Read the value from the selected port at the time of the last interrupt trigger  
-**Parameters:** port 0 = pins 1 to 8, port 1 = pins 9 to 16  
+**Parameters:**  
+port: 0 = pins 1 to 8, 1 = pins 9 to 16  
 **Returns:** status
 ```
 reset_interrupts()
