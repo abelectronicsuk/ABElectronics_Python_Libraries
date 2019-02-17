@@ -173,7 +173,7 @@ read_interrupt_status(port)
 Read the interrupt status for the pins on the selected port  
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16  
-**Returns:** status
+**Returns:**  number between 0 and 255 or 0x00 and 0xFF
 
 ```
 read_interrupt_capture(port)
@@ -181,7 +181,7 @@ read_interrupt_capture(port)
 Read the value from the selected port at the time of the last interrupt trigger  
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16  
-**Returns:** status
+**Returns:**  number between 0 and 255 or 0x00 and 0xFF
 ```
 reset_interrupts()
 ```
