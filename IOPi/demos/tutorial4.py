@@ -44,21 +44,21 @@ def button_pressed(interrupt_pin):
     """
     this function will be called when GPIO 23 falls low
     """
-    # read the interrupt capture for port 0 and store it in variable porta
-    porta = bus.read_interrupt_capture(0)
+    # read the interrupt capture for port 0 and store it in variable intval
+    intval = bus.read_interrupt_capture(0)
 
-    # compare the value of port 0 with the IO Pi port
+    # compare the value of intval with the IO Pi port 0
     # using read_port().  wait until the port changes which will indicate
     # the button has been released.
     # without this while loop the function will keep repeating.
 
-    while (porta == bus.read_port(0)):
+    while (intval == bus.read_port(0)):
         time.sleep(0.2)
 
-    # loop through each bit in the porta variable and check if the bit is 1
+    # loop through each bit in the intval variable and check if the bit is 1
     # which will indicate a button has been pressed
     for num in range(0, 8):
-        if (porta & (1 << num)):
+        if (intval & (1 << num)):
             print("Pin " + str(num + 1) + " pressed")
 
 
@@ -121,10 +121,8 @@ def main():
 
     GPIO.add_event_detect(23, GPIO.FALLING, callback=button_pressed)
 
-    # print out a waiting message and wait for keyboard input before
+    # print out a message and wait for keyboard input before
     # exiting the program
-
-    print("Waiting for button press on IO Pi")
 
     input("press enter to exit ")
 
