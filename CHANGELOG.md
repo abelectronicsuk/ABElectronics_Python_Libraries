@@ -1,3 +1,9 @@
+#### 2019-02-20 Andrew Dorey
+* 2.2.3 Add two new IO Pi tutorials, tutorial3.py and tutorial4.py.  Removed tutorial3_rpi_interrupts.py
+
+#### 2019-02-17 Andrew Dorey
+* 2.2.2 Updated the IO Pi interrupts demo and the IO Pi readme to improve the clarity of what each function does.
+
 #### 2018-11-06 Andrew Dorey
 * 2.2.1 Fixed a bug in the regex code in all of the I2C based libraries which detects the model of Raspberry Pi is being used.
 
