@@ -35,18 +35,7 @@ except ImportError:
         raise ImportError(
             "Failed to import library from parent folder")
 
-
 bus = None
-
-
-def checkbit(byte, bit):
-    """
-    method for reading the value of a single bit within a byte
-    """
-    if byte & (1 << bit):
-        return 1
-    else:
-        return 0
 
 
 def button_pressed(interrupt_pin):
@@ -69,7 +58,7 @@ def button_pressed(interrupt_pin):
     # loop through each bit in the porta variable and check if the bit is 1
     # which will indicate a button has been pressed
     for num in range(0, 8):
-        if checkbit(porta, num):
+        if (porta & (1 << num)):
             print("Pin " + str(num + 1) + " pressed")
 
 
