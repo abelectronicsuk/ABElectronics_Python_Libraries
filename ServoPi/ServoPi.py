@@ -3,14 +3,17 @@
 ================================================
 ABElectronics ServoPi 16-Channel PWM Servo Driver
 
-Requires python smbus to be installed
+Requires smbus2 or python smbus to be installed
 ================================================
 """
 
 try:
-    import smbus
+    from smbus2 import SMBus
 except ImportError:
-    raise ImportError("python-smbus not found")
+    try:
+        from smbus import SMBus
+    except ImportError:
+        raise ImportError("python-smbus or smbus2 not found")
 import re
 import time
 import math
@@ -91,7 +94,7 @@ class PWM(object):
                             i2c__bus = 1
                         break
         try:
-            return smbus.SMBus(i2c__bus)
+            return SMBus(i2c__bus)
         except IOError:
             raise 'Could not open the i2c bus'
 

@@ -1,3 +1,6 @@
+#### 2019-03-14 Andrew Dorey
+* 2.2.4 Updated all I2C based libraries to use smbus2 by default with a fallback to python-smbus if smbus2 is not available.  This update makes the libraries compatible with Python 3.6 and later.
+
 #### 2019-02-20 Andrew Dorey
 * 2.2.3 Add two new IO Pi tutorials, tutorial3.py and tutorial4.py.  Removed tutorial3_rpi_interrupts.py
 

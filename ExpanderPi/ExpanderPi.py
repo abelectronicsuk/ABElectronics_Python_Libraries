@@ -3,19 +3,19 @@
 ================================================
 ABElectronics Expander Pi
 
-Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Requires smbus2 or python smbus to be installed
 
 ================================================
 """
 from __future__ import absolute_import, division, print_function, \
                                                     unicode_literals
 try:
-    import smbus
+    from smbus2 import SMBus
 except ImportError:
-    raise ImportError(
-        "python-smbus not found")
+    try:
+        from smbus import SMBus
+    except ImportError:
+        raise ImportError("python-smbus or smbus2 not found")
 try:
     import spidev
 except ImportError:
@@ -80,7 +80,7 @@ class _ABEHelpers:
                             i2c__bus = 1
                         break
         try:
-            return smbus.SMBus(i2c__bus)
+            return SMBus(i2c__bus)
         except IOError:
             raise 'Could not open the i2c bus'
 

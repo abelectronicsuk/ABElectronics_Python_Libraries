@@ -38,14 +38,15 @@ sudo python3.4 -m pip install git+https://github.com/abelectronicsuk/ABElectroni
 
 The Servo Pi library is located in the ServoPi directory
 
-The library requires python-smbus to be installed.  
+The library requires smbus2 or python-smbus to be installed.  
+
 For Python 2.7:
 ```
-sudo apt-get install python-smbus
+sudo pip install smbus2
 ```
 For Python 3.5:
 ```
-sudo apt-get install python3-smbus
+sudo pip3 install smbus2
 ```
 
 # Class: PWM #

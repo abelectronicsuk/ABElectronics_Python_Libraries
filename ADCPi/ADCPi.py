@@ -4,15 +4,18 @@
 ================================================
 ABElectronics ADC Pi V2 8-Channel ADC
 
-Requires python smbus to be installed
+Requires smbus2 or python smbus to be installed
 ================================================
 """
 from __future__ import absolute_import, division, print_function, \
                                                     unicode_literals
 try:
-    import smbus
+    from smbus2 import SMBus
 except ImportError:
-    raise ImportError("python-smbus not found")
+    try:
+        from smbus import SMBus
+    except ImportError:
+        raise ImportError("python-smbus or smbus2 not found")
 import re
 import platform
 import time
@@ -79,7 +82,7 @@ class ADCPi:
                             i2c__bus = 1
                         break
         try:
-            return smbus.SMBus(i2c__bus)
+            return SMBus(i2c__bus)
         except IOError:
             raise IOError('Could not open the i2c bus')
 
