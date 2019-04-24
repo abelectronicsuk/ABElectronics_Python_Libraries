@@ -333,6 +333,14 @@ Sets the type of interrupt for each pin on the selected port
 **Returns:** null
 
 ```
+set_interrupt_polarity(value)
+```
+Sets the polarity of the INT output pins  
+**Parameters:**  
+value: 0 = Active Low, 1 = Active High  
+**Returns:** null
+
+```
 set_interrupt_defaults(port, value)
 ```
 

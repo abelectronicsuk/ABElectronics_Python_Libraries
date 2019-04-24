@@ -133,6 +133,15 @@ Mirror Interrupts
 **Parameters:**  
 value: 1 = The INT pins are internally connected, 0 = The INT pins are not connected. INTA is associated with PortA and INTB is associated with PortB  
 **Returns:** null
+
+```
+set_interrupt_polarity(value)
+```
+Sets the polarity of the INT output pins  
+**Parameters:**  
+value: 0 = Active Low, 1 = Active High  
+**Returns:** null
+
 ```
 set_interrupt_type(port, value)
 ```
