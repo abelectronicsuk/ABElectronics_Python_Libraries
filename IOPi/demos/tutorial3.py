@@ -41,46 +41,46 @@ def main():
     '''
     # Create two instances of the IOPi class with
     # I2C addresses of 0x20 and 0x21
-    ioin = IOPi(0x20)
-    ioout = IOPi(0x21)
+    busin = IOPi(0x20)
+    busout = IOPi(0x21)
 
-    # Set port 0 on the ioin bus to be inputs with internal pull-ups enabled.
+    # Set port 0 on the busin bus to be inputs with internal pull-ups enabled.
 
-    ioin.set_port_pullups(0, 0xFF)
-    ioin.set_port_direction(0, 0xFF)
+    busin.set_port_pullups(0, 0xFF)
+    busin.set_port_direction(0, 0xFF)
 
     # Invert the port so pins will show 1 when grounded
-    ioin.invert_port(0, 0xFF)
+    busin.invert_port(0, 0xFF)
 
-    # Set port 0 on ioout to be outputs and set the port to be off
-    ioout.set_port_direction(0, 0x00)
-    ioout.write_port(0, 0x00)
+    # Set port 0 on busout to be outputs and set the port to be off
+    busout.set_port_direction(0, 0x00)
+    busout.write_port(0, 0x00)
 
     # Set the interrupts default value for port 0 to 0x00 so the interrupt
     # will trigger when any pin registers as true
-    ioin.set_interrupt_defaults(0, 0x00)
+    busin.set_interrupt_defaults(0, 0x00)
 
     # Set the interrupt type to be 1 on each pin for port 0 so an interrupt is
     # fired when the pin matches the default value
-    ioin.set_interrupt_type(0, 0xFF)
+    busin.set_interrupt_type(0, 0xFF)
 
     # Enable interrupts for all pins on port 0
-    ioin.set_interrupt_on_port(0, 0xFF)
+    busin.set_interrupt_on_port(0, 0xFF)
 
     # Reset the interrupts
-    ioin.reset_interrupts()
+    busin.reset_interrupts()
 
     while True:
 
         # read the interrupt status for each port.
 
-        if (ioin.read_interrupt_status(0) != 0):
+        if (busin.read_interrupt_status(0) != 0):
             # If the status is not 0 then an interrupt has occured
             # on one of the pins so read the value from the interrupt capture
-            value = ioin.read_interrupt_capture(0)
+            value = busin.read_interrupt_capture(0)
 
-            # write the value to port 0 on the ioout bus
-            ioout.write_port(0, value)
+            # write the value to port 0 on the busout bus
+            busout.write_port(0, value)
 
         # sleep 200ms before checking the pin again
         time.sleep(0.2)
