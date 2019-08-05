@@ -1,3 +1,6 @@
+#### 2019-08-05 Andrew Dorey
+* 2.2.5 Updated Expander Pi demos for the ADC and IO.  demo_adcread.py now reads all 8 channels.
+
 #### 2019-03-14 Andrew Dorey
 * 2.2.4 Updated all I2C based libraries to use smbus2 by default with a fallback to python-smbus if smbus2 is not available.  This update makes the libraries compatible with Python 3.6 and later.
 

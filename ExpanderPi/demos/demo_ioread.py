@@ -49,10 +49,10 @@ def main():
     iobus.set_port_direction(1, 0xFF)
     iobus.set_port_pullups(1, 0xFF)
 
-    while True:
-        # clear the console
-        os.system('clear')
+    # clear the console
+    os.system('clear')
 
+    while True:
         # read the pins 1 to 16 and print the results
         print('Pin 1:  ' + str(iobus.read_pin(1)))
         print('Pin 2:  ' + str(iobus.read_pin(2)))
@@ -73,6 +73,11 @@ def main():
 
         # wait 0.5 seconds before reading the pins again
         time.sleep(0.1)
+
+        # go up 16 lines
+        sys.stdout.write('\033[A\033[A\033[A\033[A\033[A\033[A\033[A\033[A')
+        sys.stdout.write('\033[A\033[A\033[A\033[A\033[A\033[A\033[A\033[A')
+        sys.stdout.flush()
 
 if __name__ == "__main__":
     main()
