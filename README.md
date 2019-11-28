@@ -68,6 +68,10 @@ This library is also compatible with the Delta-Sigma Pi.
 https://www.abelectronics.co.uk/kb/article/1041/delta-sigma-pi
 ### ExpanderPi
 This directory contains IO Pi Python Library  and demos to use with the Expander Pi https://www.abelectronics.co.uk/kb/article/1046/expander-pi
+
+### I2C Switch  
+This directory contains the I2C Switch Python library and demo to use with the 4 channel [I2C switch](https://www.abelectronics.co.uk/p/84/i2c-switch "I2C Switch")  
+
 ### IOPi
 This directory contains IO Pi Python Library  and demos to use with the IO Pi Plus https://www.abelectronics.co.uk/p/54/IO-Pi-Plus and IO Pi Zero https://www.abelectronics.co.uk/p/71/IO-Pi-Zero
 ### RTCPi

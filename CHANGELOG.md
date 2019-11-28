@@ -1,3 +1,6 @@
+#### 2019-11-28 Andrew Dorey
+* 2.2.6 Added library for the 4 channel I2C switch.
+
 #### 2019-08-05 Andrew Dorey
 * 2.2.5 Updated Expander Pi demos for the ADC and IO.  demo_adcread.py now reads all 8 channels.
 
