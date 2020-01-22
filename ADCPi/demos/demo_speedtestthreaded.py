@@ -16,6 +16,7 @@ from __future__ import absolute_import, division, print_function, \
                                                     unicode_literals
 import datetime
 import numpy as N
+import threading, queue
 
 try:
     from ADCPi import ADCPi
@@ -30,6 +31,12 @@ except ImportError:
         raise ImportError(
             "Failed to import library from parent folder")
 
+def adc_thread_function(name, adc, ch1, ch2, ch3, ch4, queue):
+    t1 = adc.read_voltage(ch1)
+    t2 = adc.read_voltage(ch2)
+    t3 = adc.read_voltage(ch3)
+    t4 = adc.read_voltage(ch4)
+    queue.put((t1, t2, t3, t4))
 
 def sampleratecheck(adc, rate, samples):
     """
@@ -54,14 +61,21 @@ def sampleratecheck(adc, rate, samples):
 
     while counter < samples:
         # start thread reading channels 1 to 4
-        readarray1[counter] = adc.read_voltage(1)
-        readarray2[counter] = adc.read_voltage(2)
-        readarray3[counter] = adc.read_voltage(3)
-        readarray4[counter] = adc.read_voltage(4)
-        readarray5[counter] = adc.read_voltage(5)
-        readarray6[counter] = adc.read_voltage(6)
-        readarray7[counter] = adc.read_voltage(7)
-        readarray8[counter] = adc.read_voltage(8)
+        queue1 = queue.Queue()
+        a = threading.Thread(target=adc_thread_function, args=(1,adc, 1, 2, 3, 4, queue1))
+        a.start()
+
+        # start thread reading channels 5 to 8
+        queue2 = queue.Queue()
+        b = threading.Thread(target=adc_thread_function, args=(1,adc, 5, 6, 7, 8, queue2))
+        b.start()
+
+        # wait for threads to complete before starting next loop
+        a.join()
+        b.join()
+
+        readarray1[counter], readarray2[counter], readarray3[counter], readarray4[counter] = queue1.get()
+        readarray5[counter], readarray6[counter], readarray7[counter], readarray8[counter] = queue2.get()
 
         counter = counter + 1
 

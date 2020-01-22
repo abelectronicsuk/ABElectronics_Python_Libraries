@@ -19,7 +19,7 @@ except ImportError:
 import re
 import platform
 import time
-
+import threading
 
 class ADCPi:
     """
@@ -180,7 +180,7 @@ class ADCPi:
             seconds_per_sample = 0.01666
         elif self.__bitrate == 12:
             seconds_per_sample = 0.00416
-        timeout_time = time.time() + (10 * seconds_per_sample)
+        timeout_time = time.time() + (100 * seconds_per_sample)
 
         # keep reading the adc data until the conversion result is ready
         while True:
@@ -200,6 +200,8 @@ class ADCPi:
             elif time.time() > timeout_time:
                 msg = 'read_raw: channel %i conversion timed out' % channel
                 raise TimeoutError(msg)
+            else:
+                time.sleep(0.00001) # sleep for 10 microseconds
 
         self.__signbit = False
         raw = 0
