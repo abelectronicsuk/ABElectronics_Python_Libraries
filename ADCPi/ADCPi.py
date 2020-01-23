@@ -19,7 +19,7 @@ except ImportError:
 import re
 import platform
 import time
-import threading
+
 
 class ADCPi:
     """

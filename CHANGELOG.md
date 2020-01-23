@@ -1,3 +1,6 @@
+#### 2020-01-23 Andrew Dorey
+* 2.2.7 Updated the ADC Differential Pi and ADC Pi libraries to improve the performance in threaded applications.  Added new speed test demos.
+
 #### 2019-11-28 Andrew Dorey
 * 2.2.6 Added library for the 4 channel I2C switch.
 

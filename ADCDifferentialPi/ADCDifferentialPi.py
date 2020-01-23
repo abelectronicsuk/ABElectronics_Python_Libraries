@@ -1,9 +1,10 @@
 #!/usr/bin/env python
+
 """
 ================================================
 ABElectronics ADC Differential Pi 8-Channel ADC
 
-Requires python smbus or smbus2 to be installed
+Requires smbus2 or python smbus to be installed
 ================================================
 """
 from __future__ import absolute_import, division, print_function, \
@@ -180,7 +181,7 @@ class ADCDifferentialPi:
             seconds_per_sample = 0.01666
         elif self.__bitrate == 12:
             seconds_per_sample = 0.00416
-        timeout_time = time.time() + (10 * seconds_per_sample)
+        timeout_time = time.time() + (100 * seconds_per_sample)
 
         # keep reading the adc data until the conversion result is ready
         while True:
@@ -200,6 +201,8 @@ class ADCDifferentialPi:
             elif time.time() > timeout_time:
                 msg = 'read_raw: channel %i conversion timed out' % channel
                 raise TimeoutError(msg)
+            else:
+                time.sleep(0.00001) # sleep for 10 microseconds
 
         self.__signbit = False
         raw = 0
