@@ -105,7 +105,7 @@ class ADC:
         # Define SPI bus and init
         self.__spiADC = spidev.SpiDev()
         self.__spiADC.open(0, 0)
-        self.__spiADC.max_speed_hz = (1900000)
+        self.__spiADC.max_speed_hz = (200000)
 
     # public methods
 
