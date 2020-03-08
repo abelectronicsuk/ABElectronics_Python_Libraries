@@ -68,7 +68,7 @@ set_port_direction(port, direction):
 Sets the IO direction for the specified IO port  
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16   
-direction: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = Enabled, 0 = Disabled 
+direction: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = Enabled, 0 = Disabled  
 **Returns:** null
 ```
 set_port_pullups(port, value)
