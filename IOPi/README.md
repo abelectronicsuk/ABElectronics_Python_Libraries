@@ -68,14 +68,14 @@ set_port_direction(port, direction):
 Sets the IO direction for the specified IO port  
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16   
-direction: 1 = input, 0 = output  
+direction: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = Enabled, 0 = Disabled 
 **Returns:** null
 ```
 set_port_pullups(port, value)
 ```
 Set the internal 100K pull-up resistors for the selected IO port  
 **Parameters:**  
-port: 1 to 16  
+port: 0 = pins 1 to 8, 1 = pins 9 to 16  
 value: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = Enabled, 0 = Disabled  
 **Returns:** null
 
@@ -108,7 +108,7 @@ read_port(port)
 Read all pins on the selected port  
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16  
-**Returns:** number between 0 and 255 or 0x00 and 0xFF
+**Returns:** number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = Enabled, 0 = Disabled
 ```
 invert_port(port, polarity)
 ```
@@ -183,7 +183,7 @@ read_interrupt_status(port)
 Read the interrupt status for the pins on the selected port  
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16  
-**Returns:**  number between 0 and 255 or 0x00 and 0xFF
+**Returns:**  number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = Enabled, 0 = Disabled
 
 ```
 read_interrupt_capture(port)
@@ -191,7 +191,7 @@ read_interrupt_capture(port)
 Read the value from the selected port at the time of the last interrupt trigger  
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16  
-**Returns:**  number between 0 and 255 or 0x00 and 0xFF
+**Returns:**  number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = Enabled, 0 = Disabled
 ```
 reset_interrupts()
 ```
