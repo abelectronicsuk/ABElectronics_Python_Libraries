@@ -1,4 +1,7 @@
-#### 2020-02-2 Andrew Dorey
+#### 2020-05-06 Andrew Dorey
+* 2.2.9 Updated the ADC Pi and ADC Differential Pi classes. Added class definition for TimeoutError to add support for Python 2.7.
+
+#### 2020-02-02 Andrew Dorey
 * 2.2.8 Updated the ADC Expander Pi ADC class. Reduced the SPI speed to improve accuracy.
 
 #### 2020-01-23 Andrew Dorey

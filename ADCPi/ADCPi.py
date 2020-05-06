@@ -20,6 +20,13 @@ import re
 import platform
 import time
 
+class Error(Exception):
+    """Base class for exceptions in this module."""
+    pass
+
+class TimeoutError(Error):
+    """The operation exceeded the given deadline."""
+    pass
 
 class ADCPi:
     """
@@ -45,6 +52,7 @@ class ADCPi:
     __adcreading = bytearray([0, 0, 0, 0])
 
     __bus = None
+
 
     # local methods
 
