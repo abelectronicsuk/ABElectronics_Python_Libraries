@@ -1,3 +1,6 @@
+#### 2020-05-19 Andrew Dorey
+* 2.3.0 Updated the Servo Pi class to check if the RPI.GPIO mode has already been set.
+
 #### 2020-05-06 Andrew Dorey
 * 2.2.9 Updated the ADC Pi and ADC Differential Pi classes. Added class definition for TimeoutError to add support for Python 2.7.
 

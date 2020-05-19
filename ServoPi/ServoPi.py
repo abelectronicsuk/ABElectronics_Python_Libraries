@@ -56,6 +56,7 @@ class PWM(object):
     # local variables
     __mode1_default = 0x00
     __mode2_default = 0x0C
+    __oe_pin = 7
     __address = 0x40
     __bus = None
 
@@ -139,8 +140,18 @@ class PWM(object):
         self.__write(self.__MODE1, self.__mode1_default)
         self.__write(self.__MODE2, self.__mode2_default)
         GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(7, GPIO.OUT)
+
+        mode = GPIO.getmode() # check if the GPIO mode has been set
+        
+        if (mode == 10):  # Mode set to GPIO.BOARD
+            self.__oe_pin = 7
+        elif (mode == 11):  # Mode set to GPIO.BCM
+            self.__oe_pin = 4
+        else: # Mode not set
+            GPIO.setmode(GPIO.BOARD)
+            self.__oe_pin = 7
+        
+        GPIO.setup(self.__oe_pin, GPIO.OUT)
 
     def set_pwm_freq(self, freq, calibration=0):
         """
@@ -275,23 +286,21 @@ class PWM(object):
         self.__write(self.__ALL_LED_OFF_L, off_time & 0xFF)
         self.__write(self.__ALL_LED_OFF_H, off_time >> 8)
 
-    @classmethod
-    def output_disable(cls):
+    def output_disable(self):
         """
         disable output via OE pin
         """
         try:
-            GPIO.output(7, True)
+            GPIO.output(self.__oe_pin, True)
         except:
             raise IOError("Failed to write to GPIO pin")
 
-    @classmethod
-    def output_enable(cls):
+    def output_enable(self):
         """
         enable output via OE pin
         """
         try:
-            GPIO.output(7, False)
+            GPIO.output(self.__oe_pin, False)
         except:
             raise IOError("Failed to write to GPIO pin")
 
