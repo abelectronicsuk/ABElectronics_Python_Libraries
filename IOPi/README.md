@@ -33,7 +33,7 @@ sudo python2.7 -m pip install git+https://github.com/abelectronicsuk/ABElectroni
 
 For Python 3.5:
 ```
-sudo python3.4 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
+sudo python3.5 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
 
 The IO Pi library is located in the IOPi directory
@@ -49,27 +49,54 @@ For Python 3.5:
 sudo pip3 install smbus2
 ```
 
+Classes:
+----------  
+```
+IOPi(address, initialise)
+```
+**Parameters:**  
+address: i2c address for the target device. 0x20 to 0x27  
+initialise (optional): True = direction set as inputs, pull-ups disabled, ports not inverted. False = device state unaltered., defaults to True  
+
 
 Functions:
 ----------
 
 ```
-set_pin_direction(pin, direction):
+set_pin_direction(pin, value):
 ```
 Sets the IO direction for an individual pin  
 **Parameters:**  
 pin: 1 to 16   
-direction: 1 = input, 0 = output  
+value: 1 = input, 0 = output  
 **Returns:** null
 
 ```
-set_port_direction(port, direction): 
+set_port_direction(port, value): 
 ```
 Sets the IO direction for the specified IO port  
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16   
-direction: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = Enabled, 0 = Disabled  
+value: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = input, 0 = output  
 **Returns:** null
+
+```
+set_bus_direction(value): 
+```
+Sets the IO direction for all pins on the bus  
+**Parameters:**  
+value: 16-bit number 0 to 65535 (0xFFFF).  For each bit 1 = input, 0 = output  
+**Returns:** null
+
+```
+set_pin_pullup(pin, value)
+```
+Set the internal 100K pull-up resistors for an individual pin  
+**Parameters:**  
+pin: pin to update, 1 to 16 
+value: 1 = enabled, 0 = disabled  
+**Returns:** null
+
 ```
 set_port_pullups(port, value)
 ```
@@ -80,12 +107,20 @@ value: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number 
 **Returns:** null
 
 ```
+set_bus_pullups(value)
+```
+Set internal 100K pull-up resistors for an IO bus  
+**Parameters:**  
+value: 16-bit number 0 to 65535 (0xFFFF). For each bit 1 = enabled, 0 = disabled  
+**Returns:** null
+
+```
 write_pin(pin, value)
 ```
 Write to an individual pin 1 - 16  
 **Parameters:**  
 pin: 1 to 16  
-value: 1 = Enabled, 0 = Disabled  
+value: 1 = logic high, 0 = logic low  
 **Returns:** null
 ```
 write_port(port, value)
@@ -93,45 +128,70 @@ write_port(port, value)
 Write to all pins on the selected port  
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16  
-value:  number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = Enabled, 0 = Disabled  
-**Returns:** null
+value:  number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = logic high, 0 = logic low    
+**Returns:** null  
+
+```
+write_bus(value)
+```
+Write to all pins on the selected bus  
+**Parameters:**  
+value: 16-bit number 0 to 65535 (0xFFFF). For each bit 1 = logic high, 0 = logic low  
+**Returns:** null  
+
 ```
 read_pin(pin)
 ```
 Read the value of an individual pin 1 - 16   
 **Parameters:**  
 pin: 1 to 16  
-**Returns:** 0 = logic level low, 1 = logic level high
+**Returns:** 0 = logic low, 1 = logic high
 ```
 read_port(port)
 ```
 Read all pins on the selected port  
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16  
-**Returns:** number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = Enabled, 0 = Disabled
-```
-invert_port(port, polarity)
-```
-Invert the polarity of the pins on a selected port  
-**Parameters:**  
-port: 0 = pins 1 to 8, 1 = pins 9 to 16  
-polarity: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  0 = same logic state of the input pin, 1 = inverted logic state of the input pin  
-**Returns:** null
+**Returns:** number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  0 = logic low, 1 = logic high
 
 ```
-invert_pin(pin, polarity)
+read_bus()
+```
+Read all pins on the bus  
+**Returns:** 16-bit number 0 to 65535 (0xFFFF) Each bit in the 16-bit number represents a pin on the port.  0 = logic low, 1 = logic high  
+
+```
+invert_pin(pin, value)
 ```
 Invert the polarity of the selected pin  
 **Parameters:**  
 pin: 1 to 16  
-polarity: 0 = same logic state of the input pin, 1 = inverted logic state of the input pin  
+value: 0 = same logic state of the input pin, 1 = inverted logic state of the input pin  
 **Returns:** null
+
+```
+invert_port(port, value)
+```
+Invert the polarity of the pins on a selected port  
+**Parameters:**  
+port: 0 = pins 1 to 8, 1 = pins 9 to 16  
+value: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  0 = same logic state of the input pin, 1 = inverted logic state of the input pin  
+**Returns:** null
+
+```
+invert_bus(value)
+```
+Invert the polarity of the pins on the bus  
+**Parameters:**  
+value: 16-bit number 0 to 65535 (0xFFFF).  For each bit 0 = same logic state of the input pin, 1 = inverted logic state of the input pin  
+**Returns:** null
+
 ```
 mirror_interrupts(value)
 ```
-Mirror Interrupts  
+Sets whether the interrupt pins INT A and INT B are independently connected to each port or internally connected together  
 **Parameters:**  
-value: 1 = The INT pins are internally connected, 0 = The INT pins are not connected. INTA is associated with PortA and INTB is associated with PortB  
+value: 1 = The INT pins are internally connected, 0 = The INT pins are not connected. INT A is associated with PortA and INT B is associated with PortB    
 **Returns:** null
 
 ```
@@ -140,7 +200,7 @@ set_interrupt_polarity(value)
 Sets the polarity of the INT output pins  
 **Parameters:**  
 value: 0 = Active Low, 1 = Active High  
-**Returns:** null
+**Returns:** null  
 
 ```
 set_interrupt_type(port, value)
@@ -149,7 +209,8 @@ Sets the type of interrupt for each pin on the selected port
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16  
 value: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = interrupt is fired when the pin matches the default value, 0 = the interrupt is fired on state change  
-**Returns:** null
+**Returns:** null  
+
 ```
 set_interrupt_defaults(port, value)
 ```
@@ -159,6 +220,16 @@ If the associated pin level is the opposite from the register bit, an interrupt 
 port: 0 = pins 1 to 8, 1 = pins 9 to 16, 
 value: compare value between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  
 **Returns:** null
+
+```
+set_interrupt_on_pin(pin, value)
+```
+Enable interrupts for the selected pin  
+**Parameters:**  
+pin: 1 to 16  
+value: 0 = interrupt disabled, 1 = interrupt enabled  
+**Returns:** null
+
 ```
 set_interrupt_on_port(port, value)
 ```
@@ -169,12 +240,11 @@ value: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number 
 **Returns:** null
 
 ```
-set_interrupt_on_pin(pin, value)
+set_interrupt_on_bus(value)
 ```
-Enable interrupts for the selected pin  
+Enable interrupts for the pins on the bus  
 **Parameters:**  
-pin:1 to 16  
-value: 0 = interrupt disabled, 1 = interrupt enabled  
+value: 16-bit number 0 to 65535 (0xFFFF).  For each bit 1 = enabled, 0 = disabled  
 **Returns:** null
 
 ```
@@ -192,6 +262,7 @@ Read the value from the selected port at the time of the last interrupt trigger
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16  
 **Returns:**  number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = Enabled, 0 = Disabled
+
 ```
 reset_interrupts()
 ```
@@ -221,5 +292,5 @@ bus1.set_port_pullups(0, 0xFF)
 
 You can now read the pin 1 with:
 ```
-print 'Pin 1: ' + str(bus1.read_pin(1))
+print('Pin 1: ' + str(bus1.read_pin(1)))
 ```

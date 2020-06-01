@@ -1,4 +1,8 @@
 #### 2020-05-19 Andrew Dorey
+
+* 2.3.1  Updates to the IO Pi class.  Changed method docstrings to use Sphinx format.  Added new methods for accessing whole bus directly, set_bus_direction(), set_bus_pullups(), write_bus(), read_bus(), invert_bus(), set_interrupt_on_bus().  
+
+#### 2020-05-19 Andrew Dorey
 * 2.3.0 Updated the Servo Pi class to check if the RPI.GPIO mode has already been set.
 
 #### 2020-05-06 Andrew Dorey
