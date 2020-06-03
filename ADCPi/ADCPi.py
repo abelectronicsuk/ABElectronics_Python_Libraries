@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics ADC Pi V2 8-Channel ADC
+ABElectronics ADC Pi 8-Channel ADC
 
 Requires smbus2 or python smbus to be installed
 ================================================
@@ -20,15 +20,18 @@ import re
 import platform
 import time
 
+
 class Error(Exception):
     """Base class for exceptions in this module."""
     pass
+
 
 class TimeoutError(Error):
     """The operation exceeded the given deadline."""
     pass
 
-class ADCPi:
+
+class ADCPi(object):
     """
     Control the MCP3424 ADC on the ADC Pi Plus and ADC Pi Zero
     """
@@ -53,13 +56,16 @@ class ADCPi:
 
     __bus = None
 
-
     # local methods
 
     @staticmethod
     def __get_smbus():
         """
-        internal method for getting an instance of the i2c bus
+        Internal method for getting an instance of the i2c bus
+
+        :return: i2c bus for target device
+        :rtype: SMBus
+        :raises IOError: Could not open the i2c bus
         """
         i2c__bus = 1
         # detect the device that is being used
@@ -95,12 +101,29 @@ class ADCPi:
             raise IOError('Could not open the i2c bus')
 
     def __updatebyte(self, byte, mask, value):
+        """
+        Internal method for setting the value of a single bit within a byte
+
+        :param byte: input value
+        :type byte: int
+        :param mask: location to update
+        :type mask: int
+        :param value: new bit, 0 or 1
+        :type value: int
+        :return: updated value
+        :rtype: int
+        """
         byte &= mask
         byte |= value
         return byte
 
     def __setchannel(self, channel):
-        # internal method for updating the config to the selected channel
+        """
+        Internal method for updating the config to the selected channel
+
+        :param channel: selected channel
+        :type channel: int
+        """
         if channel < 5:
             if channel != self.__adc1_channel:
                 self.__adc1_channel = channel
@@ -135,7 +158,17 @@ class ADCPi:
 
     # init object with i2caddress, default is 0x68, 0x69 for ADCoPi board
     def __init__(self, address=0x68, address2=0x69, rate=18):
+        """
+        Class constructor - Initialise the two ADC chips with their
+        I2C addresses and bit rate.
 
+        :param address: I2C address for channels 1 to 4, defaults to 0x68
+        :type address: int, optional
+        :param address2: I2C address for channels 5 to 8, defaults to 0x69
+        :type address2: int, optional
+        :param rate: bit rate, defaults to 18
+        :type rate: int, optional
+        """
         self.__bus = self.__get_smbus()
         self.__adc1_address = address
         self.__adc2_address = address2
@@ -143,7 +176,12 @@ class ADCPi:
 
     def read_voltage(self, channel):
         """
-        returns the voltage from the selected adc channel - channels 1 to 8
+        Returns the voltage from the selected ADC channel
+
+        :param channel: 1 to 8
+        :type channel: int
+        :return: voltage
+        :rtype: float
         """
         raw = self.read_raw(channel)
         voltage = float(0.0)
@@ -155,7 +193,14 @@ class ADCPi:
 
     def read_raw(self, channel):
         """
-        reads the raw value from the selected adc channel - channels 1 to 8
+        Reads the raw value from the selected ADC channel
+
+        :param channel: 1 to 8
+        :type channel: int
+        :raises ValueError: read_raw: channel out of range
+        :raises TimeoutError: read_raw: channel x conversion timed out
+        :return: raw ADC output
+        :rtype: int
         """
         high = 0
         low = 0
@@ -209,7 +254,7 @@ class ADCPi:
                 msg = 'read_raw: channel %i conversion timed out' % channel
                 raise TimeoutError(msg)
             else:
-                time.sleep(0.00001) # sleep for 10 microseconds
+                time.sleep(0.00001)  # sleep for 10 microseconds
 
         self.__signbit = False
         raw = 0
@@ -238,11 +283,14 @@ class ADCPi:
 
     def set_pga(self, gain):
         """
-        PGA gain selection
-        1 = 1x
-        2 = 2x
-        4 = 4x
-        8 = 8x
+        PGA (programmable gain amplifier) gain selection
+
+        :param gain: 1 = 1x
+                     2 = 2x
+                     4 = 4x
+                     8 = 8x
+        :type gain: int
+        :raises ValueError: set_pga: gain out of range
         """
 
         if gain == 1:
@@ -274,11 +322,14 @@ class ADCPi:
 
     def set_bit_rate(self, rate):
         """
-        sample rate and resolution
-        12 = 12 bit (240SPS max)
-        14 = 14 bit (60SPS max)
-        16 = 16 bit (15SPS max)
-        18 = 18 bit (3.75SPS max)
+        Sample rate and resolution
+
+        :param rate: 12 = 12 bit (240SPS max)
+                     14 = 14 bit (60SPS max)
+                     16 = 16 bit (15SPS max)
+                     18 = 18 bit (3.75SPS max)
+        :type rate: int
+        :raises ValueError: set_bit_rate: rate out of range
         """
 
         if rate == 12:
@@ -315,8 +366,11 @@ class ADCPi:
     def set_conversion_mode(self, mode):
         """
         conversion mode for adc
-        0 = One shot conversion mode
-        1 = Continuous conversion mode
+
+        :param mode: 0 = One shot conversion mode
+                     1 = Continuous conversion mode
+        :type mode: int
+        :raises ValueError: set_conversion_mode: mode out of range
         """
         if mode == 0:
             # bit 4 = 0

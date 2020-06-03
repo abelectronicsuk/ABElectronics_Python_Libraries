@@ -64,7 +64,11 @@ class PWM(object):
     @staticmethod
     def __get_smbus():
         """
-        internal method for getting an instance of the i2c bus
+        Internal method for getting an instance of the i2c bus
+
+        :return: i2c bus for target device
+        :rtype: SMBus
+        :raises IOError: Could not open the i2c bus
         """
         i2c__bus = 1
         # detect the device that is being used
@@ -102,7 +106,14 @@ class PWM(object):
     @staticmethod
     def __checkbit(byte, bit):
         """
-        internal method for reading the value of a single bit in a byte
+        Internal method for reading the value of a single bit within a byte
+
+        :param byte: input value
+        :type byte: int
+        :param bit: location within value to check
+        :type bit: int
+        :return: value of selected bit, 0 or 1
+        :rtype: int
         """
         value = 0
         if byte & (1 << bit):
@@ -111,7 +122,12 @@ class PWM(object):
 
     def __write(self, reg, value):
         """
-        Write data to I2C bus
+        Internal method to write data to I2C bus
+
+        :param value: value to write
+        :type value: int
+        :return: IOError
+        :rtype: IOError
         """
         try:
             self.__bus.write_byte_data(self.__address, reg, value)
@@ -120,7 +136,10 @@ class PWM(object):
 
     def __read(self, reg):
         """
-        Read data from I2C bus
+        Internal method to read data from I2C bus
+
+        :return: IOError
+        :rtype: IOError
         """
         try:
             result = self.__bus.read_byte_data(self.__address, reg)
@@ -133,29 +152,38 @@ class PWM(object):
     def __init__(self, address=0x40):
         """
         init object with i2c address, default is 0x40 for ServoPi board
-        """
 
+        :param address: device i2c address, defaults to 0x40
+        :type address: int, optional
+        """
         self.__address = address
         self.__bus = self.__get_smbus()
         self.__write(self.__MODE1, self.__mode1_default)
         self.__write(self.__MODE2, self.__mode2_default)
         GPIO.setwarnings(False)
 
-        mode = GPIO.getmode() # check if the GPIO mode has been set
-        
+        mode = GPIO.getmode()  # check if the GPIO mode has been set
+
         if (mode == 10):  # Mode set to GPIO.BOARD
             self.__oe_pin = 7
         elif (mode == 11):  # Mode set to GPIO.BCM
             self.__oe_pin = 4
-        else: # Mode not set
+        else:  # Mode not set
             GPIO.setmode(GPIO.BOARD)
             self.__oe_pin = 7
-        
+
         GPIO.setup(self.__oe_pin, GPIO.OUT)
 
     def set_pwm_freq(self, freq, calibration=0):
         """
-        Set the PWM frequency - 40 to 1000
+        Set the PWM frequency
+
+        :param freq: 40 to 1000
+        :type freq: int
+        :param calibration: optional integer value to offset oscillator errors.
+                            defaults to 0
+        :type calibration: int, optional
+        :raises ValueError: set_pwm_freq: freq out of range
         """
         if freq < 40 or freq > 1000:
             raise ValueError('set_pwm_freq: freq out of range')
@@ -176,7 +204,18 @@ class PWM(object):
 
     def set_pwm(self, channel, on_time, off_time):
         """
-        set the output on a single channel
+        Set the output on a single channel
+
+        :param channel: 1 to 16
+        :type channel: int
+        :param on_time: 0 to 4095
+        :type on_time: int
+        :param off_time: 0 to 4095
+        :type off_time: int
+        :raises ValueError: set_pwm: channel out of range
+        :raises ValueError: set_pwm: on_time out of range
+        :raises ValueError: set_pwm: off_time out of range
+        :raises ValueError: set_pwm: on_time greater than off_time
         """
 
         if channel < 1 or channel > 16:
@@ -203,9 +242,15 @@ class PWM(object):
 
     def set_pwm_on_time(self, channel, on_time):
         """
-        set the output on time on a single channel
-        """
+        Set the output on time on a single channel
 
+        :param channel: 1 to 16
+        :type channel: int
+        :param on_time: 0 to 4095
+        :type on_time: int
+        :raises ValueError: set_pwm_on_time: channel out of range
+        :raises ValueError: set_pwm_on_time: on_time out of range
+        """
         if channel < 1 or channel > 16:
             raise ValueError('set_pwm_on_time: channel out of range')
 
@@ -220,9 +265,15 @@ class PWM(object):
 
     def set_pwm_off_time(self, channel, off_time):
         """
-        set the output off time on a single channel
-        """
+        Set the output off time on a single channel
 
+        :param channel: 1 to 16
+        :type channel: int
+        :param off_time: 0 to 4095
+        :type off_time: int
+        :raises ValueError: set_pwm_off_time: channel out of range
+        :raises ValueError: set_pwm_off_time: off_time out of range
+        """
         if channel < 1 or channel > 16:
             raise ValueError('set_pwm_off_time: channel out of range')
 
@@ -238,9 +289,14 @@ class PWM(object):
 
     def get_pwm_on_time(self, channel):
         """
-        get the on time for the selected channel
-        """
+        Get the on time for the selected channel
 
+        :param channel: 1 to 16
+        :type channel: int
+        :raises ValueError: get_pwm_on_time: channel out of range
+        :return: 0 to 4095
+        :rtype: int
+        """
         if channel < 1 or channel > 16:
             raise ValueError('get_pwm_on_time: channel out of range')
 
@@ -253,9 +309,14 @@ class PWM(object):
 
     def get_pwm_off_time(self, channel):
         """
-        get the on time for the selected channel
-        """
+        Get the on time for the selected channel
 
+        :param channel: 1 to 16
+        :type channel: int
+        :raises ValueError: get_pwm_off_time: channel out of range
+        :return: 0 to 4095
+        :rtype: int
+        """
         if channel < 1 or channel > 16:
             raise ValueError('get_pwm_off_time: channel out of range')
 
@@ -268,9 +329,17 @@ class PWM(object):
 
     def set_all_pwm(self, on_time, off_time):
         """
-        set the output on all channels
-        """
+        Set the output on all channels
 
+        :param on_time: 0 to 4095
+        :type on_time: int
+        :param off_time: 0 to 4095
+        :type off_time: int
+        :raises ValueError: set_all_pwm: on_time out of range
+        :raises ValueError: set_all_pwm: off_time out of range
+        :raises ValueError: set_all_pwm: on_time + off_time
+                            must not exceed 4095
+        """
         if on_time < 0 or on_time > 4095:
             raise ValueError('set_all_pwm: on_time out of range')
 
@@ -288,25 +357,32 @@ class PWM(object):
 
     def output_disable(self):
         """
-        disable output via OE pin
+        Disable output via OE pin
+
+        :raises IOError: Failed to write to GPIO pin
         """
         try:
             GPIO.output(self.__oe_pin, True)
-        except:
+        except IOError:
             raise IOError("Failed to write to GPIO pin")
 
     def output_enable(self):
         """
-        enable output via OE pin
+        Enable output via OE pin
+
+        :raises IOError: Failed to write to GPIO pin
         """
         try:
             GPIO.output(self.__oe_pin, False)
-        except:
+        except IOError:
             raise IOError("Failed to write to GPIO pin")
 
     def set_allcall_address(self, i2caddress):
         """
         Set the I2C address for the All Call function
+
+        :param i2caddress: I2C address for the All Call function
+        :type i2caddress: int
         """
         oldmode = self.__read(self.__MODE1)
         newmode = oldmode | (1 << self.__MODE1_ALLCALL)
@@ -348,6 +424,9 @@ class PWM(object):
     def is_sleeping(self):
         """
         Check the sleep status of the device
+
+        :return: True or False
+        :rtype: bool
         """
         regval = self.__read(self.__MODE1)
         if (self.__checkbit(regval, self.__MODE1_SLEEP)):
@@ -358,7 +437,9 @@ class PWM(object):
     def invert_output(self, state):
         """
         Invert the PWM output on all channels
-        Param: True = inverted, False = non-inverted
+
+        :param state: True = inverted, False = non-inverted
+        :type state: bool
         """
         if state is True:
             oldmode = self.__read(self.__MODE2)
@@ -385,6 +466,9 @@ class Servo(object):
     # local methods
 
     def __refresh_channels(self):
+        """
+        Internal method for refreshing the servo positions
+        """
         for i in range(0, 16):
             if self.__position == 0:
                 self.__pwm.set_pwm(i+1, 0, 0)
@@ -397,7 +481,8 @@ class Servo(object):
 
     def __calculate_offsets(self):
         """
-        Calculate the start positions to stagger the servo position pulses
+        Internal method for calculating the start positions
+        to stagger the servo position pulses
         """
         x = 0
         for i in range(0, 16):
@@ -409,10 +494,23 @@ class Servo(object):
 
     # public methods
 
-    def __init__(self, address=0x40, low_limit=1.0, 
+    def __init__(self, address=0x40, low_limit=1.0,
                  high_limit=2.0, reset=True):
         """
-        init object with i2c address, default is 0x40 for ServoPi board
+        Initialise the Servo object
+
+        :param address: i2c address for  theServoPi board, defaults to 0x40
+        :type address: int, optional
+        :param low_limit: Pulse length in milliseconds for the
+                          lower servo limit, defaults to 1.0
+        :type low_limit: float, optional
+        :param high_limit: Pulse length in milliseconds for the
+                           upper servo limit, defaults to 2.0
+        :type high_limit: float, optional
+        :param reset: True = reset the controller and turn off all channels.
+                      False = keep existing servo positions and frequency.
+                      defaults to True
+        :type reset: bool, optional
         """
 
         self.__pwm = PWM(address)
@@ -430,7 +528,20 @@ class Servo(object):
 
     def move(self, channel, position, steps=250):
         """
-        set the position of the servo
+        Set the servo position
+
+        :param channel: 1 to 16
+        :type channel: int
+        :param position:  value between 0 and the maximum number of steps.
+        :type position: int
+        :param steps: The number of steps between the the low and high limits.
+                      This can be any number between 0 and 4095.
+                      On a typical RC servo a step value of 250 is recommended.
+                      defaults to 250
+        :type steps: int, optional
+        :raises ValueError: move: channel out of range
+        :raises ValueError: move: steps out of range
+        :raises ValueError: move: position out of range
         """
         if channel < 1 or channel > 16:
             raise ValueError('move: channel out of range')
@@ -454,11 +565,24 @@ class Servo(object):
             else:
                 self.__pwm.set_pwm(channel, 0, pwm_value)
         else:
-            raise ValueError('move: channel out of range')
+            raise ValueError('move: position out of range')
 
     def get_position(self, channel, steps=250):
         """
-        get the position of the servo
+        Get the servo position
+
+        :param channel: 1 to 16
+        :type channel: int
+        :param steps: The number of steps between the the low and high limits.
+                      This can be any number between 0 and 4095.
+                      On a typical RC servo a step value of 250 is recommended.
+                      defaults to 250
+        :type steps: int, optional
+        :raises ValueError: get_position: channel out of range
+        :return: position - value between 0 and the maximum number of steps.
+                 Due to rounding errors when calculating the position, the
+                 returned value may not be exactly the same as the set value.
+        :rtype: int
         """
         if channel < 1 or channel > 16:
             raise ValueError('get_position: channel out of range')
@@ -478,7 +602,17 @@ class Servo(object):
 
     def set_low_limit(self, low_limit, channel=0):
         """
-        Set the low limit in milliseconds
+        Set the pulse length for the lower servo limits. Typically around 1ms.
+        Warning: Setting the pulse limit below 1ms may damage your servo.
+
+        :param low_limit: Pulse length in milliseconds for the lower limit.
+        :type low_limit: float
+        :param channel: The channel for which the low limit will be set.
+                        If this value is omitted the low limit will be
+                        set for all channels., defaults to 0
+        :type channel: int, optional
+        :raises ValueError: set_low_limit: channel out of range
+        :raises ValueError: set_low_limit: low limit out of range
         """
 
         if channel < 0 or channel > 16:
@@ -499,7 +633,17 @@ class Servo(object):
 
     def set_high_limit(self, high_limit, channel=0):
         """
-        Set the high limit in milliseconds
+        Set the pulse length for the upper servo limits. Typically around 2ms.
+        Warning: Setting the pulse limit above 2ms may damage your servo.
+
+        :param high_limit: Pulse length in milliseconds for the upper limit.
+        :type high_limit: float
+        :param channel: The channel for which the upper limit will be set.
+                        If this value is omitted the upper limit will be
+                        set for all channels., defaults to 0
+        :type channel: int, optional
+        :raises ValueError: set_high_limit: channel out of range
+        :raises ValueError: set_high_limit: high limit out of range
         """
 
         if channel < 0 or channel > 16:
@@ -521,32 +665,42 @@ class Servo(object):
     def set_frequency(self, freq, calibration=0):
         """
         Set the PWM frequency
+
+        :param freq: 40 to 1000
+        :type freq: int
+        :param calibration: optional integer value to offset oscillator errors.
+                            defaults to 0
+        :type calibration: int, optional
         """
         self.__pwm.set_pwm_freq(freq, calibration)
         self.__frequency = freq
 
     def output_disable(self):
         """
-        disable output via OE pin
+        Disable output via OE pin
+
+        :raises IOError: Failed to write to GPIO pin
         """
         try:
             self.__pwm.output_disable()
-        except:
+        except IOError:
             raise IOError("Failed to write to GPIO pin")
 
     def output_enable(self):
         """
-        enable output via OE pin
+        Enable output via OE pin
+
+        :raises IOError: Failed to write to GPIO pin
         """
         try:
             self.__pwm.output_enable()
             self.__calculate_offsets()  # update the offset values
-        except:
+        except IOError:
             raise IOError("Failed to write to GPIO pin")
 
     def offset_enable(self):
         """
-        enable pulse offsets.
+        Enable pulse offsets.
         This will set servo pulses to be staggered across the channels
         to reduce surges in current draw
         """
@@ -555,12 +709,11 @@ class Servo(object):
 
     def offset_disable(self):
         """
-        enable pulse offsets.
-        This will set servo pulses to be staggered across the channels
-        to reduce surges in current draw
+        Disable pulse offsets.
+        This will set all servo pulses to start at the same time.
         """
         self.__useoffset = False
-        self.__refresh_channels() # refresh the channel locations
+        self.__refresh_channels()  # refresh the channel locations
 
     def sleep(self):
         """

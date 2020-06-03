@@ -16,7 +16,7 @@ except ImportError:
         "spidev not found.")
 
 
-class ADCDACPi:
+class ADCDACPi(object):
     """
     Based on the Microchip MCP3202 and MCP4822
     """
@@ -45,13 +45,16 @@ class ADCDACPi:
 
     # public methods
     def __init__(self, gain_factor=1):
-        """Class Constructor
+        """
+        Class Constructor - Initialise the DAC
 
-        gain_factor -- Set the DAC's gain factor. The value should
+        :param gain_factor: Set the DAC's gain factor. The value should
            be 1 or 2.  Gain factor is used to determine output voltage
            from the formula: Vout = G * Vref * D/4096
            Where G is gain factor, Vref (for this chip) is 2.048 and
-           D is the 12-bit digital value
+           D is the 12-bit digital value, defaults to 1
+        :type gain_factor: int, optional
+        :raises ValueError: DAC __init__: Invalid gain factor. Must be 1 or 2
         """
         if (gain_factor != 1) and (gain_factor != 2):
             raise ValueError('DAC __init__: Invalid gain factor. \
@@ -62,21 +65,37 @@ class ADCDACPi:
 
     def read_adc_voltage(self, channel, mode):
         """
-        Read the voltage from the selected channel on the ADC
-         Channel = 1 or 2
+        [summary]
+
+        :param channel: 1 or 2
+        :type channel: int
+        :param mode: 0 = single ended, 1 = differential
+        :type mode: int
+        :raises ValueError: read_adc_voltage: channel out of range
+        :raises ValueError: read_adc_voltage: mode out of range
+        :return: voltage
+        :rtype: float
         """
         if (channel > 2) or (channel < 1):
             raise ValueError('read_adc_voltage: channel out of range')
         if (mode > 1) or (mode < 0):
             raise ValueError('read_adc_voltage: mode out of range')
         raw = self.read_adc_raw(channel, mode)
-        voltage = (self.__adcrefvoltage / 4096) * raw
+        voltage = float((self.__adcrefvoltage / 4096) * raw)
         return voltage
 
     def read_adc_raw(self, channel, mode):
         """
         Read the raw value from the selected channel on the ADC
-        Channel = 1 or 2
+
+        :param channel: 1 or 2
+        :type channel: int
+        :param mode: 0 = single ended, 1 = differential
+        :type mode: int
+        :raises ValueError: read_adc_voltage: channel out of range
+        :raises ValueError: read_adc_voltage: mode out of range
+        :return: raw value from ADC, 0 to 4095
+        :rtype: int
         """
         if (channel > 2) or (channel < 1):
             raise ValueError('read_adc_voltage: channel out of range')
@@ -95,11 +114,15 @@ class ADCDACPi:
 
     def set_adc_refvoltage(self, voltage):
         """
-        set the reference voltage for the analogue to digital converter.
+        Set the reference voltage for the analogue to digital converter.
         The ADC uses the raspberry pi 3.3V power as a voltage reference so
         using this method to set the reference to match the
         exact output voltage from the 3.3V regulator will increase the
         accuracy of the ADC readings.
+
+        :param voltage: reference voltage
+        :type voltage: float
+        :raises ValueError: set_adc_refvoltage: reference voltage out of range
         """
         if (voltage >= 0.0) and (voltage <= 7.0):
             self.__adcrefvoltage = voltage
@@ -110,8 +133,18 @@ class ADCDACPi:
 
     def set_dac_voltage(self, channel, voltage):
         """
-        set the voltage for the selected channel on the DAC
-        voltage can be between 0 and 2.047 volts
+        Set the voltage for the selected channel on the DAC.
+        The DAC has two gain values, 1 or 2, which can be set when the ADCDAC
+        object is created.
+        A gain of 1 will give a voltage between 0 and 2.047 volts.
+        A gain of 2 will give a voltage between 0 and 3.3 volts.
+
+        :param channel: 1 or 2
+        :type channel: int
+        :param voltage: DAC target voltage
+        :type voltage: float
+        :raises ValueError: set_dac_voltage: DAC channel needs to be 1 or 2
+        :raises ValueError: set_dac_voltage: voltage out of range
         """
         if (channel > 2) or (channel < 1):
             raise ValueError('set_dac_voltage: DAC channel needs to be 1 or 2')
@@ -124,9 +157,14 @@ class ADCDACPi:
 
     def set_dac_raw(self, channel, value):
         """
-        Set the raw value from the selected channel on the DAC
-        Channel = 1 or 2
-        Value between 0 and 4095
+        Set the raw value for the selected channel on the DAC
+
+        :param channel: 1 or 2
+        :type channel: int
+        :param value: 0 and 4095
+        :type value: int
+        :raises ValueError: set_dac_voltage: DAC channel needs to be 1 or 2
+        :raises ValueError: set_dac_voltage: value out of range
         """
 
         if (channel > 2) or (channel < 1):

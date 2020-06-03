@@ -21,9 +21,9 @@ import datetime
 class RTC:
     """
     Based on the Maxim DS1307
-
-    Define registers values from datasheet
     """
+
+    # define registers from datasheet
     SECONDS = 0x00
     MINUTES = 0x01
     HOURS = 0x02
@@ -49,7 +49,11 @@ class RTC:
     @staticmethod
     def __get_smbus():
         """
-        internal method for getting an instance of the i2c bus
+        Internal method for getting an instance of the i2c bus
+
+        :return: i2c bus for target device
+        :rtype: SMBus
+        :raises IOError: Could not open the i2c bus
         """
         i2c__bus = 1
         # detect the device that is being used
@@ -87,7 +91,16 @@ class RTC:
     @staticmethod
     def __updatebyte(byte, bit, value):
         """
-        internal method for setting the value of a single bit within a byte
+        Internal method for setting the value of a single bit within a byte
+
+        :param byte: input value
+        :type byte: int
+        :param bit: location to update
+        :type bit: int
+        :param value: new bit, 0 or 1
+        :type value: int
+        :return: updated value
+        :rtype: int
         """
 
         if value == 0:
@@ -97,12 +110,25 @@ class RTC:
 
     @staticmethod
     def __bcd_dec(bcd):
+        """
+        Internal method for converting BCD format number to decimal
+
+        :param bcd: BCD formatted number
+        :type bcd: int
+        :return: decimal number
+        :rtype: int
+        """
         return bcd - 6 * (bcd >> 4)
 
     @staticmethod
     def __dec_bcd(dec):
         """
-        internal method for converting decimal formatted number to BCD
+        Internal method for converting decimal formatted number to BCD
+
+        :param dec: decimal number
+        :type dec: int
+        :return: BCD formatted number
+        :rtype: int
         """
         bcd = 0
         for vala in (dec // 10, dec % 10):
@@ -113,16 +139,24 @@ class RTC:
                 bcd <<= 1
         return bcd >> 1
 
-    @staticmethod
-    def __get_century(val):
+    def __get_century(self, val):
+        """
+        Internal method for storing the current century
+
+        :param val: year
+        :type val: int
+        """
         if len(val) > 2:
             year = val[0] + val[1]
-            __century = int(year) * 100
+            self.__century = int(year) * 100
         return
 
     # public methods
 
     def __init__(self):
+        """
+        Initialise the RTC module
+        """
         self.__bus = self.__get_smbus()
         self.__bus.write_byte_data(self.__rtcaddress, self.CONTROL,
                                    self.__rtcconfig)
@@ -130,42 +164,32 @@ class RTC:
 
     def set_date(self, date):
         """
-        set the date and time on the RTC
-        date must be in ISO 8601 format - YYYY-MM-DDTHH:MM:SS
-        """
+        Set the date and time on the RTC
 
+        :param date: ISO 8601 formatted string - "YYYY-MM-DDTHH:MM:SS"
+        :type date: string
+        """
         newdate = datetime.datetime.strptime(date, "%Y-%m-%dT%H:%M:%S")
         self.__get_century(date)
-        self.__bus.write_byte_data(self.__rtcaddress,
-                                   self.SECONDS,
-                                   self.__dec_bcd(newdate.second))
-        self.__bus.write_byte_data(self.__rtcaddress,
-                                   self.MINUTES,
-                                   self.__dec_bcd(newdate.minute))
-        self.__bus.write_byte_data(self.__rtcaddress,
-                                   self.HOURS,
-                                   self.__dec_bcd(newdate.hour))
-        self.__bus.write_byte_data(self.__rtcaddress,
-                                   self.DAYOFWEEK,
-                                   self.__dec_bcd(newdate.weekday()))
-        self.__bus.write_byte_data(self.__rtcaddress,
-                                   self.DAY,
-                                   self.__dec_bcd(newdate.day))
-        self.__bus.write_byte_data(self.__rtcaddress,
-                                   self.MONTH,
-                                   self.__dec_bcd(newdate.month))
-        self.__bus.write_byte_data(self.__rtcaddress,
-                                   self.YEAR,
-                                   self.__dec_bcd(newdate.year -
-                                                  self.__century))
+        writeval = [self.__dec_bcd(newdate.second),
+                    self.__dec_bcd(newdate.minute),
+                    self.__dec_bcd(newdate.hour),
+                    self.__dec_bcd(newdate.weekday()),
+                    self.__dec_bcd(newdate.day),
+                    self.__dec_bcd(newdate.month),
+                    self.__dec_bcd(newdate.year - self.__century)]
+
+        self.__bus.write_i2c_block_data(self.__rtcaddress, 0x00, writeval)
+
         return
 
     def read_date(self):
         """
-        read the date and time from the RTC in ISO 8601 format -
-        YYYY-MM-DDTHH:MM:SS
-        """
+        Read the date and time from the RTC
 
+        :return: ISO 8601 formatted string - "YYYY-MM-DDTHH:MM:SS"
+        :rtype: string
+        """
         readval = self.__bus.read_i2c_block_data(self.__rtcaddress, 0, 7)
         date = ("%02d-%02d-%02dT%02d:%02d:%02d" % (self.__bcd_dec(readval[6]) +
                                                    self.__century,
@@ -200,8 +224,10 @@ class RTC:
 
     def set_frequency(self, frequency):
         """
-        set the frequency of the output pin square-wave
-        options are: 1 = 1Hz, 2 = 4.096KHz, 3 = 8.192KHz, 4 = 32.768KHz
+        Set the frequency of the output pin square-wave
+
+        :param frequency: 1 = 1Hz, 2 = 4.096KHz, 3 = 8.192KHz, 4 = 32.768KHz
+        :type frequency: int
         """
 
         if frequency == 1:
@@ -214,7 +240,7 @@ class RTC:
             self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 0, 0)
             self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 1, 1)
         if frequency == 4:
-            __rtcconfig = self.__updatebyte(self.__rtcconfig, 0, 1)
+            self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 0, 1)
             self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 1, 1)
         self.__bus.write_byte_data(
             self.__rtcaddress, self.CONTROL, self.__rtcconfig)
@@ -222,11 +248,16 @@ class RTC:
 
     def write_memory(self, address, valuearray):
         """
-        write to the memory on the ds1307
-        the ds1307 contains 56-Byte, battery-backed RAM with Unlimited Writes
-        variables are:
-        address: 0x08 to 0x3F
-        valuearray: byte array containing data to be written to memory
+        Write to the memory on the DS1307
+        The DS1307 contains 56-Byte, battery-backed RAM with Unlimited Writes
+
+        :param address: 0x08 to 0x3F
+        :type address: int
+        :param valuearray: byte array containing data to be written to memory
+        :type valuearray: int array
+        :raises ValueError: write_memory: memory overflow error,
+                            address length exceeds 0x3F
+        :raises ValueError: write_memory: address out of range
         """
 
         if address >= 0x08 and address <= 0x3F:
@@ -241,11 +272,19 @@ class RTC:
 
     def read_memory(self, address, length):
         """
-        read from the memory on the ds1307
-        the ds1307 contains 56-Byte, battery-backed RAM with Unlimited Writes
-        variables are:
-        address: 0x08 to 0x3F
-        length: up to 32 bytes.  length can not exceed the address space.
+        Read from the memory on the DS1307
+        The DS1307 contains 56-Byte, battery-backed RAM with Unlimited Writes
+
+        :param address: 0x08 to 0x3F
+        :type address: int
+        :param length: number of bytes to read, up to 32 bytes.
+                       length can not exceed the address space.
+        :type length: int
+        :raises ValueError: read_memory: memory overflow error,
+                            address length exceeds 0x3F
+        :raises ValueError: read_memory: address out of range
+        :return: array of bytes from RAM
+        :rtype: int array
         """
 
         if address >= 0x08 and address <= 0x3F:

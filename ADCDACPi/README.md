@@ -74,13 +74,13 @@ The ADC uses the raspberry pi 3.3V power as a voltage reference so using this me
 set_dac_voltage(channel, voltage)
 ```
 Set the voltage for the selected channel on the DAC.  The DAC has two gain values, 1 or 2, which can be set when the ADCDAC object is created.  A gain of 1 will give a voltage between 0 and 2.047 volts.  A gain of 2 will give a voltage between 0 and 3.3 volts.  
-**Parameters:** channel - 1 or 2,  voltage can be between 0 and 2.047 volts  
+**Parameters:** channel - 1 or 2,  voltage - target DAC voltage  
 **Returns:** null 
 
 ```
 set_dac_raw(channel, value)
 ```
-Set the raw value from the selected channel on the DAC  
+Set the raw value for the selected channel on the DAC  
 **Parameters:** channel - 1 or 2,value int between 0 and 4095  
 **Returns:** null 
 

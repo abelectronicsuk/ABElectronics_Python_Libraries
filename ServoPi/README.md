@@ -33,7 +33,7 @@ sudo python2.7 -m pip install git+https://github.com/abelectronicsuk/ABElectroni
 
 For Python 3.5:
 ```
-sudo python3.4 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
+sudo python3.5 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
 
 The Servo Pi library is located in the ServoPi directory
@@ -229,8 +229,8 @@ Set the pulse length for the upper servo limits.  Typically around 2ms.
 Warning: Setting the pulse limit above 2ms may damage your servo.  
 **Parameters:**  
 high_limit - Pulse length in milliseconds for the upper servo limit.  
-channel (optional) - The channel for which the low limit will be set.  
-If this value is omitted the low limit will be set for all channels.  
+channel (optional) - The channel for which the upper limit will be set.  
+If this value is omitted the upper limit will be set for all channels.  
 **Returns:** null  
 
 ```
