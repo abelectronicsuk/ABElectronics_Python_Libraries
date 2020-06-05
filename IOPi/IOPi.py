@@ -212,15 +212,16 @@ class IOPi(object):
         reg = None
         if pin >= 1 and pin <= 8:
             reg = self.IODIRA
+            pin = pin - 1
         elif pin >= 9 and pin <= 16:
             reg = self.IODIRB
+            pin = pin - 9
         else:
             raise ValueError("pin out of range: 1 to 16")
 
         if value < 0 or value > 1:
             raise ValueError("value out of range: 0 or 1")
-
-        pin = pin - 1
+        
         curval = self.__bus.read_byte_data(self.__ioaddress, reg)
         newval = self.__updatebyte(curval, pin, value)
         self.__bus.write_byte_data(self.__ioaddress, reg, newval)
@@ -283,15 +284,16 @@ class IOPi(object):
         reg = None
         if pin >= 1 and pin <= 8:
             reg = self.GPPUA
+            pin = pin - 1
         elif pin >= 9 and pin <= 16:
             reg = self.GPPUB
+            pin = pin - 9
         else:
             raise ValueError("pin out of range: 1 to 16")
 
         if value < 0 or value > 1:
             raise ValueError("value out of range: 0 or 1")
 
-        pin = pin - 1
         curval = self.__bus.read_byte_data(self.__ioaddress, reg)
         newval = self.__updatebyte(curval, pin, value)
         self.__bus.write_byte_data(self.__ioaddress, reg, newval)
@@ -354,15 +356,16 @@ class IOPi(object):
         reg = None
         if pin >= 1 and pin <= 8:
             reg = self.GPIOA
+            pin = pin - 1
         elif pin >= 9 and pin <= 16:
             reg = self.GPIOB
+            pin = pin - 9
         else:
             raise ValueError("pin out of range: 1 to 16")
 
         if value < 0 or value > 1:
             raise ValueError("value out of range: 0 or 1")
-
-        pin = pin - 1
+        
         curval = self.__bus.read_byte_data(self.__ioaddress, reg)
         newval = self.__updatebyte(curval, pin, value)
         self.__bus.write_byte_data(self.__ioaddress, reg, newval)
@@ -423,13 +426,13 @@ class IOPi(object):
         """
 
         value = 0
-        pin = pin - 1
+        
         if pin >= 0 and pin <= 7:
             curval = self.__bus.read_byte_data(self.__ioaddress, self.GPIOA)
-            value = self.__checkbit(curval, pin)
+            value = self.__checkbit(curval, pin -1)
         elif pin >= 8 and pin <= 15:
             curval = self.__bus.read_byte_data(self.__ioaddress, self.GPIOB)
-            value = self.__checkbit(curval, pin - 8)
+            value = self.__checkbit(curval, pin - 9)
         else:
             raise ValueError("pin out of range: 1 to 16")
 
@@ -483,15 +486,16 @@ class IOPi(object):
         reg = None
         if pin >= 1 and pin <= 8:
             reg = self.IPOLA
+            pin = pin - 1
         elif pin >= 9 and pin <= 16:
             reg = self.IPOLB
+            pin = pin - 9
         else:
             raise ValueError("pin out of range: 1 to 16")
 
         if value < 0 or value > 1:
             raise ValueError("polarity out of range: 0 or 1")
-
-        pin = pin - 1
+        
         curval = self.__bus.read_byte_data(self.__ioaddress, reg)
         newval = self.__updatebyte(curval, pin, value)
         self.__bus.write_byte_data(self.__ioaddress, reg, newval)
@@ -657,15 +661,17 @@ class IOPi(object):
         reg = None
         if pin >= 1 and pin <= 8:
             reg = self.GPINTENA
+            pin = pin - 1
         elif pin >= 9 and pin <= 16:
             reg = self.GPINTENB
+            pin = pin - 9
         else:
             raise ValueError("pin out of range: 1 to 16")
 
         if value < 0 or value > 1:
             raise ValueError("value out of range: 0 or 1")
 
-        pin = pin - 1
+        
         curval = self.__bus.read_byte_data(self.__ioaddress, reg)
         newval = self.__updatebyte(curval, pin, value)
         self.__bus.write_byte_data(self.__ioaddress, reg, newval)

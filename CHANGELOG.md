@@ -1,4 +1,12 @@
-#### 2020-05-19 Andrew Dorey
+#### 2020-06-05 Andrew Dorey
+
+* 2.3.2 Fixed bugs in IO Pi and Expander Pi libraries.
+
+#### 2020-06-03 Andrew Dorey
+
+* 2.3.2  Updates to the Expander Pi class.   Added new methods for accessing whole IO bus directly, set_bus_direction(), set_bus_pullups(), write_bus(), read_bus(), invert_bus(), set_interrupt_on_bus().  Updated docstrings for all libraries to use Sphinx format.
+
+#### 2020-06-01 Andrew Dorey
 
 * 2.3.1  Updates to the IO Pi class.  Changed method docstrings to use Sphinx format.  Added new methods for accessing whole bus directly, set_bus_direction(), set_bus_pullups(), write_bus(), read_bus(), invert_bus(), set_interrupt_on_bus().  
 
