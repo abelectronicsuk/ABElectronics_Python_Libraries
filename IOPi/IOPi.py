@@ -105,6 +105,11 @@ class IOPi(object):
         :type initialise: bool, optional
         """
 
+        if address < 0x20 or address > 0x27:
+            raise ValueError("__init__ i2c address out of range: 0x20 to 0x27")
+        if type(initialise) is not bool:
+            raise ValueError("__init__ initialise must be bool: True of False")
+
         self.__ioaddress = address
         self.__bus = self.__get_smbus()
         self.__bus.write_byte_data(self.__ioaddress, self.IOCON, self.__conf)
@@ -221,7 +226,7 @@ class IOPi(object):
 
         if value < 0 or value > 1:
             raise ValueError("value out of range: 0 or 1")
-        
+
         curval = self.__bus.read_byte_data(self.__ioaddress, reg)
         newval = self.__updatebyte(curval, pin, value)
         self.__bus.write_byte_data(self.__ioaddress, reg, newval)
@@ -365,7 +370,7 @@ class IOPi(object):
 
         if value < 0 or value > 1:
             raise ValueError("value out of range: 0 or 1")
-        
+
         curval = self.__bus.read_byte_data(self.__ioaddress, reg)
         newval = self.__updatebyte(curval, pin, value)
         self.__bus.write_byte_data(self.__ioaddress, reg, newval)
@@ -426,11 +431,11 @@ class IOPi(object):
         """
 
         value = 0
-        
-        if pin >= 0 and pin <= 7:
+
+        if pin >= 1 and pin <= 8:
             curval = self.__bus.read_byte_data(self.__ioaddress, self.GPIOA)
-            value = self.__checkbit(curval, pin -1)
-        elif pin >= 8 and pin <= 15:
+            value = self.__checkbit(curval, pin - 1)
+        elif pin >= 9 and pin <= 16:
             curval = self.__bus.read_byte_data(self.__ioaddress, self.GPIOB)
             value = self.__checkbit(curval, pin - 9)
         else:
@@ -495,7 +500,7 @@ class IOPi(object):
 
         if value < 0 or value > 1:
             raise ValueError("polarity out of range: 0 or 1")
-        
+
         curval = self.__bus.read_byte_data(self.__ioaddress, reg)
         newval = self.__updatebyte(curval, pin, value)
         self.__bus.write_byte_data(self.__ioaddress, reg, newval)
@@ -671,7 +676,6 @@ class IOPi(object):
         if value < 0 or value > 1:
             raise ValueError("value out of range: 0 or 1")
 
-        
         curval = self.__bus.read_byte_data(self.__ioaddress, reg)
         newval = self.__updatebyte(curval, pin, value)
         self.__bus.write_byte_data(self.__ioaddress, reg, newval)

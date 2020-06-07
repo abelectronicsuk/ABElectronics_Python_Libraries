@@ -649,10 +649,11 @@ class IO:
         """
 
         value = 0
-        if pin >= 0 and pin <= 7:
+
+        if pin >= 1 and pin <= 8:
             curval = self.__bus.read_byte_data(self.__ioaddress, self.GPIOA)
             value = self.__checkbit(curval, pin - 1)
-        elif pin >= 8 and pin <= 15:
+        elif pin >= 9 and pin <= 16:
             curval = self.__bus.read_byte_data(self.__ioaddress, self.GPIOB)
             value = self.__checkbit(curval, pin - 9)
         else:
@@ -717,7 +718,6 @@ class IO:
 
         if value < 0 or value > 1:
             raise ValueError("polarity out of range: 0 or 1")
-
         
         curval = self.__bus.read_byte_data(self.__ioaddress, reg)
         newval = self.__helper.updatebyte(curval, pin, value)
@@ -893,7 +893,6 @@ class IO:
 
         if value < 0 or value > 1:
             raise ValueError("value out of range: 0 or 1")
-
         
         curval = self.__bus.read_byte_data(self.__ioaddress, reg)
         newval = self.__helper.updatebyte(curval, pin, value)

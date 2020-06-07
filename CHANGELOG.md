@@ -1,3 +1,7 @@
+#### 2020-06-07 Andrew Dorey
+
+* 2.3.3 Fixed read_pin() bug in IO Pi and Expander Pi libraries.
+
 #### 2020-06-05 Andrew Dorey
 
 * 2.3.2 Fixed bugs in IO Pi and Expander Pi libraries.
