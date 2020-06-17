@@ -258,6 +258,23 @@ class IOPi(object):
             self.__bus.write_byte_data(self.__ioaddress, self.IODIRB, value)
         return
 
+    def get_port_direction(self, port):
+        """
+        Get the direction from an IO port
+        :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
+        :type port: int
+        :return: number between 0 and 255 (0xFF)
+        :rtype: int
+        :raises ValueError: if port is out of range, 0 or 1
+        """
+        if port == 0:
+            return self.__bus.read_byte_data(self.__ioaddress, self.IODIRA)
+        elif port == 1:
+            return self.__bus.read_byte_data(self.__ioaddress, self.IODIRB)
+        else:
+            raise ValueError("port out of range: 0 or 1")
+        return
+
     def set_bus_direction(self, value):
         """
         Set direction for an IO bus
@@ -328,6 +345,23 @@ class IOPi(object):
             self.__bus.write_byte_data(self.__ioaddress, self.GPPUA, value)
         else:
             self.__bus.write_byte_data(self.__ioaddress, self.GPPUB, value)
+        return
+
+    def get_port_pullups(self, port):
+        """
+        Get the internal pull-up status for the selected IO port
+        :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
+        :type port: int
+        :return: number between 0 and 255 (0xFF)
+        :rtype: int
+        :raises ValueError: if port is out of range, 0 or 1
+        """
+        if port == 0:
+            return self.__bus.read_byte_data(self.__ioaddress, self.GPPUA)
+        elif port == 1:
+            return self.__bus.read_byte_data(self.__ioaddress, self.GPPUB)
+        else:
+            raise ValueError("port out of range: 0 or 1")
         return
 
     def set_bus_pullups(self, value):
@@ -531,6 +565,23 @@ class IOPi(object):
             self.__bus.write_byte_data(self.__ioaddress, self.IPOLA, value)
         else:
             self.__bus.write_byte_data(self.__ioaddress, self.IPOLB, value)
+        return
+
+    def get_port_polarity(self, port):
+        """
+        Get the polarity for the selected IO port
+        :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
+        :type port: int
+        :return: number between 0 and 255 (0xFF)
+        :rtype: int
+        :raises ValueError: if port is out of range, 0 or 1
+        """
+        if port == 0:
+            return self.__bus.read_byte_data(self.__ioaddress, self.IPOLA)
+        elif port == 1:
+            return self.__bus.read_byte_data(self.__ioaddress, self.IPOLB)
+        else:
+            raise ValueError("port out of range: 0 or 1")
         return
 
     def invert_bus(self, value):

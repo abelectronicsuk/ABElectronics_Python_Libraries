@@ -81,6 +81,14 @@ value: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number 
 **Returns:** null
 
 ```
+get_port_direction(port): 
+```
+Get the direction from an IO port  
+**Parameters:**  
+port: 0 = pins 1 to 8, 1 = pins 9 to 16   
+**Returns:** number between 0 and 255 (0xFF)  
+
+```
 set_bus_direction(value): 
 ```
 Sets the IO direction for all pins on the bus  
@@ -104,7 +112,15 @@ Set the internal 100K pull-up resistors for the selected IO port
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16  
 value: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = Enabled, 0 = Disabled  
-**Returns:** null
+**Returns:** null  
+
+```
+get_port_pullups(port): 
+```
+Get the internal pull-up status for the selected IO port  
+**Parameters:**  
+port: 0 = pins 1 to 8, 1 = pins 9 to 16   
+**Returns:** number between 0 and 255 (0xFF)  
 
 ```
 set_bus_pullups(value)
@@ -177,6 +193,14 @@ Invert the polarity of the pins on a selected port
 port: 0 = pins 1 to 8, 1 = pins 9 to 16  
 value: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  0 = same logic state of the input pin, 1 = inverted logic state of the input pin  
 **Returns:** null
+
+```
+get_port_polarity(port): 
+```
+Get the polarity for the selected IO port  
+**Parameters:**  
+port: 0 = pins 1 to 8, 1 = pins 9 to 16   
+**Returns:** number between 0 and 255 (0xFF) 
 
 ```
 invert_bus(value)

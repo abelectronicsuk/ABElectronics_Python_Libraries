@@ -474,6 +474,23 @@ class IO:
             self.__bus.write_byte_data(self.__ioaddress, self.IODIRB, value)
         return
 
+    def get_port_direction(self, port):
+        """
+        Get the direction from an IO port
+        :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
+        :type port: int
+        :return: number between 0 and 255 (0xFF)
+        :rtype: int
+        :raises ValueError: if port is out of range, 0 or 1
+        """
+        if port == 1:
+            return self.__bus.read_byte_data(self.__ioaddress, self.IODIRB)
+        elif port == 0:
+            return self.__bus.read_byte_data(self.__ioaddress, self.IODIRA)
+        else:
+            raise ValueError("port out of range: 0 or 1")
+        return
+
     def set_bus_direction(self, value):
         """
         Set direction for an IO bus
@@ -545,6 +562,21 @@ class IO:
             self.__bus.write_byte_data(self.__ioaddress, self.GPPUA, value)
         else:
             self.__bus.write_byte_data(self.__ioaddress, self.GPPUB, value)
+        return
+
+    def get_port_pullups(self, port):
+        """
+        get the internal pull-up status for the selected IO port
+        port 0 = pins 1 to 8, port 1 = pins 9 to 16
+        """
+        if port == 1:
+            __port_b_pullup = self.__bus.read_byte_data(
+                self.__ioaddress, self.GPPUB)
+            return __port_b_pullup
+        else:
+            __port_a_pullup = self.__bus.read_byte_data(
+                self.__ioaddress, self.GPPUA)
+            return __port_a_pullup
         return
 
     def set_bus_pullups(self, value):
@@ -749,6 +781,21 @@ class IO:
             self.__bus.write_byte_data(self.__ioaddress, self.IPOLA, value)
         else:
             self.__bus.write_byte_data(self.__ioaddress, self.IPOLB, value)
+        return
+
+    def get_port_polarity(self, port):
+        """
+        get the polarity for the selected IO port
+        port 0 = pins 1 to 8, port 1 = pins 9 to 16
+        """
+        if port == 1:
+            __port_b_polarity = self.__bus.read_byte_data(
+                self.__ioaddress, self.IPOLB)
+            return __port_b_polarity
+        else:
+            __port_a_polarity = self.__bus.read_byte_data(
+                self.__ioaddress, self.IPOLA)
+            return __port_a_polarity
         return
 
     def invert_bus(self, value):
