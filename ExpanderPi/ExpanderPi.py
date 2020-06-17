@@ -369,14 +369,14 @@ class IO:
     __helper = None
     __bus = None
 
-    def __init__(self, reset=True):
+    def __init__(self, initialise=True):
         """
         IOPi object initialisation
 
-        :param reset: True = direction set as inputs, pull-ups disabled,
+        :param initialise: True = direction set as inputs, pull-ups disabled,
                            ports not inverted.
                            False = device state unaltered., defaults to True
-        :type reset: bool, optional
+        :type initialise: bool, optional
         """
         self.__helper = _ABEHelpers()
 
@@ -387,7 +387,7 @@ class IO:
             self.__ioaddress, self.GPIOA)
         self.__port_b_value = self.__bus.read_byte_data(
             self.__ioaddress, self.GPIOB)
-        if reset is True:
+        if initialise is True:
             self.__bus.write_byte_data(self.__ioaddress, self.IODIRA, 0xFF)
             self.__bus.write_byte_data(self.__ioaddress, self.IODIRB, 0xFF)
             self.set_port_pullups(0, 0x00)
@@ -483,10 +483,10 @@ class IO:
         :rtype: int
         :raises ValueError: if port is out of range, 0 or 1
         """
-        if port == 1:
-            return self.__bus.read_byte_data(self.__ioaddress, self.IODIRB)
-        elif port == 0:
+        if port == 0:
             return self.__bus.read_byte_data(self.__ioaddress, self.IODIRA)
+        elif port == 1:
+            return self.__bus.read_byte_data(self.__ioaddress, self.IODIRB)
         else:
             raise ValueError("port out of range: 0 or 1")
         return
@@ -566,17 +566,19 @@ class IO:
 
     def get_port_pullups(self, port):
         """
-        get the internal pull-up status for the selected IO port
-        port 0 = pins 1 to 8, port 1 = pins 9 to 16
+        Get the internal pull-up status for the selected IO port
+        :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
+        :type port: int
+        :return: number between 0 and 255 (0xFF)
+        :rtype: int
+        :raises ValueError: if port is out of range, 0 or 1
         """
-        if port == 1:
-            __port_b_pullup = self.__bus.read_byte_data(
-                self.__ioaddress, self.GPPUB)
-            return __port_b_pullup
+        if port == 0:
+            return self.__bus.read_byte_data(self.__ioaddress, self.GPPUA)
+        elif port == 1:
+            return self.__bus.read_byte_data(self.__ioaddress, self.GPPUB)
         else:
-            __port_a_pullup = self.__bus.read_byte_data(
-                self.__ioaddress, self.GPPUA)
-            return __port_a_pullup
+            raise ValueError("port out of range: 0 or 1")
         return
 
     def set_bus_pullups(self, value):
@@ -785,17 +787,19 @@ class IO:
 
     def get_port_polarity(self, port):
         """
-        get the polarity for the selected IO port
-        port 0 = pins 1 to 8, port 1 = pins 9 to 16
+        Get the polarity for the selected IO port
+        :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
+        :type port: int
+        :return: number between 0 and 255 (0xFF)
+        :rtype: int
+        :raises ValueError: if port is out of range, 0 or 1
         """
-        if port == 1:
-            __port_b_polarity = self.__bus.read_byte_data(
-                self.__ioaddress, self.IPOLB)
-            return __port_b_polarity
+        if port == 0:
+            return self.__bus.read_byte_data(self.__ioaddress, self.IPOLA)
+        elif port == 1:
+            return self.__bus.read_byte_data(self.__ioaddress, self.IPOLB)
         else:
-            __port_a_polarity = self.__bus.read_byte_data(
-                self.__ioaddress, self.IPOLA)
-            return __port_a_polarity
+            raise ValueError("port out of range: 0 or 1")
         return
 
     def invert_bus(self, value):
