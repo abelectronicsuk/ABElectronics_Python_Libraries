@@ -1,3 +1,11 @@
+#### 2020-06-20 Andrew Dorey
+
+* 2.3.5 Updates to IO Pi and Expander Pi libraries.  Added get_ functions for each device register.  Refactored code to reduce repetition in pin, port and bus methods.  Added unit tests for the IO Pi library.
+
+#### 2020-06-17 Andrew Dorey
+
+* 2.3.4 Added get_port_direction(), get_port_pullups() and get_port_polarity() into the IO Pi and Expander Pi libraries.
+
 #### 2020-06-07 Andrew Dorey
 
 * 2.3.3 Fixed read_pin() bug in IO Pi and Expander Pi libraries.

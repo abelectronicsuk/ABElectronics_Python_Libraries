@@ -200,26 +200,28 @@ class IOPi(object):
         elif value == 1:
             return byte | (1 << bit)
 
-    # public methods
-
-    def set_pin_direction(self, pin, value):
+    def __set_pin(self, pin, value, a_register, b_register):
         """
-        Set IO direction for an individual pin
+        Internal method for setting the value of a single bit
+        within the device registers
 
-        :param pin: pin to update, 1 to 16
+        :param pin: 1 to 16
         :type pin: int
-        :param value: 1 = input, 0 = output
+        :param value: 0 or 1
         :type value: int
-        :raises ValueError: if pin is out of range, 1 to 16
-        :raises ValueError: if value is out of range, 0 or 1
+        :param a_register: A register, e.g. IODIRA
+        :type a_register: int
+        :param b_register: B register, e.g. IODIRB
+        :type b_register: int
+        :raises ValueError: pin out of range: 1 to 16
+        :raises ValueError: value out of range: 0 or 1
         """
-
         reg = None
         if pin >= 1 and pin <= 8:
-            reg = self.IODIRA
+            reg = a_register
             pin = pin - 1
         elif pin >= 9 and pin <= 16:
-            reg = self.IODIRB
+            reg = b_register
             pin = pin - 9
         else:
             raise ValueError("pin out of range: 1 to 16")
@@ -232,6 +234,128 @@ class IOPi(object):
         self.__bus.write_byte_data(self.__ioaddress, reg, newval)
 
         return
+
+    def __get_pin(self, pin, a_register, b_register):
+        """
+        Internal method for getting the value of a single bit
+        within the device registers
+
+        :param pin: 1 to 16
+        :type pin: int
+        :param a_register: A register, e.g. IODIRA
+        :type a_register: int
+        :param b_register: B register, e.g. IODIRB
+        :type b_register: int
+        :raises ValueError: pin out of range: 1 to 16
+        :return: 0 or 1
+        :rtype: int
+        """
+        value = 0
+
+        if pin >= 1 and pin <= 8:
+            curval = self.__bus.read_byte_data(self.__ioaddress, a_register)
+            value = self.__checkbit(curval, pin - 1)
+        elif pin >= 9 and pin <= 16:
+            curval = self.__bus.read_byte_data(self.__ioaddress, b_register)
+            value = self.__checkbit(curval, pin - 9)
+        else:
+            raise ValueError("pin out of range: 1 to 16")
+
+        return value
+
+    def __set_port(self, port, value, a_register, b_register):
+        """
+        Internal method for setting the value of a device register
+
+        :param port: 0 or 1
+        :type port: int
+        :param value: 0 to 255 (0xFF)
+        :type value: int
+        :param a_register: A register, e.g. IODIRA
+        :type a_register: int
+        :param b_register: B register, e.g. IODIRB
+        :type b_register: int
+        :raises ValueError: port out of range: 0 or 1
+        :raises ValueError: value out of range: 0 to 255 (0xFF)
+        """
+        if port < 0 or port > 1:
+            raise ValueError("port out of range: 0 or 1")
+
+        if value < 0 or value > 0xFF:
+            raise ValueError("value out of range: 0 to 255 (0xFF)")
+
+        if port == 0:
+            self.__bus.write_byte_data(self.__ioaddress, a_register, value)
+        else:
+            self.__bus.write_byte_data(self.__ioaddress, b_register, value)
+        return
+
+    def __get_port(self, port, a_register, b_register):
+        """
+        Internal method for getting the value of a device register
+
+        :param port: 0 or 1
+        :type port: int
+        :param a_register: A register, e.g. IODIRA
+        :type a_register: int
+        :param b_register: B register, e.g. IODIRB
+        :type b_register: int
+        :raises ValueError: port out of range: 0 or 1
+        :return: 0 to 255 (0xFF)
+        :rtype: int
+        """
+        if port == 0:
+            return self.__bus.read_byte_data(self.__ioaddress, a_register)
+        elif port == 1:
+            return self.__bus.read_byte_data(self.__ioaddress, b_register)
+        else:
+            raise ValueError("port out of range: 0 or 1")
+        return
+
+    def __set_bus(self, value, a_register):
+        """
+        Internal method for writing a 16-bit value to
+        two consecutive device registers
+
+        :param value: 0 to 65535 (0xFFFF)
+        :type value: int
+        :param a_register: A register, e.g. IODIRA
+        :type a_register: int
+        :raises ValueError: value out of range: 0 to 65535 (0xFFFF)
+        """
+        if value >= 0x0000 and value <= 0xFFFF:
+            self.__bus.write_word_data(self.__ioaddress, a_register, value)
+        else:
+            raise ValueError('value out of range: 0 to 65535 (0xFFFF)')
+        return
+
+    # public methods
+
+    def set_pin_direction(self, pin, value):
+        """
+        Set the IO direction for an individual pin
+
+        :param pin: pin to update, 1 to 16
+        :type pin: int
+        :param value: 1 = input, 0 = output
+        :type value: int
+        :raises ValueError: if pin is out of range, 1 to 16
+        :raises ValueError: if value is out of range, 0 or 1
+        """
+        self.__set_pin(pin, value, self.IODIRA, self.IODIRB)
+        return
+
+    def get_pin_direction(self, pin):
+        """
+        Get the IO direction for an individual pin
+
+        :param pin: pin to read, 1 to 16
+        :type pin: int
+        :raises ValueError: if pin is out of range, 1 to 16
+        :return: 1 = input, 0 = output
+        :rtype: int
+        """
+        return self.__get_pin(pin, self.IODIRA, self.IODIRB)
 
     def set_port_direction(self, port, value):
         """
@@ -245,51 +369,42 @@ class IOPi(object):
         :raises ValueError: if port is out of range, 0 or 1
         :raises ValueError: if value out of range: 0 to 255 (0xFF)
         """
-
-        if port < 0 or port > 1:
-            raise ValueError("port out of range: 0 or 1")
-
-        if value < 0 or value > 0xFF:
-            raise ValueError("value out of range: 0 to 255 (0xFF)")
-
-        if port == 0:
-            self.__bus.write_byte_data(self.__ioaddress, self.IODIRA, value)
-        else:
-            self.__bus.write_byte_data(self.__ioaddress, self.IODIRB, value)
+        self.__set_port(port, value, self.IODIRA, self.IODIRB)
         return
 
     def get_port_direction(self, port):
         """
         Get the direction from an IO port
+
         :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
         :type port: int
         :return: number between 0 and 255 (0xFF)
         :rtype: int
         :raises ValueError: if port is out of range, 0 or 1
         """
-        if port == 0:
-            return self.__bus.read_byte_data(self.__ioaddress, self.IODIRA)
-        elif port == 1:
-            return self.__bus.read_byte_data(self.__ioaddress, self.IODIRB)
-        else:
-            raise ValueError("port out of range: 0 or 1")
-        return
+        return self.__get_port(port, self.IODIRA, self.IODIRB)
 
     def set_bus_direction(self, value):
         """
-        Set direction for an IO bus
+        Set the direction for an IO bus
 
         :param value: 16-bit number 0 to 65535 (0xFFFF).
                       For each bit 1 = input, 0 = output
         :type value: int
         :raises ValueError: if value is out of range, 0 to 65535 (0xFFFF)
         """
-
-        if value >= 0x0000 and value <= 0xFFFF:
-            self.__bus.write_word_data(self.__ioaddress, self.IODIRA, value)
-        else:
-            raise ValueError('value out of range: 0 to 65535 (0xFFFF)')
+        self.__set_bus(value, self.IODIRA)
         return
+
+    def get_bus_direction(self):
+        """
+        Get the direction for an IO bus
+
+        :return: 16-bit number 0 to 65535 (0xFFFF).
+                 For each bit 1 = input, 0 = output
+        :rtype: int
+        """
+        return self.__bus.read_word_data(self.__ioaddress, self.IODIRA)
 
     def set_pin_pullup(self, pin, value):
         """
@@ -302,25 +417,20 @@ class IOPi(object):
         :raises ValueError: if pin is out of range, 1 to 16
         :raises ValueError: if value is out of range, 0 or 1
         """
-
-        reg = None
-        if pin >= 1 and pin <= 8:
-            reg = self.GPPUA
-            pin = pin - 1
-        elif pin >= 9 and pin <= 16:
-            reg = self.GPPUB
-            pin = pin - 9
-        else:
-            raise ValueError("pin out of range: 1 to 16")
-
-        if value < 0 or value > 1:
-            raise ValueError("value out of range: 0 or 1")
-
-        curval = self.__bus.read_byte_data(self.__ioaddress, reg)
-        newval = self.__updatebyte(curval, pin, value)
-        self.__bus.write_byte_data(self.__ioaddress, reg, newval)
-
+        self.__set_pin(pin, value, self.GPPUA, self.GPPUB)
         return
+
+    def get_pin_pullup(self, pin):
+        """
+        Get the internal 100K pull-up resistors for an individual pin
+
+        :param pin: pin to read, 1 to 16
+        :type pin: int
+        :raises ValueError: if pin is out of range, 1 to 16
+        :return: 1 = enabled, 0 = disabled
+        :rtype: int
+        """
+        return self.__get_pin(pin, self.GPPUA, self.GPPUB)
 
     def set_port_pullups(self, port, value):
         """
@@ -334,35 +444,20 @@ class IOPi(object):
         :raises ValueError: if port is out of range, 0 or 1
         :raises ValueError: value out of range: 0 to 255 (0xFF)
         """
-
-        if port < 0 or port > 1:
-            raise ValueError("port out of range: 0 or 1")
-
-        if value < 0 or value > 0xFF:
-            raise ValueError("value out of range: 0 to 255 (0xFF)")
-
-        if port == 0:
-            self.__bus.write_byte_data(self.__ioaddress, self.GPPUA, value)
-        else:
-            self.__bus.write_byte_data(self.__ioaddress, self.GPPUB, value)
+        self.__set_port(port, value, self.GPPUA, self.GPPUB)
         return
 
     def get_port_pullups(self, port):
         """
         Get the internal pull-up status for the selected IO port
+
         :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
         :type port: int
         :return: number between 0 and 255 (0xFF)
         :rtype: int
         :raises ValueError: if port is out of range, 0 or 1
         """
-        if port == 0:
-            return self.__bus.read_byte_data(self.__ioaddress, self.GPPUA)
-        elif port == 1:
-            return self.__bus.read_byte_data(self.__ioaddress, self.GPPUB)
-        else:
-            raise ValueError("port out of range: 0 or 1")
-        return
+        return self.__get_port(port, self.GPPUA, self.GPPUB)
 
     def set_bus_pullups(self, value):
         """
@@ -373,12 +468,18 @@ class IOPi(object):
         :type value: int
         :raises ValueError: if value is out of range, 0 to 65535 (0xFFFF)
         """
-
-        if value >= 0x0000 and value <= 0xFFFF:
-            self.__bus.write_word_data(self.__ioaddress, self.GPPUA, value)
-        else:
-            raise ValueError('value out of range: 0 to 65535 (0xFFFF)')
+        self.__set_bus(value, self.GPPUA)
         return
+
+    def get_bus_pullups(self):
+        """
+        Get the internal 100K pull-up resistors for an IO bus
+
+        :return: 16-bit number 0 to 65535 (0xFFFF).
+                 For each bit 1 = enabled, 0 = disabled
+        :rtype: int
+        """
+        return self.__bus.read_word_data(self.__ioaddress, self.GPPUA)
 
     def write_pin(self, pin, value):
         """
@@ -391,24 +492,7 @@ class IOPi(object):
         :raises ValueError: if pin is out of range, 1 to 16
         :raises ValueError: if value is out of range, 0 or 1
         """
-
-        reg = None
-        if pin >= 1 and pin <= 8:
-            reg = self.GPIOA
-            pin = pin - 1
-        elif pin >= 9 and pin <= 16:
-            reg = self.GPIOB
-            pin = pin - 9
-        else:
-            raise ValueError("pin out of range: 1 to 16")
-
-        if value < 0 or value > 1:
-            raise ValueError("value out of range: 0 or 1")
-
-        curval = self.__bus.read_byte_data(self.__ioaddress, reg)
-        newval = self.__updatebyte(curval, pin, value)
-        self.__bus.write_byte_data(self.__ioaddress, reg, newval)
-
+        self.__set_pin(pin, value, self.GPIOA, self.GPIOB)
         return
 
     def write_port(self, port, value):
@@ -423,17 +507,7 @@ class IOPi(object):
         :raises ValueError: port out of range: 0 or 1
         :raises ValueError: value out of range: 0 to 255 (0xFF)
         """
-
-        if port < 0 or port > 1:
-            raise ValueError("port out of range: 0 or 1")
-
-        if value < 0 or value > 0xFF:
-            raise ValueError("value out of range: 0 to 255 (0xFF)")
-
-        if port == 0:
-            self.__bus.write_byte_data(self.__ioaddress, self.GPIOA, value)
-        else:
-            self.__bus.write_byte_data(self.__ioaddress, self.GPIOB, value)
+        self.__set_port(port, value, self.GPIOA, self.GPIOB)
         return
 
     def write_bus(self, value):
@@ -445,11 +519,7 @@ class IOPi(object):
         :type value: int
         :raises ValueError: if value is out of range, 0 to 65535 (0xFFFF)
         """
-
-        if value >= 0x0000 and value <= 0xFFFF:
-            self.__bus.write_word_data(self.__ioaddress, self.GPIOA, value)
-        else:
-            raise ValueError('value out of range: 0 to 65535 (0xFFFF)')
+        self.__set_bus(value, self.GPIOA)
         return
 
     def read_pin(self, pin):
@@ -463,19 +533,7 @@ class IOPi(object):
         :return: 0 = logic level low, 1 = logic level high
         :rtype: [type]
         """
-
-        value = 0
-
-        if pin >= 1 and pin <= 8:
-            curval = self.__bus.read_byte_data(self.__ioaddress, self.GPIOA)
-            value = self.__checkbit(curval, pin - 1)
-        elif pin >= 9 and pin <= 16:
-            curval = self.__bus.read_byte_data(self.__ioaddress, self.GPIOB)
-            value = self.__checkbit(curval, pin - 9)
-        else:
-            raise ValueError("pin out of range: 1 to 16")
-
-        return value
+        return self.__get_pin(pin, self.GPIOA, self.GPIOB)
 
     def read_port(self, port):
         """
@@ -487,14 +545,7 @@ class IOPi(object):
         :return: number between 0 and 255 (0xFF)
         :rtype: int
         """
-
-        if port < 0 or port > 1:
-            raise ValueError("port out of range: 0 or 1")
-
-        if port == 0:
-            return self.__bus.read_byte_data(self.__ioaddress, self.GPIOA)
-        else:
-            return self.__bus.read_byte_data(self.__ioaddress, self.GPIOB)
+        return self.__get_port(port, self.GPIOA, self.GPIOB)
 
     def read_bus(self):
         """
@@ -503,15 +554,11 @@ class IOPi(object):
         :return: 16-bit number 0 to 65535 (0xFFFF)
         :rtype: int
         """
-
         return self.__bus.read_word_data(self.__ioaddress, self.GPIOA)
 
     def invert_pin(self, pin, value):
         """
         Invert the polarity of the selected pin
-        pins 1 to 16
-        polarity 0 = same logic state of the input pin, 1 = inverted logic
-        state of the input pin
 
         :param pin: pin to update, 1 to 16
         :type pin: int
@@ -519,27 +566,23 @@ class IOPi(object):
                       1 = inverted logic state of the input pin
         :type value: int
         :raises ValueError: pin out of range: 1 to 16
-        :raises ValueError: polarity out of range: 0 or 1
+        :raises ValueError: value out of range: 0 or 1
         """
-
-        reg = None
-        if pin >= 1 and pin <= 8:
-            reg = self.IPOLA
-            pin = pin - 1
-        elif pin >= 9 and pin <= 16:
-            reg = self.IPOLB
-            pin = pin - 9
-        else:
-            raise ValueError("pin out of range: 1 to 16")
-
-        if value < 0 or value > 1:
-            raise ValueError("polarity out of range: 0 or 1")
-
-        curval = self.__bus.read_byte_data(self.__ioaddress, reg)
-        newval = self.__updatebyte(curval, pin, value)
-        self.__bus.write_byte_data(self.__ioaddress, reg, newval)
-
+        self.__set_pin(pin, value, self.IPOLA, self.IPOLB)
         return
+
+    def get_pin_polarity(self, pin):
+        """
+        Get the polarity of the selected pin
+
+        :param pin: pin to read, 1 to 16
+        :type pin: int
+        :raises ValueError: if pin is out of range, 1 to 16
+        :return: 0 = same logic state of the input pin,
+                 1 = inverted logic state of the input pin
+        :rtype: int
+        """
+        return self.__get_pin(pin, self.IPOLA, self.IPOLB)
 
     def invert_port(self, port, value):
         """
@@ -554,17 +597,7 @@ class IOPi(object):
         :raises ValueError: if port is out of range, 0 or 1
         :raises ValueError: if value is out of range, 0 to 0xFF
         """
-
-        if port < 0 or port > 1:
-            raise ValueError("port out of range: 0 or 1")
-
-        if value < 0 or value > 0xFF:
-            raise ValueError("value out of range: 0 to 255 (0xFF)")
-
-        if port == 0:
-            self.__bus.write_byte_data(self.__ioaddress, self.IPOLA, value)
-        else:
-            self.__bus.write_byte_data(self.__ioaddress, self.IPOLB, value)
+        self.__set_port(port, value, self.IPOLA, self.IPOLB)
         return
 
     def get_port_polarity(self, port):
@@ -576,13 +609,7 @@ class IOPi(object):
         :rtype: int
         :raises ValueError: if port is out of range, 0 or 1
         """
-        if port == 0:
-            return self.__bus.read_byte_data(self.__ioaddress, self.IPOLA)
-        elif port == 1:
-            return self.__bus.read_byte_data(self.__ioaddress, self.IPOLB)
-        else:
-            raise ValueError("port out of range: 0 or 1")
-        return
+        return self.__get_port(port, self.IPOLA, self.IPOLB)
 
     def invert_bus(self, value):
         """
@@ -594,12 +621,19 @@ class IOPi(object):
         :type value: int
         :raises ValueError: if value is out of range, 0 to 65535 (0xFFFF)
         """
-
-        if value < 0 or value > 0xFFFF:
-            raise ValueError("if value is out of range, 0 to 65535 (0xFFFF)")
-
-        self.__bus.write_word_data(self.__ioaddress, self.IPOLA, value)
+        self.__set_bus(value, self.IPOLA)
         return
+
+    def get_bus_polarity(self):
+        """
+        Get the polarity of the pins on the bus
+
+        :return: 16-bit number 0 to 65535 (0xFFFF). For each bit
+                 0 = same logic state of the input pin,
+                 1 = inverted logic state of the input pin
+        :rtype: int
+        """
+        return self.__bus.read_word_data(self.__ioaddress, self.IPOLA)
 
     def mirror_interrupts(self, value):
         """
@@ -617,14 +651,14 @@ class IOPi(object):
         if value < 0 or value > 1:
             raise ValueError("value out of range: 0 or 1")
 
+        conf = self.__bus.read_byte_data(self.__ioaddress, self.IOCON)
+
         if value == 0:
-            self.__conf = self.__updatebyte(self.__conf, 6, 0)
-            self.__bus.write_byte_data(
-                self.__ioaddress, self.IOCON, self.__conf)
+            conf = self.__updatebyte(conf, 6, 0)
+            self.__bus.write_byte_data(self.__ioaddress, self.IOCON, conf)
         if value == 1:
-            self.__conf = self.__updatebyte(self.__conf, 6, 1)
-            self.__bus.write_byte_data(
-                self.__ioaddress, self.IOCON, self.__conf)
+            conf = self.__updatebyte(self.__conf, 6, 1)
+            self.__bus.write_byte_data(self.__ioaddress, self.IOCON, conf)
         return
 
     def set_interrupt_polarity(self, value):
@@ -639,15 +673,25 @@ class IOPi(object):
         if value < 0 or value > 1:
             raise ValueError("value out of range: 0 or 1")
 
+        conf = self.__bus.read_byte_data(self.__ioaddress, self.IOCON)
+
         if value == 0:
-            self.__conf = self.__updatebyte(self.__conf, 1, 0)
-            self.__bus.write_byte_data(
-                self.__ioaddress, self.IOCON, self.__conf)
+            conf = self.__updatebyte(conf, 1, 0)
+            self.__bus.write_byte_data(self.__ioaddress, self.IOCON, conf)
         if value == 1:
-            self.__conf = self.__updatebyte(self.__conf, 1, 1)
-            self.__bus.write_byte_data(
-                self.__ioaddress, self.IOCON, self.__conf)
+            conf = self.__updatebyte(self.__conf, 1, 1)
+            self.__bus.write_byte_data(self.__ioaddress, self.IOCON, conf)
+
         return
+
+    def get_interrupt_polarity(self):
+        """
+        Get the polarity of the INT output pins
+        :return: 1 = Active-high.  0 = Active-low.
+        :rtype: int
+        """
+        return self.__checkbit(self.__bus.read_byte_data(self.__ioaddress,
+                                                         self.IOCON), 1)
 
     def set_interrupt_type(self, port, value):
         """
@@ -662,18 +706,21 @@ class IOPi(object):
         :raises ValueError: if port is out of range, 0 or 1
         :raises ValueError: if value is out of range, 0 to 0xFF
         """
-
-        if port < 0 or port > 1:
-            raise ValueError("port out of range: 0 or 1")
-
-        if value < 0 or value > 0xFF:
-            raise ValueError("value out of range: 0 to 255 (0xFF)")
-
-        if port == 0:
-            self.__bus.write_byte_data(self.__ioaddress, self.INTCONA, value)
-        else:
-            self.__bus.write_byte_data(self.__ioaddress, self.INTCONB, value)
+        self.__set_port(port, value, self.INTCONA, self.INTCONB)
         return
+
+    def get_interrupt_type(self, port):
+        """
+        Get the type of interrupt for each pin on the selected port
+        :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
+        :type port: int
+        :return: 8-bit number 0 to 255 (0xFF)
+                 For each bit 1 = interrupt is fired when the pin matches
+                 the default value, 0 = interrupt fires on state change
+        :rtype: int
+        :raises ValueError: if port is out of range, 0 or 1
+        """
+        return self.__get_port(port, self.INTCONA, self.INTCONB)
 
     def set_interrupt_defaults(self, port, value):
         """
@@ -689,18 +736,19 @@ class IOPi(object):
         :raises ValueError: if port is out of range, 0 or 1
         :raises ValueError: if value is out of range, 0 to 0xFF
         """
-
-        if port < 0 or port > 1:
-            raise ValueError("port out of range: 0 or 1")
-
-        if value < 0 or value > 0xFF:
-            raise ValueError("value out of range: 0 to 255 (0xFF)")
-
-        if port == 0:
-            self.__bus.write_byte_data(self.__ioaddress, self.DEFVALA, value)
-        else:
-            self.__bus.write_byte_data(self.__ioaddress, self.DEFVALB, value)
+        self.__set_port(port, value, self.DEFVALA, self.DEFVALB)
         return
+
+    def get_interrupt_defaults(self, port):
+        """
+        Get the interrupt default value for each pin on the selected port
+        :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
+        :type port: int
+        :return: 8-bit number 0 to 255 (0xFF)
+        :rtype: int
+        :raises ValueError: if port is out of range, 0 or 1
+        """
+        return self.__get_port(port, self.DEFVALA, self.DEFVALB)
 
     def set_interrupt_on_pin(self, pin, value):
         """
@@ -713,25 +761,20 @@ class IOPi(object):
         :raises ValueError: pin is out of range, 1 to 16
         :raises ValueError: value is out of range, 0 or 1
         """
-
-        reg = None
-        if pin >= 1 and pin <= 8:
-            reg = self.GPINTENA
-            pin = pin - 1
-        elif pin >= 9 and pin <= 16:
-            reg = self.GPINTENB
-            pin = pin - 9
-        else:
-            raise ValueError("pin out of range: 1 to 16")
-
-        if value < 0 or value > 1:
-            raise ValueError("value out of range: 0 or 1")
-
-        curval = self.__bus.read_byte_data(self.__ioaddress, reg)
-        newval = self.__updatebyte(curval, pin, value)
-        self.__bus.write_byte_data(self.__ioaddress, reg, newval)
-
+        self.__set_pin(pin, value, self.GPINTENA, self.GPINTENB)
         return
+
+    def get_interrupt_on_pin(self, pin):
+        """
+        Gets whether the interrupt is enabled for the selected pin
+
+        :param pin: pin to read, 1 to 16
+        :type pin: int
+        :raises ValueError: if pin is out of range, 1 to 16
+        :return: 1 = enabled, 0 = disabled
+        :rtype: int
+        """
+        return self.__get_pin(pin, self.GPINTENA, self.GPINTENB)
 
     def set_interrupt_on_port(self, port, value):
         """
@@ -745,18 +788,20 @@ class IOPi(object):
         :raises ValueError: if port is out of range, 0 or 1
         :raises ValueError: if value is out of range, 0 to 0xFF
         """
-
-        if port < 0 or port > 1:
-            raise ValueError("port out of range: 0 or 1")
-
-        if value < 0 or value > 0xFF:
-            raise ValueError("value out of range: 0 to 255 (0xFF)")
-
-        if port == 0:
-            self.__bus.write_byte_data(self.__ioaddress, self.GPINTENA, value)
-        else:
-            self.__bus.write_byte_data(self.__ioaddress, self.GPINTENB, value)
+        self.__set_port(port, value, self.GPINTENA, self.GPINTENB)
         return
+
+    def get_interrupt_on_port(self, port):
+        """
+        Gets whether the interrupts are enabled for the selected port
+        :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
+        :type port: int
+        :return: number between 0 and 255 (0xFF)
+                 For each bit 1 = enabled, 0 = disabled
+        :rtype: int
+        :raises ValueError: if port is out of range, 0 or 1
+        """
+        return self.__get_port(port, self.GPINTENA, self.GPINTENB)
 
     def set_interrupt_on_bus(self, value):
         """
@@ -767,12 +812,18 @@ class IOPi(object):
         :type value: int
         :raises ValueError: if value is out of range, 0 to 65535 (0xFFFF)
         """
-
-        if value < 0 or value > 0xFFFF:
-            raise ValueError("if value is out of range, 0 to 65535 (0xFFFF)")
-
-        self.__bus.write_word_data(self.__ioaddress, self.GPINTENA, value)
+        self.__set_bus(value, self.GPINTENA)
         return
+
+    def get_interrupt_on_bus(self):
+        """
+        Gets whether the interrupts are enabled for the bus
+
+        :return: 16-bit number 0 to 65535 (0xFFFF).
+                 For each bit 1 = enabled, 0 = disabled
+        :rtype: int
+        """
+        return self.__bus.read_word_data(self.__ioaddress, self.GPINTENA)
 
     def read_interrupt_status(self, port):
         """
@@ -785,16 +836,7 @@ class IOPi(object):
         :return: interrupt status for selected port
         :rtype: int
         """
-
-        if port < 0 or port > 1:
-            raise ValueError("port out of range: 0 or 1")
-
-        value = 0
-        if port == 0:
-            value = self.__bus.read_byte_data(self.__ioaddress, self.INTFA)
-        else:
-            value = self.__bus.read_byte_data(self.__ioaddress, self.INTFB)
-        return value
+        return self.__get_port(port, self.INTFA, self.INTFB)
 
     def read_interrupt_capture(self, port):
         """
@@ -807,16 +849,7 @@ class IOPi(object):
         :return: port value at the time of the last interrupt trigger
         :rtype: int
         """
-
-        if port < 0 or port > 1:
-            raise ValueError("port out of range: 0 or 1")
-
-        value = 0
-        if port == 0:
-            value = self.__bus.read_byte_data(self.__ioaddress, self.INTCAPA)
-        else:
-            value = self.__bus.read_byte_data(self.__ioaddress, self.INTCAPB)
-        return value
+        return self.__get_port(port, self.INTCAPA, self.INTCAPB)
 
     def reset_interrupts(self):
         """

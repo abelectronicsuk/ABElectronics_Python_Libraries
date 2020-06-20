@@ -99,5 +99,6 @@ def main():
         # wait 0.5 seconds before reading the pins again
         time.sleep(0.1)
 
+
 if __name__ == "__main__":
     main()
