@@ -1,6 +1,14 @@
+#### 2020-07-12 Andrew Dorey
+
+* 2.3.7 Updates to ADC Pi and ADC Differential Pi libraries.  Updated read_voltage and read_raw to check if channel is out of bounds.
+
+#### 2020-07-05 omstaal
+
+* 2.3.6 Bug fix in ADC Pi library.  Setting channel 0 or negative in read_raw in ADCPi did not raise a ValueError.  
+
 #### 2020-06-20 Andrew Dorey
 
-* 2.3.5 Updates to IO Pi and Expander Pi libraries.  Added get_ functions for each device register.  Refactored code to reduce repetition in pin, port and bus methods.  Added unit tests for the IO Pi library.
+* 2.3.5 Updates to IO Pi and Expander Pi libraries.  Added get_ functions for each device register.  Refactored code to reduce repetition in pin, port and bus methods.  Added unit tests for the IO Pi library.  
 
 #### 2020-06-17 Andrew Dorey
 

@@ -184,6 +184,9 @@ class ADCDifferentialPi(object):
         :return: voltage
         :rtype: float
         """
+        if channel < 1 or channel > 8:
+            raise ValueError('read_voltage: channel out of range (1 to 8 allowed)')
+
         raw = self.read_raw(channel)
 
         if self.__signbit:
@@ -204,6 +207,9 @@ class ADCDifferentialPi(object):
         :return: raw ADC output
         :rtype: int
         """
+        if channel < 1 or channel > 8:
+            raise ValueError('read_raw: channel out of range (1 to 8 allowed)')
+
         high = 0
         low = 0
         mid = 0
@@ -211,14 +217,12 @@ class ADCDifferentialPi(object):
 
         # get the config and i2c address for the selected channel
         self.__setchannel(channel)
-        if channel > 0 and channel < 5:
+        if channel <= 4:
             config = self.__adc1_conf
             address = self.__adc1_address
-        elif channel < 9:
+        else:
             config = self.__adc2_conf
             address = self.__adc2_address
-        else:
-            raise ValueError('read_raw: channel out of range')
 
         # if the conversion mode is set to one-shot update the ready bit to 1
         if self.__conversionmode == 0:

@@ -183,6 +183,9 @@ class ADCPi(object):
         :return: voltage
         :rtype: float
         """
+        if channel < 1 or channel > 8:
+            raise ValueError('read_voltage: channel out of range (1 to 8 allowed)')
+
         raw = self.read_raw(channel)
         voltage = float(0.0)
         if not self.__signbit:
@@ -202,19 +205,20 @@ class ADCPi(object):
         :return: raw ADC output
         :rtype: int
         """
+        if channel < 1 or channel > 8:
+            raise ValueError('read_raw: channel out of range (1 to 8 allowed)')
+
         high = 0
         low = 0
         mid = 0
         cmdbyte = 0
 
         # get the config and i2c address for the selected channel
-        self.__setchannel(channel)
-        if channel < 1 or channel > 8:
-            raise ValueError('read_raw: channel out of range (1 to 8 allowed)')
+        self.__setchannel(channel)        
         if channel <= 4:
             config = self.__adc1_conf
             address = self.__adc1_address
-        else :
+        else:
             config = self.__adc2_conf
             address = self.__adc2_address
 
