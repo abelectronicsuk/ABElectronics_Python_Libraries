@@ -42,14 +42,13 @@ def main():
 
     # set the reference voltage.  this should be set to the exact voltage
     # measured on the Expander Pi Vref pin.
-    adc.set_adc_refvoltage(1.8)
+    adc.set_adc_refvoltage(4.096)
 
     # clear the console
     os.system('clear')
     while True:
-        
 
-         # read the voltage from channels 1 to 8 single ended mode and print
+        # read the voltage from channels 1 to 8 single ended mode and print
         sys.stdout.write('Pin 1:  %f   \n' % adc.read_adc_voltage(1, 0))
         sys.stdout.flush()
         sys.stdout.write('Pin 2:  %f   \n' % adc.read_adc_voltage(2, 0))
@@ -68,7 +67,6 @@ def main():
         sys.stdout.flush()
         sys.stdout.write('\033[A\033[A\033[A\033[A\033[A\033[A\033[A\033[A')
         sys.stdout.flush()
-        
 
         time.sleep(0.1)
         
