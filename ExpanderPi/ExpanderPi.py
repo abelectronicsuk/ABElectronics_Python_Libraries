@@ -407,6 +407,26 @@ class IO:
             value = 1
         return value
 
+    @staticmethod
+    def __updatebyte(byte, bit, value):
+        """
+        Internal method for setting the value of a single bit within a byte
+
+        :param byte: input value
+        :type byte: int
+        :param bit: location to update
+        :type bit: int
+        :param value: new bit, 0 or 1
+        :type value: int
+        :return: updated value
+        :rtype: int
+        """
+
+        if value == 0:
+            return byte & ~(1 << bit)
+        elif value == 1:
+            return byte | (1 << bit)
+
     def __set_pin(self, pin, value, a_register, b_register):
         """
         Internal method for setting the value of a single bit

@@ -1,5 +1,9 @@
 #### 2020-07-12 Andrew Dorey
 
+* 2.3.8 Expander Pi bug fix. Added missing __updatebyte() function.
+
+#### 2020-07-12 Andrew Dorey
+
 * 2.3.7 Updates to ADC Pi and ADC Differential Pi libraries.  Updated read_voltage and read_raw to check if channel is out of bounds.
 
 #### 2020-07-05 omstaal
