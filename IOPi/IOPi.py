@@ -90,7 +90,6 @@ class IOPi(object):
     # initial configuration
     # see IOCON page in the MCP23017 datasheet for more information.
     __conf = 0x02
-    __helper = None
     __bus = None
 
     def __init__(self, address, initialise=True):
@@ -145,6 +144,9 @@ class IOPi(object):
 
         elif device == "linaro-alip":  # running on Asus Tinker Board
             i2c__bus = 1
+
+        elif device == "bpi-m2z":  # running on Banana Pi BPI M2 Zero
+            i2c__bus = 0
 
         elif device == "raspberrypi":  # running on raspberry pi
             # detect i2C port number and assign to i2c__bus

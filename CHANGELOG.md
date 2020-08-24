@@ -1,3 +1,7 @@
+#### 2020-08-24 Andrew Dorey
+
+* 2.3.9 Added support for Banana Pi BPI M2 Zero
+
 #### 2020-07-12 Andrew Dorey
 
 * 2.3.8 Expander Pi bug fix. Added missing __updatebyte() function.

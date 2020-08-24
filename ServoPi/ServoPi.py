@@ -86,6 +86,9 @@ class PWM(object):
         elif device == "linaro-alip":  # running on Asus Tinker Board
             i2c__bus = 1
 
+        elif device == "bpi-m2z":  # running on Banana Pi BPI M2 Zero
+            i2c__bus = 0
+
         elif device == "raspberrypi":  # running on raspberry pi
             # detect i2C port number and assign to i2c__bus
             for line in open('/proc/cpuinfo').readlines():
@@ -499,7 +502,7 @@ class Servo(object):
         """
         Initialise the Servo object
 
-        :param address: i2c address for  theServoPi board, defaults to 0x40
+        :param address: i2c address for the ServoPi board, defaults to 0x40
         :type address: int, optional
         :param low_limit: Pulse length in milliseconds for the
                           lower servo limit, defaults to 1.0

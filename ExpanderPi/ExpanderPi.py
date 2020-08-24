@@ -80,6 +80,9 @@ class _ABEHelpers:
         elif device == "linaro-alip":  # running on Asus Tinker Board
             i2c__bus = 1
 
+        elif device == "bpi-m2z":  # running on Banana Pi BPI M2 Zero
+            i2c__bus = 0
+
         elif device == "raspberrypi":  # running on raspberry pi
             # detect i2C port number and assign to i2c__bus
             for line in open('/proc/cpuinfo').readlines():
