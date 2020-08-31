@@ -1,3 +1,7 @@
+#### 2020-08-31 Andrew Dorey
+
+* 2.3.9 Fixed bug in Expander Pi library.
+
 #### 2020-08-24 Andrew Dorey
 
 * 2.3.9 Added support for Banana Pi BPI M2 Zero

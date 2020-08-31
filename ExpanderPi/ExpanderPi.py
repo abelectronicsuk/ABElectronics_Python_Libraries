@@ -887,7 +887,7 @@ class IO:
             conf = self.__updatebyte(conf, 6, 0)
             self.__bus.write_byte_data(self.__ioaddress, self.IOCON, conf)
         if value == 1:
-            conf = self.__updatebyte(self.__conf, 6, 1)
+            conf = self.__updatebyte(conf, 6, 1)
             self.__bus.write_byte_data(self.__ioaddress, self.IOCON, conf)
         return
 
@@ -909,7 +909,7 @@ class IO:
             conf = self.__updatebyte(conf, 1, 0)
             self.__bus.write_byte_data(self.__ioaddress, self.IOCON, conf)
         if value == 1:
-            conf = self.__updatebyte(self.__conf, 1, 1)
+            conf = self.__updatebyte(conf, 1, 1)
             self.__bus.write_byte_data(self.__ioaddress, self.IOCON, conf)
 
         return
