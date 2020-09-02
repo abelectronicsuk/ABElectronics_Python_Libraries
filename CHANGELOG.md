@@ -1,10 +1,14 @@
+#### 2020-09-02 Andrew Dorey
+
+* 2.4.1 Added support for Banana Pi BPI M2 Zero on Raspbian
+
 #### 2020-08-31 Andrew Dorey
 
-* 2.3.9 Fixed bug in Expander Pi library.
+* 2.4.0 Fixed bug in Expander Pi library.
 
 #### 2020-08-24 Andrew Dorey
 
-* 2.3.9 Added support for Banana Pi BPI M2 Zero
+* 2.3.9 Added support for Banana Pi BPI M2 Zero on Ubuntu
 
 #### 2020-07-12 Andrew Dorey
 

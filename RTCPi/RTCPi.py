@@ -59,19 +59,22 @@ class RTC:
         # detect the device that is being used
         device = platform.uname()[1]
 
-        if device == "orangepione":  # running on orange pi one
+        if device == "orangepione":  # orange pi one
             i2c__bus = 0
 
-        elif device == "orangepiplus":  # running on orange pi plus
+        elif device == "orangepiplus":  # orange pi plus
             i2c__bus = 0
 
-        elif device == "orangepipcplus":  # running on orange pi pc plus
+        elif device == "orangepipcplus":  # orange pi pc plus
             i2c__bus = 0
 
-        elif device == "linaro-alip":  # running on Asus Tinker Board
+        elif device == "linaro-alip":  # Asus Tinker Board
             i2c__bus = 1
 
-        elif device == "bpi-m2z":  # running on Banana Pi BPI M2 Zero
+        elif device == "bpi-m2z":  # Banana Pi BPI M2 Zero Ubuntu
+            i2c__bus = 0
+
+        elif device == "bpi-iot-ros-ai":  # Banana Pi BPI M2 Zero Raspbian
             i2c__bus = 0
 
         elif device == "raspberrypi":  # running on raspberry pi
