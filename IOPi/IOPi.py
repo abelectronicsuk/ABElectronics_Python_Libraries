@@ -92,7 +92,7 @@ class IOPi(object):
     __conf = 0x02
     __bus = None
 
-    def __init__(self, address, initialise=True):
+    def __init__(self, address, initialise=True, bus=None):
         """
         IOPi object initialisation
 
@@ -102,6 +102,9 @@ class IOPi(object):
                            ports not inverted.
                            False = device state unaltered., defaults to True
         :type initialise: bool, optional
+        :param bus: I2C bus number.  If no value is set the class will try to
+                    find the i2c bus automatically using the device name
+        :type bus: int, optional
         """
 
         if address < 0x20 or address > 0x27:
@@ -110,7 +113,7 @@ class IOPi(object):
             raise ValueError("__init__ initialise must be bool: True of False")
 
         self.__ioaddress = address
-        self.__bus = self.__get_smbus()
+        self.__bus = self.__get_smbus(bus)
         self.__bus.write_byte_data(self.__ioaddress, self.IOCON, self.__conf)
 
         if initialise is True:
@@ -121,7 +124,7 @@ class IOPi(object):
 
     # local methods
     @staticmethod
-    def __get_smbus():
+    def __get_smbus(bus):
         """
         Internal method for getting an instance of the i2c bus
 
@@ -130,39 +133,42 @@ class IOPi(object):
         :raises IOError: Could not open the i2c bus
         """
         i2c__bus = 1
-        # detect the device that is being used
-        device = platform.uname()[1]
+        if bus is not None:
+            i2c__bus = bus
+        else:
+            # detect the device that is being used
+            device = platform.uname()[1]
 
-        if device == "orangepione":  # orange pi one
-            i2c__bus = 0
+            if device == "orangepione":  # orange pi one
+                i2c__bus = 0
 
-        elif device == "orangepiplus":  # orange pi plus
-            i2c__bus = 0
+            elif device == "orangepiplus":  # orange pi plus
+                i2c__bus = 0
 
-        elif device == "orangepipcplus":  # orange pi pc plus
-            i2c__bus = 0
+            elif device == "orangepipcplus":  # orange pi pc plus
+                i2c__bus = 0
 
-        elif device == "linaro-alip":  # Asus Tinker Board
-            i2c__bus = 1
+            elif device == "linaro-alip":  # Asus Tinker Board
+                i2c__bus = 1
 
-        elif device == "bpi-m2z":  # Banana Pi BPI M2 Zero Ubuntu
-            i2c__bus = 0
+            elif device == "bpi-m2z":  # Banana Pi BPI M2 Zero Ubuntu
+                i2c__bus = 0
 
-        elif device == "bpi-iot-ros-ai":  # Banana Pi BPI M2 Zero Raspbian
-            i2c__bus = 0
+            elif device == "bpi-iot-ros-ai":  # Banana Pi BPI M2 Zero Raspbian
+                i2c__bus = 0
 
-        elif device == "raspberrypi":  # running on raspberry pi
-            # detect i2C port number and assign to i2c__bus
-            for line in open('/proc/cpuinfo').readlines():
-                model = re.match('(.*?)\\s*:\\s*(.*)', line)
-                if model:
-                    (name, value) = (model.group(1), model.group(2))
-                    if name == "Revision":
-                        if value[-4:] in ('0002', '0003'):
-                            i2c__bus = 0  # original model A or B
-                        else:
-                            i2c__bus = 1  # later models
-                        break
+            elif device == "raspberrypi":  # running on raspberry pi
+                # detect i2C port number and assign to i2c__bus
+                for line in open('/proc/cpuinfo').readlines():
+                    model = re.match('(.*?)\\s*:\\s*(.*)', line)
+                    if model:
+                        (name, value) = (model.group(1), model.group(2))
+                        if name == "Revision":
+                            if value[-4:] in ('0002', '0003'):
+                                i2c__bus = 0  # original model A or B
+                            else:
+                                i2c__bus = 1  # later models
+                            break
         try:
             return SMBus(i2c__bus)
         except IOError:
