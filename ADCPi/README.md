@@ -58,7 +58,7 @@ ADCPi(address, address2, bus)
 **Parameters:**  
 address: I2C address for channels 1 to 4, defaults to 0x68  
 address2: I2C address for channels 5 to 8, defaults to 0x69  
-rate: bit rate, values can be 12, 14, 16 or 18. Defaults to 18
+rate: bit rate, values can be 12, 14, 16 or 18. Defaults to 18  
 bus (optional): I2C bus number (integer).  If no value is set the class will try to find the i2c bus automatically using the device name.  
 
 Functions:
