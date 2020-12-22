@@ -1,3 +1,7 @@
+#### 2020-12-22 Andrew Dorey
+
+* 2.4.2 Added bus parameter to the ADC Differential Pi, ADC Pi, Expander Pi, I2C Switch, RTC Pi and Servo Pi classes to allow for setting the I2C bus manually.
+
 #### 2020-12-21 Andrew Dorey
 
 * 2.4.2 Added bus parameter to the IO Pi class to allow for setting the I2C bus manually.

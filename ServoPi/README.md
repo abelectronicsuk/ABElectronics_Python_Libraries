@@ -50,8 +50,14 @@ sudo pip3 install smbus2
 ```
 
 # Class: PWM #
-
+```
+PWM(address, bus)
+```
 The PWM class provides control over the pulse-width modution outputs on the PCA9685 controller.  Functions include setting the frequency and duty cycle for each channel.  
+
+**Parameters:**  
+address (optional): device i2c address, defaults to 0x40  
+bus (optional): I2C bus number (integer).  If no value is set the class will try to find the i2c bus automatically using the device name.  
 
 Initialise with the I2C address for the Servo Pi.
 
@@ -176,8 +182,10 @@ Inverts the outputs on all PWM channels.
 **Returns:** null  
 
 # Class: Servo #
-
-The Servo class provides functions for controlling the position of servo motors commonly used on radio control models and small robots.  The Servo class initialises with a default frequency of 50Hz and low and high limits of 1ms and 2ms.
+```
+Servo(address, low_limit, high_limit, reset, bus)
+```
+The Servo class provides functions for controlling the position of servo motors commonly used on radio control models and small robots.  The Servo class initialises with a default frequency of 50Hz and low and high limits of 1ms and 2ms. 
 
 Initialise with the I2C address for the Servo Pi.
 
@@ -188,6 +196,7 @@ servo_object = Servo(0x40)
 low_limit = Pulse length in milliseconds for the lower servo limit. (default = 1.0ms)  
 high_limit = Pulse length in milliseconds for the upper servo limit. (default = 2.0ms)  
 reset = True: reset the servo controller and turn off all channels .  False: initialise with existing servo positions and frequency. (default = true)  
+bus: I2C bus number (integer).  If no value is set the class will try to find the i2c bus automatically using the device name.   
 
 Functions:
 ----------

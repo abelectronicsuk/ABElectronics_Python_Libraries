@@ -51,9 +51,16 @@ sudo pip3 install smbus2
 
 # Class: I2CSwitch #
 
+```
+I2CSwitch(address, bus)
+```
 The I2CSwitch class provides control over the I2C Switch outputs on the PCA9546A controller.  Functions include setting and getting the I2C channel and resetting the switch.  
 
-Initialise with the I2C address for the I2C Switch. Supported I2C addresses are 0x70 to 0x77.  The default address is 0x70.
+**Parameters:**  
+address: Device i2c address. Supported I2C addresses are 0x70 to 0x77. defaults to 0x70  
+bus (optional): I2C bus number (integer).  If no value is set the class will try to find the i2c bus automatically using the device name.  
+
+Initialise with the I2C address for the I2C Switch. 
 
 ```
 i2cswitch = I2CSwitch(0x70)

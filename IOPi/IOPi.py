@@ -128,6 +128,9 @@ class IOPi(object):
         """
         Internal method for getting an instance of the i2c bus
 
+        :param bus: I2C bus number.  If value is None the class will try to
+                    find the i2c bus automatically using the device name
+        :type bus: int
         :return: i2c bus for target device
         :rtype: SMBus
         :raises IOError: Could not open the i2c bus

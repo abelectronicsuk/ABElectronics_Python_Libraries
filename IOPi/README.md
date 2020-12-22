@@ -57,7 +57,7 @@ IOPi(address, initialise, bus)
 **Parameters:**  
 address: i2c address for the target device. 0x20 to 0x27  
 initialise (optional): True = direction set as inputs, pull-ups disabled, ports not inverted. False = device state unaltered., defaults to True  
-bus (optional): I2C bus number (integer).  If no value is set the class will try to find the i2c bus automatically using the device name  
+bus (optional): I2C bus number (integer).  If no value is set the class will try to find the i2c bus automatically using the device name.  
 
 Functions:
 ----------

@@ -207,7 +207,14 @@ dac.set_dac_voltage(1, 1.5)
 # Class: IO #
 
 The IO class controls the 16 digital I/O channels on the Expander Pi.  The MCP23017 chip is split into two 8-bit ports.  Port 0 controls pins 1 to 8 while Port 1 controls pins 9 to 16. 
-When writing to or reading from a port the least significant bit represents the lowest numbered pin on the selected port.
+When writing to or reading from a port the least significant bit represents the lowest numbered pin on the selected port.  
+
+```
+IO(initialise, bus)
+```
+**Parameters:**  
+initialise (optional): True = direction set as inputs, pull-ups disabled, ports not inverted. False = device state unaltered., defaults to True  
+bus (optional): I2C bus number (integer).  If no value is set the class will try to find the i2c bus automatically using the device name.  
 
 Functions:
 ----------
@@ -568,7 +575,13 @@ print 'Pin 1: ' + str(io.read_pin(1))
 
 # Class: RTC #
 
-The RTC class controls the DS1307 real-time clock on the Expander Pi.  You can set and read the date and time from the clock as well as controlling the pulse output on the RTC pin.
+The RTC class controls the DS1307 real-time clock on the Expander Pi.  You can set and read the date and time from the clock as well as controlling the pulse output on the RTC pin.  
+
+```
+RTC(bus)
+```
+**Parameters:**  
+bus (optional): I2C bus number (integer).  If no value is set the class will try to find the i2c bus automatically using the device name.  
 
 Functions:
 ----------

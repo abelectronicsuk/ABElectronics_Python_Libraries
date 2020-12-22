@@ -62,48 +62,54 @@ class PWM(object):
 
     # local methods
     @staticmethod
-    def __get_smbus():
+    def __get_smbus(bus):
         """
         Internal method for getting an instance of the i2c bus
 
+        :param bus: I2C bus number.  If value is None the class will try to
+                    find the i2c bus automatically using the device name
+        :type bus: int
         :return: i2c bus for target device
         :rtype: SMBus
         :raises IOError: Could not open the i2c bus
         """
         i2c__bus = 1
-        # detect the device that is being used
-        device = platform.uname()[1]
+        if bus is not None:
+            i2c__bus = bus
+        else:
+            # detect the device that is being used
+            device = platform.uname()[1]
 
-        if device == "orangepione":  # orange pi one
-            i2c__bus = 0
+            if device == "orangepione":  # orange pi one
+                i2c__bus = 0
 
-        elif device == "orangepiplus":  # orange pi plus
-            i2c__bus = 0
+            elif device == "orangepiplus":  # orange pi plus
+                i2c__bus = 0
 
-        elif device == "orangepipcplus":  # orange pi pc plus
-            i2c__bus = 0
+            elif device == "orangepipcplus":  # orange pi pc plus
+                i2c__bus = 0
 
-        elif device == "linaro-alip":  # Asus Tinker Board
-            i2c__bus = 1
+            elif device == "linaro-alip":  # Asus Tinker Board
+                i2c__bus = 1
 
-        elif device == "bpi-m2z":  # Banana Pi BPI M2 Zero Ubuntu
-            i2c__bus = 0
+            elif device == "bpi-m2z":  # Banana Pi BPI M2 Zero Ubuntu
+                i2c__bus = 0
 
-        elif device == "bpi-iot-ros-ai":  # Banana Pi BPI M2 Zero Raspbian
-            i2c__bus = 0
+            elif device == "bpi-iot-ros-ai":  # Banana Pi BPI M2 Zero Raspbian
+                i2c__bus = 0
 
-        elif device == "raspberrypi":  # running on raspberry pi
-            # detect i2C port number and assign to i2c__bus
-            for line in open('/proc/cpuinfo').readlines():
-                model = re.match('(.*?)\\s*:\\s*(.*)', line)
-                if model:
-                    (name, value) = (model.group(1), model.group(2))
-                    if name == "Revision":
-                        if value[-4:] in ('0002', '0003'):
-                            i2c__bus = 0
-                        else:
-                            i2c__bus = 1
-                        break
+            elif device == "raspberrypi":  # running on raspberry pi
+                # detect i2C port number and assign to i2c__bus
+                for line in open('/proc/cpuinfo').readlines():
+                    model = re.match('(.*?)\\s*:\\s*(.*)', line)
+                    if model:
+                        (name, value) = (model.group(1), model.group(2))
+                        if name == "Revision":
+                            if value[-4:] in ('0002', '0003'):
+                                i2c__bus = 0  # original model A or B
+                            else:
+                                i2c__bus = 1  # later models
+                            break
         try:
             return SMBus(i2c__bus)
         except IOError:
@@ -155,15 +161,18 @@ class PWM(object):
 
     # public methods
 
-    def __init__(self, address=0x40):
+    def __init__(self, address=0x40, bus=None):
         """
         init object with i2c address, default is 0x40 for ServoPi board
 
         :param address: device i2c address, defaults to 0x40
         :type address: int, optional
+        :param bus: I2C bus number.  If no value is set the class will try to
+                    find the i2c bus automatically using the device name
+        :type bus: int, optional
         """
         self.__address = address
-        self.__bus = self.__get_smbus()
+        self.__bus = self.__get_smbus(bus)
         self.__write(self.__MODE1, self.__mode1_default)
         self.__write(self.__MODE2, self.__mode2_default)
         GPIO.setwarnings(False)
@@ -501,7 +510,7 @@ class Servo(object):
     # public methods
 
     def __init__(self, address=0x40, low_limit=1.0,
-                 high_limit=2.0, reset=True):
+                 high_limit=2.0, reset=True, bus=None):
         """
         Initialise the Servo object
 
@@ -517,9 +526,12 @@ class Servo(object):
                       False = keep existing servo positions and frequency.
                       defaults to True
         :type reset: bool, optional
+        :param bus: I2C bus number.  If no value is set the class will try to
+                    find the i2c bus automatically using the device name
+        :type bus: int, optional
         """
 
-        self.__pwm = PWM(address)
+        self.__pwm = PWM(address, bus)
         self.set_low_limit(low_limit)
         self.set_high_limit(high_limit)
 

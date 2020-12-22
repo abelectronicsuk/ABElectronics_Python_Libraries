@@ -49,6 +49,15 @@ For Python 3.5:
 sudo pip3 install smbus2
 ```
 
+Class:
+----------
+
+```
+RTC(bus)
+```
+**Parameters:**  
+bus (optional): I2C bus number (integer).  If no value is set the class will try to find the i2c bus automatically using the device name.  
+
 Functions:
 ----------
 
