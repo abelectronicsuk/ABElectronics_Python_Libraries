@@ -56,8 +56,8 @@ Classes:
 ADCPi(address, address2, bus)
 ```
 **Parameters:**  
-address: I2C address for channels 1 to 4, defaults to 0x68  
-address2: I2C address for channels 5 to 8, defaults to 0x69  
+address: I2C address for channels 1 to 4, 0x68 to 0x6F. Defaults to 0x68  
+address2: I2C address for channels 5 to 8, 0x68 to 0x6F. Defaults to 0x69  
 rate: bit rate, values can be 12, 14, 16 or 18. Defaults to 18  
 bus (optional): I2C bus number (integer).  If no value is set the class will try to find the i2c bus automatically using the device name.  
 
@@ -100,7 +100,33 @@ set_conversion_mode(mode)
 ```
 Set the conversion mode for the adc  
 **Parameters:** mode -  0 = One-shot conversion, 1 = Continuous conversion  
-**Returns:** null
+**Returns:** null  
+
+```
+set_i2c_address1(address):
+```
+Set the I2C address for the ADC on channels 1 to 4  
+**Parameters:** address - 0x68 to 0x6F  
+**Returns:** null  
+
+```
+set_i2c_address2(address):
+```
+Set the I2C address for the ADC on channels 5 to 8  
+**Parameters:** address - 0x68 to 0x6F  
+**Returns:** null  
+
+```
+get_i2c_address1():
+```
+Gets the I2C address for the ADC on channels 1 to 4  
+**Returns:** I2C address  
+
+```
+get_i2c_address2():
+```
+Gets the I2C address for the ADC on channels 5 to 8  
+**Returns:** I2C address  
 
 Usage
 ====

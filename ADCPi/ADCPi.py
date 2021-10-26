@@ -109,8 +109,14 @@ class ADCPi(object):
                             break
         try:
             return SMBus(i2c__bus)
-        except IOError:
-            raise 'Could not open the i2c bus'
+        except FileNotFoundError:
+            raise FileNotFoundError("Bus not found.  Check that you have selected the correct I2C bus.")
+        except OSError as err:
+            raise("OS error: {0}".format(err))
+        except IOError as err:
+            raise("IO error: {0}".format(err))
+        except Exception as err:
+            raise err
 
     def __updatebyte(self, byte, mask, value):
         """
@@ -135,8 +141,9 @@ class ADCPi(object):
 
         :param channel: selected channel
         :type channel: int
+        :raises ValueError: __setchannel: channel out of range 1 to 8
         """
-        if channel < 5:
+        if channel >= 1 and channel <= 4:
             if channel != self.__adc1_channel:
                 self.__adc1_channel = channel
                 if channel == 1:  # bit 5 = 1, bit 6 = 0
@@ -151,7 +158,7 @@ class ADCPi(object):
                 elif channel == 4:  # bit 5 = 1, bit 6 = 1
                     self.__adc1_conf = self.__updatebyte(self.__adc1_conf,
                                                          0x9F, 0x60)
-        else:
+        elif channel >=5 and channel <= 8:
             if channel != self.__adc2_channel:
                 self.__adc2_channel = channel
                 if channel == 5:  # bit 5 = 1, bit 6 = 0
@@ -166,6 +173,8 @@ class ADCPi(object):
                 elif channel == 8:  # bit 5 = 1, bit 6 = 1
                     self.__adc2_conf = self.__updatebyte(self.__adc2_conf,
                                                          0x9F, 0x60)
+        else:
+            raise ValueError('__setchannel: channel out of range 1 to 8')
         return
 
     # init object with i2caddress, default is 0x68, 0x69 for ADCoPi board
@@ -176,8 +185,10 @@ class ADCPi(object):
 
         :param address: I2C address for channels 1 to 4, defaults to 0x68
         :type address: int, optional
+        :raises ValueError: address out of range 0x68 to 0x6F
         :param address2: I2C address for channels 5 to 8, defaults to 0x69
         :type address2: int, optional
+        :raises ValueError: address2 out of range 0x68 to 0x6F
         :param rate: bit rate, defaults to 18
         :type rate: int, optional
         :param bus: I2C bus number.  If no value is set the class will try to
@@ -185,9 +196,58 @@ class ADCPi(object):
         :type bus: int, optional
         """
         self.__bus = self.__get_smbus(bus)
-        self.__adc1_address = address
-        self.__adc2_address = address2
+        if address >= 0x68 and address <= 0x6F:
+            self.__adc1_address = address
+        else:
+            raise ValueError('address out of range 0x68 to 0x6F')
+
+        if address2 >= 0x68 and address2 <= 0x6F:
+            self.__adc2_address = address2
+        else:
+            raise ValueError('address2 out of range 0x68 to 0x6F')
         self.set_bit_rate(rate)
+
+    def set_i2c_address1(self, address):
+        """
+        Set the I2C address for the ADC on channels 1 to 4
+
+        :param address: I2C address for channels 1 to 4, defaults to 0x68
+        :type address: int, optional
+        :raises ValueError: address out of range 0x68 to 0x6F    
+        """
+        if address >= 0x68 and address <= 0x6F:
+            self.__adc1_address = address
+        else:
+            raise ValueError('address out of range 0x68 to 0x6F')
+
+    def set_i2caddress2(self, address):
+        """
+        Set the I2C address for the ADC on channels 5 to 8
+
+        :param address: I2C address for channels 5 to 8, defaults to 0x68
+        :type address: int, optional
+        :raises ValueError: address out of range 0x68 to 0x6F    
+        """
+        if address >= 0x68 and address <= 0x6F:
+            self.__adc2_address = address
+        else:
+            raise ValueError('address out of range 0x68 to 0x6F')
+
+    def get_i2c_address1(self):
+        """
+        Get the I2C address for the ADC on channels 1 to 4
+        :return: I2C address
+        :rtype: number    
+        """
+        return self.__adc1_address
+
+    def get_i2c_address2(self):
+        """
+        Get the I2C address for the ADC on channels 5 to 8
+        :return: I2C address
+        :rtype: number    
+        """
+        return self.__adc2_address
 
     def read_voltage(self, channel):
         """
@@ -195,6 +255,7 @@ class ADCPi(object):
 
         :param channel: 1 to 8
         :type channel: int
+        :raises ValueError: read_voltage: channel out of range (1 to 8 allowed)
         :return: voltage
         :rtype: float
         """
