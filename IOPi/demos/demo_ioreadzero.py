@@ -39,7 +39,7 @@ def main():
     """
     Main program function
     """
-    iobus1 = IOPi(0x20, True, 0)
+    iobus1 = IOPi(0x20, True)
 
     # We will read the inputs 1 to 16 from the I/O bus so set port 0 and
     # port 1 to be inputs and enable the internal pull-up resistors
