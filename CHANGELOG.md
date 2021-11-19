@@ -1,3 +1,7 @@
+#### 2021-11-19 Andrew Dorey
+
+* 2.4.4 Added new IO Pi Zero demo file demo_ioreadzero.py
+
 #### 2021-10-26 Andrew Dorey
 
 * 2.4.3 Added more exception handling to the ADC Pi class.
