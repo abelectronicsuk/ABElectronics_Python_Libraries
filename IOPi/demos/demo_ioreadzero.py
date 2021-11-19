@@ -54,7 +54,6 @@ def main():
         os.system("clear")
 
         # read the pins 1 to 16 and print the results
-        print("Bus 1                   Bus 2")
         print("Pin 1:  " + str(iobus1.read_pin(1)))
         print("Pin 2:  " + str(iobus1.read_pin(2)))
         print("Pin 3:  " + str(iobus1.read_pin(3)))
