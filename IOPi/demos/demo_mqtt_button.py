@@ -49,8 +49,8 @@ def main():
     iobus.set_pin_pullup(1, 1) # enable the 100K pull-up resistor
     
     # MQTT connection parameters
-    mqtt_broker = '10.0.0.2'
-    mqtt_user = 'admin'
+    mqtt_broker = '192.168.0.1'
+    mqtt_user = 'user'
     mqtt_pass = 'password'
     mqtt_port = 1883
     
