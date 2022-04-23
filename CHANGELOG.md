@@ -1,3 +1,7 @@
+#### 2022-04-23 Andrew Dorey
+
+* 2.4.5 Added new library for the IO Zero 32 expansion board.
+
 #### 2021-11-19 Andrew Dorey
 
 * 2.4.4 Added new IO Pi Zero demo file demo_ioreadzero.py

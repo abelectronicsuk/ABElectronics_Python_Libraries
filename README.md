@@ -37,7 +37,7 @@ For Python 2.7:
 ```
 sudo python setup.py install
 ```
-For Python 3.5:
+For Python 3:
 ```
 sudo python3 setup.py install
 ```
@@ -49,30 +49,27 @@ For Python 2.7:
 sudo python2.7 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
 
-For Python 3.5:
+For Python 3:
 ```
-sudo python3.5 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
+sudo python3 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
 
 ### ADCDACPi
-This directory contains ADC DAC Pi Python Library with ADC read and DAC write demos to use with the ADC DAC Pi  
-https://www.abelectronics.co.uk/p/74/adc-dac-pi-zero-raspberry-pi-adc-and-dac-expansion-board
+This directory contains ADC DAC Pi Python Library with ADC read and DAC write demos to use with the [ADC DAC Pi](https://www.abelectronics.co.uk/p/74/adc-dac-pi-zero-raspberry-pi-adc-and-dac-expansion-board)
 ### ADCPi 
-This directory contains ADC Pi Python Library  and read voltage demo to use with the ADC Pi   
-https://www.abelectronics.co.uk/p/69/adc-pi-raspberry-pi-analogue-to-digital-converter
+This directory contains ADC Pi Python Library  and read voltage demo to use with the [ADC Pi](https://www.abelectronics.co.uk/p/69/adc-pi-raspberry-pi-analogue-to-digital-converter)
 ### ADCDifferentialPi 
-This directory contains ADC Differential Pi Python Library and read voltage demo to use with the ADC Differential Pi.  
-https://www.abelectronics.co.uk/p/65/adc-differential-pi-raspberry-pi-analogue-to-digital-converter
-This library is also compatible with the Delta-Sigma Pi.  
-https://www.abelectronics.co.uk/kb/article/1041/delta-sigma-pi
+This directory contains ADC Differential Pi Python Library and read voltage demo to use with the [ADC Differential Pi](https://www.abelectronics.co.uk/p/65/adc-differential-pi-raspberry-pi-analogue-to-digital-converter)  
+This library is also compatible with the [Delta-Sigma Pi](https://www.abelectronics.co.uk/kb/article/1041/delta-sigma-pi)
 ### ExpanderPi
-This directory contains IO Pi Python Library  and demos to use with the Expander Pi https://www.abelectronics.co.uk/p/50/expander-pi
+This directory contains IO Pi Python Library  and demos to use with the [Expander Pi](https://www.abelectronics.co.uk/p/50/expander-pi)
 ### I2C Switch  
 This directory contains the I2C Switch Python library and demo to use with the 4 channel [I2C switch](https://www.abelectronics.co.uk/p/84/i2c-switch "I2C Switch")  
-
 ### IOPi
-This directory contains IO Pi Python Library  and demos to use with the IO Pi Plus https://www.abelectronics.co.uk/p/54/io-pi-plus and IO Pi Zero https://www.abelectronics.co.uk/p/71/io-pi-zero
+This directory contains IO Pi Python Library and demos to use with the [IO Pi Plus](https://www.abelectronics.co.uk/p/54/io-pi-plus)
+### IOZero32
+This directory contains IO Zero 32 Python Library and demos to use with the [IO Zero 32](https://www.abelectronics.co.uk/p/86/io-zero-32)
 ### RTCPi
-This directory contains RTC Pi Python Library and demos to use with the RTC Pi https://www.abelectronics.co.uk/p/70/rtc-pi 
+This directory contains RTC Pi Python Library and demos to use with the [RTC Pi](https://www.abelectronics.co.uk/p/70/rtc-pi)  
 ### ServoPi
-This directory contains ServoPi Python Library  and read voltage demo to use with the ServoPi https://www.abelectronics.co.uk/p/72/servo-pwm-pi
+This directory contains ServoPi Python Library  and read voltage demo to use with the [Servo Pi](https://www.abelectronics.co.uk/p/72/servo-pwm-pi)
