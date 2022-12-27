@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | set_bus_direction
+AB Electronics UK IO Pi Tests | set_bus_direction
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -56,7 +56,7 @@ def main():
 
     iopi = IOPi(0x20, False)  # new iopi object without initialisation
 
-    # Check set_bus_direction value for low out of bounds
+    # Check set_bus_direction value for low out-of-bounds
     try:
         iopi.set_bus_direction(-1)
         pass
@@ -71,7 +71,7 @@ def main():
         print("value low boundary check: FAILED")
         pass
 
-    # Check set_bus_direction value for high out of bounds
+    # Check set_bus_direction value for high out-of-bounds
     try:
         iopi.set_bus_direction(65536)
         pass

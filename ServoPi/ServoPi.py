@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics ServoPi 16-Channel PWM Servo Driver
+AB Electronics UK ServoPi 16-Channel PWM Servo Driver
 
 Requires smbus2 or python smbus to be installed
 ================================================
@@ -26,7 +26,7 @@ class PWM(object):
     PWM class for controlling the PCA9685 PWM IC
     """
 
-    # define registers values from datasheet
+    # Define registers values from the datasheet
     __MODE1 = 0x00
     __MODE2 = 0x01
     __SUBADR1 = 0x02
@@ -43,7 +43,7 @@ class PWM(object):
     __ALL_LED_OFF_H = 0xFD
     __PRE_SCALE = 0xFE
 
-    # define mode bits
+    # Define mode bits
     __MODE1_EXTCLK = 6  # use external clock
     __MODE1_SLEEP = 4  # sleep mode
     __MODE1_ALLCALL = 0  # all call address
@@ -53,25 +53,25 @@ class PWM(object):
     __MODE2_OUTDRV = 2  # output type
     __MODE2_OUTNE1 = 0  # output mode when not enabled
 
-    # local variables
+    # Local variables
     __mode1_default = 0x00
     __mode2_default = 0x0C
     __oe_pin = 7
     __address = 0x40
     __bus = None
 
-    # local methods
+    # Local methods
     @staticmethod
     def __get_smbus(bus):
         """
-        Internal method for getting an instance of the i2c bus
+        Internal method for getting an instance of the I2C bus
 
-        :param bus: I2C bus number.  If value is None the class will try to
-                    find the i2c bus automatically using the device name
+        :param bus: I2C bus number.  If the value is None the class will try to
+                    find the I2C bus automatically using the device name
         :type bus: int
-        :return: i2c bus for target device
+        :return: I2C bus for the target device
         :rtype: SMBus
-        :raises IOError: Could not open the i2c bus
+        :raises IOError: Could not open the I2C bus
         """
         i2c__bus = 1
         if bus is not None:
@@ -99,7 +99,7 @@ class PWM(object):
                 i2c__bus = 0
 
             elif device == "raspberrypi":  # running on raspberry pi
-                # detect i2C port number and assign to i2c__bus
+                # detect I2C port number and assign to i2c__bus
                 for line in open('/proc/cpuinfo').readlines():
                     model = re.match('(.*?)\\s*:\\s*(.*)', line)
                     if model:
@@ -124,7 +124,7 @@ class PWM(object):
         :type byte: int
         :param bit: location within value to check
         :type bit: int
-        :return: value of selected bit, 0 or 1
+        :return: value of the selected bit, 0 or 1
         :rtype: int
         """
         value = 0
@@ -134,7 +134,7 @@ class PWM(object):
 
     def __write(self, reg, value):
         """
-        Internal method to write data to I2C bus
+        Internal method for writing data to the I2C bus
 
         :param value: value to write
         :type value: int
@@ -148,7 +148,7 @@ class PWM(object):
 
     def __read(self, reg):
         """
-        Internal method to read data from I2C bus
+        Internal method for reading data from the I2C bus
 
         :return: IOError
         :rtype: IOError
@@ -163,12 +163,12 @@ class PWM(object):
 
     def __init__(self, address=0x40, bus=None):
         """
-        init object with i2c address, default is 0x40 for ServoPi board
+        init object with I2C address, default is 0x40 for ServoPi board
 
-        :param address: device i2c address, defaults to 0x40
+        :param address: device I2C address, defaults to 0x40
         :type address: int, optional
         :param bus: I2C bus number.  If no value is set the class will try to
-                    find the i2c bus automatically using the device name
+                    find the I2C bus automatically using the device name
         :type bus: int, optional
         """
         self.__address = address
@@ -177,7 +177,7 @@ class PWM(object):
         self.__write(self.__MODE2, self.__mode2_default)
         GPIO.setwarnings(False)
 
-        mode = GPIO.getmode()  # check if the GPIO mode has been set
+        mode = GPIO.getmode()  # Check if the GPIO mode has been set
 
         if (mode == 10):  # Mode set to GPIO.BOARD
             self.__oe_pin = 7
@@ -517,10 +517,10 @@ class Servo(object):
         :param address: i2c address for the ServoPi board, defaults to 0x40
         :type address: int, optional
         :param low_limit: Pulse length in milliseconds for the
-                          lower servo limit, defaults to 1.0
+                          lower servo limit; defaults to 1.0
         :type low_limit: float, optional
         :param high_limit: Pulse length in milliseconds for the
-                           upper servo limit, defaults to 2.0
+                           upper servo limit; defaults to 2.0
         :type high_limit: float, optional
         :param reset: True = reset the controller and turn off all channels.
                       False = keep existing servo positions and frequency.
@@ -552,10 +552,10 @@ class Servo(object):
         :type channel: int
         :param position:  value between 0 and the maximum number of steps.
         :type position: int
-        :param steps: The number of steps between the the low and high limits.
+        :param steps: The number of steps between the low and high limits.
                       This can be any number between 0 and 4095.
-                      On a typical RC servo a step value of 250 is recommended.
-                      defaults to 250
+                      On a typical RC servo, a value of 250 is recommended.
+                      Defaults to 250.
         :type steps: int, optional
         :raises ValueError: move: channel out of range
         :raises ValueError: move: steps out of range
@@ -591,15 +591,15 @@ class Servo(object):
 
         :param channel: 1 to 16
         :type channel: int
-        :param steps: The number of steps between the the low and high limits.
+        :param steps: The number of steps between the low and high limits.
                       This can be any number between 0 and 4095.
-                      On a typical RC servo a step value of 250 is recommended.
-                      defaults to 250
+                      On a typical RC servo, a value of 250 is recommended.
+                      Defaults to 250.
         :type steps: int, optional
         :raises ValueError: get_position: channel out of range
         :return: position - value between 0 and the maximum number of steps.
                  Due to rounding errors when calculating the position, the
-                 returned value may not be exactly the same as the set value.
+                 returned value may not be the same as the set value.
         :rtype: int
         """
         if channel < 1 or channel > 16:
@@ -686,7 +686,7 @@ class Servo(object):
 
         :param freq: 40 to 1000
         :type freq: int
-        :param calibration: optional integer value to offset oscillator errors.
+        :param calibration: Optional integer value to offset oscillator errors.
                             defaults to 0
         :type calibration: int, optional
         """
@@ -720,7 +720,7 @@ class Servo(object):
         """
         Enable pulse offsets.
         This will set servo pulses to be staggered across the channels
-        to reduce surges in current draw
+        to reduce surges in the current draw
         """
         self.__useoffset = True
         self.__calculate_offsets()  # update the offset values

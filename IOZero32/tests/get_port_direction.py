@@ -42,7 +42,7 @@ def main():
 
     iobus = IOZero32(0x20)  # new iobus object
 
-    # Check get_port_direction for low out of bounds
+    # Check get_port_direction for low out-of-bounds
     try:
         iobus.get_port_direction(-1)
         pass
@@ -57,7 +57,7 @@ def main():
         print("get_port_direction() low boundary check: FAILED")
         pass
 
-    # Check get_port_direction for low out of bounds
+    # Check get_port_direction for low out-of-bounds
     try:
         iobus.get_port_direction(2)
         pass

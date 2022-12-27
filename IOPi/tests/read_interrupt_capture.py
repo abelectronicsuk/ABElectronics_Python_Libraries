@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | read_interrupt_capture
+AB Electronics UK IO Pi Tests | read_interrupt_capture
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -56,7 +56,7 @@ def main():
 
     iopi = IOPi(0x20, False)  # new iopi object without initialisation
 
-    # Check read_interrupt_capture port for low out of bounds
+    # Check read_interrupt_capture port for low out-of-bounds
     try:
         iopi.read_interrupt_capture(-1)
         pass
@@ -71,7 +71,7 @@ def main():
         print("port low boundary check: FAILED")
         pass
 
-    # Check read_interrupt_capture port for high out of bounds
+    # Check read_interrupt_capture port for high out-of-bounds
     try:
         iopi.read_interrupt_capture(2)
         pass

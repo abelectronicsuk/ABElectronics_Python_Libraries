@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | test get_pin_direction function
+AB Electronics UK IO Pi Tests | test get_pin_direction function
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -42,7 +42,7 @@ def main():
 
     iopi = IOPi(0x20, False)  # new iopi object without initialisation
 
-    # Check get_pin_direction for low out of bounds
+    # Check get_pin_direction for low out-of-bounds
     try:
         iopi.get_pin_direction(-1)
         pass
@@ -57,7 +57,7 @@ def main():
         print("get_pin_direction() low boundary check: FAILED")
         pass
 
-    # Check get_pin_direction for low out of bounds
+    # Check get_pin_direction for low out-of-bounds
     try:
         iopi.get_pin_direction(17)
         pass

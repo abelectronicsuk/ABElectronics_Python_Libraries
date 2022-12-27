@@ -64,7 +64,7 @@ def main():
     # Reset to 0x00
     iobus.set_bus_direction(0x0000)
 
-    # Check set_pin_direction pin for low out of bounds
+    # Check set_pin_direction pin for low out-of-bounds
     try:
         iobus.set_pin_direction(0, 0)
         pass
@@ -79,7 +79,7 @@ def main():
         print("pin low boundary check: FAILED")
         pass
 
-    # Check set_pin_direction pin for high out of bounds
+    # Check set_pin_direction pin for high out-of-bounds
     try:
         iobus.set_pin_direction(17, 0)
         pass
@@ -94,7 +94,7 @@ def main():
         print("pin high boundary check: FAILED")
         pass
 
-    # Check set_pin_direction value for low out of bounds
+    # Check set_pin_direction value for low out-of-bounds
     try:
         iobus.set_pin_direction(0, -1)
         pass
@@ -109,7 +109,7 @@ def main():
         print("value low boundary check: FAILED")
         pass
 
-    # Check set_pin_direction value for high out of bounds
+    # Check set_pin_direction value for high out-of-bounds
     try:
         iobus.set_pin_direction(17, 2)
         pass

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics Servo Pi pwm controller | PWM all call i2c address demo
+AB Electronics UK Servo Pi PWM controller | PWM all call i2c address demo
 
 run with: python demo_setallcalladdress.py
 ================================================
@@ -32,10 +32,10 @@ def main():
     Main program function
     """
 
-    # create an instance of the PWM class on i2c address 0x40
+    # Create an instance of the PWM class on i2c address 0x40
     pwm = PWM(0x40)
 
-    # Set the all call address to 0x30
+    # Set the all-call address to 0x30
     pwm.set_allcall_address(0x30)
 
     # Disable the all call address

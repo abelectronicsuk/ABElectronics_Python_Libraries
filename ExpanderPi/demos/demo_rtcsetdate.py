@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics Expander Pi | Set Time Demo
+AB Electronics UK Expander Pi | Set Time Demo
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -12,7 +12,8 @@ run with: python demo_rtcsetdate.py
 ===============================================
 
 This demo shows how to set the time on the Expander Pi real-time clock
-and then read the current time at 1 second intervals
+and then read the current time at 1-second intervals
+
 """
 from __future__ import absolute_import, division, print_function, \
                                                     unicode_literals

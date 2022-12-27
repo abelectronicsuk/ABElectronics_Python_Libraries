@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics Expander Pi | DAC sine wave generator demo
+AB Electronics UK Expander Pi | DAC sine wave generator demo
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus

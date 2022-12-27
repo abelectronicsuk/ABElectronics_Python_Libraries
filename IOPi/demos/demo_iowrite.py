@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi | Digital I/O Write Demo
+AB Electronics UK IO Pi | Digital I/O Write Demo
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -41,22 +41,21 @@ def main():
     # Create an instance of the IOPi class with an I2C address of 0x20
     iobus = IOPi(0x20)
 
-    # We will write to the pins 9 to 16 so set port 1 to be outputs turn off
-    # the pins
+    # We will use pins 9 to 16 so set port 1 as outputs and turn off the pins
     iobus.set_port_direction(1, 0x00)
     iobus.write_port(1, 0x00)
 
     while True:
 
-        # count to 255 and display the value on pins 9 to 16 in binary format
+        # Count to 255 and display the value on pins 9 to 16 in binary format
         for val in range(0, 255):
             time.sleep(0.05)
             iobus.write_port(1, val)
 
-        # turn off all of the pins on bank 1
+        # Turn off all of the pins on bank 1
         iobus.write_port(1, 0x00)
 
-        # now turn on all of the leds in turn by writing to one pin at a time
+        # Turn on all of the LEDs in turn by writing to one pin at a time
         iobus.write_pin(9, 1)
         time.sleep(0.1)
         iobus.write_pin(10, 1)
@@ -73,7 +72,7 @@ def main():
         time.sleep(0.1)
         iobus.write_pin(16, 1)
 
-        # and turn off all of the leds in turn by writing to one pin at a time
+        # and turn off all of the LEDs in turn by writing to one pin at a time
         iobus.write_pin(9, 0)
         time.sleep(0.1)
         iobus.write_pin(10, 0)

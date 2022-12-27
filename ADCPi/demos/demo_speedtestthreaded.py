@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics ADC Pi 8-Channel ADC speed test demo
+AB Electronics UK ADC Pi 8-Channel ADC speed test demo
 
 Requires python3 smbus to be installed
 run with: python3 demo_speedtest.py
@@ -70,7 +70,7 @@ def sampleratecheck(adc, rate, samples):
         b = threading.Thread(target=adc_thread_function, args=(1,adc, 5, 6, 7, 8, queue2))
         b.start()
 
-        # wait for threads to complete before starting next loop
+        # wait for threads to complete before starting the next loop
         a.join()
         b.join()
 
@@ -121,16 +121,16 @@ def main():
 
     print("Testing ---- This may take some time")
 
-    # 12 bit test - 100 samples
+    # 12-bit test - 100 samples
     sampleratecheck(adc, 12, 100)
 
-    # 14 bit test - 100 samples
+    # 14-bit test - 100 samples
     sampleratecheck(adc, 14, 100)
 
-    # 16 bit test - 100 samples
+    # 16-bit test - 100 samples
     sampleratecheck(adc, 16, 100)
 
-    # 18 bit test - 100 samples
+    # 18-bit test - 100 samples
     sampleratecheck(adc, 18, 100)
 
 if __name__ == "__main__":

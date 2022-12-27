@@ -59,7 +59,7 @@ def main():
     iobus.write_bus(0x0000)
     iobus.set_bus_direction(0xFFFF)
 
-    # Check read_port port for low out of bounds
+    # Check read_port port for low out-of-bounds
     try:
         iobus.read_port(-1)
         pass
@@ -74,7 +74,7 @@ def main():
         print("port low boundary check: FAILED")
         pass
 
-    # Check read_port port for high out of bounds
+    # Check read_port port for high out-of-bounds
     try:
         iobus.read_port(2)
         pass

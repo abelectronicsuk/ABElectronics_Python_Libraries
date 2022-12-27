@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics ADCDAC Pi 2-Channel ADC, 2-Channel DAC | DAC Write Demo
+AB Electronics UK ADC DAC Pi 2-Channel ADC, 2-Channel DAC | DAC Write Demo
 
 run with: python demo_dacwrite.py
 ================================================
@@ -32,7 +32,7 @@ def main():
     Main program function
     '''
 
-    # create an instance of the ADCDAC Pi with a DAC gain set to 1
+    # create an instance of the ADC DAC Pi with a DAC gain set to 1
     adcdac = ADCDACPi(1)
 
     while True:

@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | test get_bus_direction function
+AB Electronics UK IO Pi Tests | test get_bus_direction function
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus

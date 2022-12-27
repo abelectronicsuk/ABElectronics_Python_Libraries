@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics ADCDAC Pi 2-Channel ADC, 2-Channel DAC | DAC Speed Demo
+AB Electronics UK ADC DAC Pi 2-Channel ADC, 2-Channel DAC | DAC Speed Demo
 
 run with: python demo_dacspeed.py
 ================================================
@@ -31,7 +31,7 @@ def main():
     Main program function
     '''
 
-    # create an instance of the ADCDAC Pi with a DAC gain set to 2
+    # create an instance of the ADC DAC Pi with a DAC gain set to 2
     adcdac = ADCDACPi(2)
 
     while True:

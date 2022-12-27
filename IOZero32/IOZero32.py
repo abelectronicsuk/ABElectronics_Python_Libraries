@@ -25,12 +25,12 @@ import platform
 
 class IOZero32(object):
     """
-    The PCA9535 contains a 16 bit bus split into two 8-bit ports.  
+    The PCA9535 contains a 16-bit bus split into two 8-bit ports.  
     Port 0 controls pins 1 to 8 while Port 1 controls pins 9 to 16.
     #
     """
 
-    # Define registers values from datasheet
+    # Define registers values from the datasheet
     
     INPUTPORT0  = 0x00  # Command byte Input port 0
     INPUTPORT1  = 0x01  # Command byte Input port 1
@@ -70,10 +70,10 @@ class IOZero32(object):
         """
         Internal method for getting an instance of the i2c bus
 
-        :param bus: I2C bus number.  If value is None the class will try to
+        :param bus: I2C bus number.  If the value is None the class will try to
                     find the i2c bus automatically using the device name
         :type bus: int
-        :return: i2c bus for target device
+        :return: I2C bus for the target device
         :rtype: SMBus
         :raises IOError: Could not open the i2c bus
         """
@@ -128,7 +128,7 @@ class IOZero32(object):
         :type byte: int
         :param bit: location within value to check
         :type bit: int
-        :return: value of selected bit, 0 or 1
+        :return: value of the selected bit, 0 or 1
         :rtype: int
         """
         value = 0
@@ -295,8 +295,8 @@ class IOZero32(object):
         :type pin: int
         :param value: 1 = input, 0 = output
         :type value: int
-        :raises ValueError: if pin is out of range, 1 to 16
-        :raises ValueError: if value is out of range, 0 or 1
+        :raises ValueError: pin is out of range, 1 to 16
+        :raises ValueError: value is out of range, 0 or 1
         """
         self.__set_pin(pin, value, self.CONFIGPORT0 , self.CONFIGPORT1)
         return
@@ -307,7 +307,7 @@ class IOZero32(object):
 
         :param pin: pin to read, 1 to 16
         :type pin: int
-        :raises ValueError: if pin is out of range, 1 to 16
+        :raises ValueError: pin is out of range, 1 to 16
         :return: 1 = input, 0 = output
         :rtype: int
         """
@@ -322,8 +322,8 @@ class IOZero32(object):
         :param value: 8-bit number 0 to 255 (0xFF)
                       For each bit 1 = input, 0 = output
         :type value: int
-        :raises ValueError: if port is out of range, 0 or 1
-        :raises ValueError: if value out of range: 0 to 255 (0xFF)
+        :raises ValueError: port is out of range, 0 or 1
+        :raises ValueError: value out of range: 0 to 255 (0xFF)
         """
         self.__set_port(port, value, self.CONFIGPORT0 , self.CONFIGPORT1)
         return
@@ -336,7 +336,7 @@ class IOZero32(object):
         :type port: int
         :return: number between 0 and 255 (0xFF)
         :rtype: int
-        :raises ValueError: if port is out of range, 0 or 1
+        :raises ValueError: port is out of range, 0 or 1
         """
         return self.__get_port(port, self.CONFIGPORT0 , self.CONFIGPORT1)
 
@@ -347,7 +347,7 @@ class IOZero32(object):
         :param value: 16-bit number 0 to 65535 (0xFFFF).
                       For each bit 1 = input, 0 = output
         :type value: int
-        :raises ValueError: if value is out of range, 0 to 65535 (0xFFFF)
+        :raises ValueError: value is out of range, 0 to 65535 (0xFFFF)
         """
         self.__set_bus(value, self.CONFIGPORT0)
         return
@@ -370,8 +370,8 @@ class IOZero32(object):
         :type pin: int
         :param value: 1 = enabled, 0 = disabled
         :type value: int
-        :raises ValueError: if pin is out of range, 1 to 16
-        :raises ValueError: if value is out of range, 0 or 1
+        :raises ValueError: pin is out of range, 1 to 16
+        :raises ValueError: value is out of range, 0 or 1
         """
         self.__set_pin(pin, value, self.OUTPUTPORT0, self.OUTPUTPORT1)
         return
@@ -398,7 +398,7 @@ class IOZero32(object):
         :param value: 16-bit number 0 to 65535 (0xFFFF).
                       For each bit 1 = logic high, 0 = logic low
         :type value: int
-        :raises ValueError: if value is out of range, 0 to 65535 (0xFFFF)
+        :raises ValueError: value is out of range, 0 to 65535 (0xFFFF)
         """
         self.__set_bus(value, self.OUTPUTPORT0)
         return
@@ -458,7 +458,7 @@ class IOZero32(object):
 
         :param pin: pin to read, 1 to 16
         :type pin: int
-        :raises ValueError: if pin is out of range, 1 to 16
+        :raises ValueError: pin is out of range, 1 to 16
         :return: 0 = same logic state of the input pin,
                  1 = inverted logic state of the input pin
         :rtype: int
@@ -475,8 +475,8 @@ class IOZero32(object):
                       0 = same logic state of the input pin,
                       1 = inverted logic state of the input pin
         :type value: int
-        :raises ValueError: if port is out of range, 0 or 1
-        :raises ValueError: if value is out of range, 0 to 0xFF
+        :raises ValueError: port is out of range, 0 or 1
+        :raises ValueError: value is out of range, 0 to 0xFF
         """
         self.__set_port(port, value, self.INVERTPORT0, self.INVERTPORT1)
         return
@@ -488,7 +488,7 @@ class IOZero32(object):
         :type port: int
         :return: number between 0 and 255 (0xFF)
         :rtype: int
-        :raises ValueError: if port is out of range, 0 or 1
+        :raises ValueError: port is out of range, 0 or 1
         """
         return self.__get_port(port, self.INVERTPORT0, self.INVERTPORT1)
 
@@ -500,7 +500,7 @@ class IOZero32(object):
                       0 = same logic state of the input pin,
                       1 = inverted logic state of the input pin
         :type value: int
-        :raises ValueError: if value is out of range, 0 to 65535 (0xFFFF)
+        :raises ValueError: value is out of range, 0 to 65535 (0xFFFF)
         """
         self.__set_bus(value, self.INVERTPORT0)
         return

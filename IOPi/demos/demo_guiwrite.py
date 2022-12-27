@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics IO Pi 32-Channel Port Expander - Tkinter GUI Demo
+AB Electronics UK IO Pi 32-Channel Port Expander - Tkinter GUI Demo
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -20,7 +20,7 @@ the jumpers on the IO Pi
 from __future__ import absolute_import, division, print_function, \
                                                     unicode_literals
 
-# check the python version and import the correct version of tkinter
+# check the python version and import the correct version of Tkinter
 import sys
 if sys.version_info[0] < 3:
     import Tkinter as tk
@@ -55,11 +55,11 @@ class App:
         # create an instance of Bus 2 which is on I2C address 0x21 by default
         self.bus2 = IOPi(0x21)
 
-        # set pins 1 to 8 to be outputs and turn them off
+        # set pins 1 to 8 as outputs and turn them off
         self.bus2.set_port_direction(0, 0x00)
         self.bus2.write_port(0, 0x00)
 
-        # set pins 9 to 16 to be outputs and turn them off
+        # set pins 9 to 16 as outputs and turn them off
         self.bus2.set_port_direction(1, 0x00)
         self.bus2.write_port(1, 0x00)
 
@@ -67,7 +67,7 @@ class App:
 
     def build_ui(self, master):
         """
-        Build the UI using tkinter components
+        Build the UI using Tkinter components
         """
         frame = tk.Frame(master)  # create a frame for the GUI
         frame.pack()

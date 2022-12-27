@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | read_port
+AB Electronics UK IO Pi Tests | read_port
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -60,7 +60,7 @@ def main():
     iopi.write_bus(0x0000)
     iopi.set_bus_direction(0xFFFF)
 
-    # Check read_port port for low out of bounds
+    # Check read_port port for low out-of-bounds
     try:
         iopi.read_port(-1)
         pass
@@ -75,7 +75,7 @@ def main():
         print("port low boundary check: FAILED")
         pass
 
-    # Check read_port port for high out of bounds
+    # Check read_port port for high out-of-bounds
     try:
         iopi.read_port(2)
         pass

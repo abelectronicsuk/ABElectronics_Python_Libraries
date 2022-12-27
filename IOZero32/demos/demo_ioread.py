@@ -12,7 +12,7 @@ run with: python demo_ioread.py
 ================================================
 
 This example reads from all 32 pins across both buses on the IO Zero 32.
-The pull-up or pull-down resistors may be needed on the inputs to stop them
+The pullup or pulldown resistors may be needed on the inputs to stop them
 from floating in an indeterminate state.
 
 """
@@ -50,10 +50,10 @@ def main():
     iobus2.set_bus_direction(0xFFFF)
 
     while True:
-        # clear the console
+        # Clear the console
         os.system("clear")
 
-        # read the pins 1 to 16 on both buses and print the results
+        # Read the pins 1 to 16 on both buses and print the results
         print("Bus 1                   Bus 2")
         print("Pin 1:  " + str(iobus1.read_pin(1)) +
               "               Pin 1:  " + str(iobus2.read_pin(1)))
@@ -88,7 +88,7 @@ def main():
         print("Pin 16: " + str(iobus1.read_pin(16)) +
               "               Pin 16: " + str(iobus2.read_pin(16)))
 
-        # wait 0.5 seconds before reading the pins again
+        # Wait 0.5 seconds before reading the pins again
         time.sleep(0.5)
 
 

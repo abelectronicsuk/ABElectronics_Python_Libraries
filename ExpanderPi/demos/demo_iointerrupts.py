@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics Expander Pi | - IO Interrupts Demo
+AB Electronics UK Expander Pi | - IO Interrupts Demo
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -42,14 +42,14 @@ def main():
     # Create an instance of the IO class called iobus.
     iobus = ExpanderPi.IO()
 
-    # Set all pins on the IO bus to be inputs with internal pull-ups disabled.
+    # Set all pins on the IO bus as inputs with internal pullups disabled.
 
     iobus.set_port_pullups(0, 0x00)
     iobus.set_port_pullups(1, 0x00)
     iobus.set_port_direction(0, 0xFF)
     iobus.set_port_direction(1, 0xFF)
 
-    # Set the interrupt polarity to be active high and mirroring disabled, so
+    # Set the interrupt polarity as active high and mirroring disabled, so
     # pins 1 to 8 trigger INT A and pins 9 to 16 trigger INT B
     iobus.set_interrupt_polarity(1)
     iobus.mirror_interrupts(0)
@@ -59,7 +59,7 @@ def main():
     iobus.set_interrupt_defaults(0, 0x01)
     iobus.set_interrupt_defaults(0, 0x80)
 
-    # Set the interrupt type to be 1 for ports A and B so an interrupt is
+    # Set the interrupt type as 1 for ports A and B so an interrupt is
     # fired when the pin matches the default value
     iobus.set_interrupt_type(0, 1)
     iobus.set_interrupt_type(1, 1)

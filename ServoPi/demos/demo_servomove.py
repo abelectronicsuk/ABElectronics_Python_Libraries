@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics Servo Pi pwm controller | PWM servo controller demo
+AB Electronics UK Servo Pi PWM controller | PWM servo controller demo
 
 run with: python demo_servomove.py
 ================================================
@@ -32,11 +32,11 @@ def main():
     """
     Main program function
     """
-    # create an instance of the servo class on I2C address 0x40
+    # Create an instance of the servo class on I2C address 0x40
     servo = Servo(0x40)
 
-    # set the servo minimum and maximum limits in milliseconds
-    # the limits for a servo are typically between 1ms and 2ms.
+    # Set the servo minimum and maximum limits in milliseconds
+    # The limits for a servo are typically between 1 ms and 2 ms.
 
     servo.set_low_limit(1.0)
     servo.set_high_limit(2.0)
@@ -44,7 +44,7 @@ def main():
     # Enable the outputs
     servo.output_enable()
 
-    # move the servo across its full range in increments of 10
+    # Move the servo across its full range in increments of 10
     while True:
         for i in range(0, 250, 10):
             servo.move(1, i)

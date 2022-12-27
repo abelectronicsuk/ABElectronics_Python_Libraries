@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics ADC Differential Pi 8-Channel ADC read Resistance thermometer
+AB Electronics UK ADC Differential Pi 8-Channel ADC read Resistance thermometer
 using a Wheatstone bridge.
+
 This demo uses a Semitec NTC (Negative Temperature Coefficient) Thermistors
 10kohm 1%, Manufacturer Part No: 103AT-11
 
@@ -19,9 +20,9 @@ Requires python smbus to be installed
 run with: python demo_resistance_thermometer.py
 ================================================
 
-Initialise the ADC device using the default addresses and 18 bit sample rate,
+Initialise the ADC device using the default addresses and 18-bit sample rate,
 change this value if you have changed the address selection jumpers
-Bit rate can be 12,14, 16 or 18
+Bit-rate can be 12,14, 16 or 18
 """
 
 from __future__ import absolute_import, division, print_function, \
@@ -49,7 +50,7 @@ RESISTOR2 = 10000.0
 RESISTOR3 = 10000.0
 # Input voltage
 VOLTIN = 3.3
-# Resistance thermometer values from datasheet
+# Resistance thermometer values from the datasheet
 BRESISTANCE = 3435.0
 T25RESISTANCE = 10000.0
 T0 = 273.15
@@ -81,7 +82,7 @@ def main():
 
     # loop forever reading the values and printing them to screen
     while True:
-        # read from adc channels and print to screen
+        # read from ADC channels and print to screen
 
         bridge_voltage = adc.read_voltage(1)
         thermresistance = calc_resistance(bridge_voltage)

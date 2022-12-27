@@ -7,7 +7,7 @@ The example python files can be found in /ABElectronics_Python_Libraries/I2CSwit
 
 ### Downloading and Installing the library
 
-To download to your Raspberry Pi type in terminal: 
+To download to your Raspberry Pi type in the terminal: 
 
 ```
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
@@ -24,7 +24,7 @@ For Python 3.5:
 sudo python3 setup.py install
 ```
 
-If you have PIP installed you can install the library directly from github with the following command:
+If you have PIP installed you can install the library directly from GitHub with the following command:
 
 For Python 2.7:
 ```
@@ -95,7 +95,7 @@ Get the state for the selected channel.
 ```
 reset() 
 ```
-Reset the PCA9546A I2C switch.  Resetting allows the PCA9546A to recover from a situation in which one of the downstream I2C buses is stuck in a low state.  All channels will be set to an off state.
+Reset the PCA9546A I2C switch.  Resetting allows the PCA9546A to recover from a situation in which one of the downstream I2C buses is stuck in a low state.  All channels will be set to an off-state.
 **Returns:** null  
 
 
@@ -106,7 +106,7 @@ To use the I2C Switch class in your code you must first import the class:
 ```
 from I2CSwitch import I2CSwitch
 ```
-Next you must initialise the I2CSwitch object:
+Next, you must initialise the I2CSwitch object:
 ```
 i2cswitch = I2CSwitch(0x70)
 ```

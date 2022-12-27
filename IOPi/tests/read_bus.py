@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | read_bus
+AB Electronics UK IO Pi Tests | read_bus
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus

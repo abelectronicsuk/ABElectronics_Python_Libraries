@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics Expander Pi
+AB Electronics UK Expander Pi
 
 Requires smbus2 or python smbus to be installed
 
@@ -58,14 +58,14 @@ class _ABEHelpers:
     @staticmethod
     def get_smbus(bus):
         """
-        Internal method for getting an instance of the i2c bus
+        Internal method for getting an instance of the I2C bus
 
-        :param bus: I2C bus number.  If value is None the class will try to
-                    find the i2c bus automatically using the device name
+        :param bus: I2C bus number.  If the value is None the class will try to
+                    find the I2C bus automatically using the device name
         :type bus: int
-        :return: i2c bus for target device
+        :return: I2C bus for target device
         :rtype: SMBus
-        :raises IOError: Could not open the i2c bus
+        :raises IOError: Could not open the I2C bus
         """
         i2c__bus = 1
         if bus is not None:
@@ -107,7 +107,7 @@ class _ABEHelpers:
         try:
             return SMBus(i2c__bus)
         except IOError:
-            raise 'Could not open the i2c bus'
+            raise 'Could not open the I2C bus'
 
 
 """
@@ -142,7 +142,7 @@ class ADC:
 
         :param channel: 1 to 8
         :type channel: int
-        :param mode: 0 = single ended, 1 = differential
+        :param mode: 0 = single-ended, 1 = differential
         :type mode: int
         :raises ValueError: read_adc_voltage: mode out of range
         :raises ValueError: read_adc_voltage: channel out of range
@@ -167,7 +167,7 @@ class ADC:
 
         :param channel: 1 to 8
         :type channel: int
-        :param mode: 0 = single ended, 1 = differential
+        :param mode: 0 = single-ended, 1 = differential
         :type mode: int
         :raises ValueError: read_adc_voltage: mode out of range
         :raises ValueError: read_adc_voltage: channel out of range
@@ -195,7 +195,7 @@ class ADC:
     def set_adc_refvoltage(self, voltage):
         """
         set the reference voltage for the analogue to digital converter.
-        By default the ADC uses an onboard 4.096V voltage reference.  If you
+        By default, the ADC uses an onboard 4.096V voltage reference.  If you
         choose to use an external voltage reference you will need to
         use this method to set the ADC reference voltage to match the
         supplied reference voltage.
@@ -223,7 +223,7 @@ class DAC:
     __spiDAC = None
     dactx = [0, 0]
 
-    # Max DAC output voltage.  Depends on gain factor
+    # Max DAC output voltage.  Depends on the gain factor
     # The following table is in the form <gain factor>:<max voltage>
     __dacMaxOutput__ = {
         1: 2.048,  # This is Vref
@@ -238,9 +238,9 @@ class DAC:
         Class Constructor - Define SPI bus and init
 
         :param gainFactor: Set the DAC's gain factor. The value should
-           be 1 or 2.  Gain factor is used to determine output voltage
+           be 1 or 2.  Gain factor is used to determine the output voltage
            from the formula: Vout = G * Vref * D/4096
-           Where G is gain factor, Vref (for this chip) is 2.048 and
+           Where G is the gain factor, Vref (for this chip) is 2.048 and
            D is the 12-bit digital value, defaults to 1
         :type gainFactor: int, optional
         :raises ValueError: DAC __init__: Invalid gain factor. Must be 1 or 2
@@ -265,8 +265,8 @@ class DAC:
 
         :param channel: 1 or 2
         :type channel: int
-        :param voltage: 0 to 2.047 volts when gain is set to 1
-                        or 4.096 when gain is set to 2
+        :param voltage: 0 to 2.047 volts when the gain is set to 1
+                        or 4.096 when the gain is set to 2
         :type voltage: float
         :raises ValueError: set_dac_voltage: DAC channel needs to be 1 or 2
         :raises ValueError: set_dac_voltage: voltage out of range
@@ -320,54 +320,68 @@ class IO:
     represents the lowest numbered pin on the selected port.
     """
 
-    # Define registers values from datasheet
+    # Define registers values from the datasheet
     IODIRA = 0x00  # IO direction A - 1= input 0 = output
     IODIRB = 0x01  # IO direction B - 1= input 0 = output
+
     # Input polarity A - If a bit is set, the corresponding GPIO register bit
     # will reflect the inverted value on the pin.
     IPOLA = 0x02
+
     # Input polarity B - If a bit is set, the corresponding GPIO register bit
     # will reflect the inverted value on the pin.
     IPOLB = 0x03
-    # The GPINTEN register controls the interrupt-onchange feature for each
+
+    # The GPINTEN register controls the interrupt-on-change feature for each
     # pin on port A.
     GPINTENA = 0x04
-    # The GPINTEN register controls the interrupt-onchange feature for each
+
+    # The GPINTEN register controls the interrupt-on-change feature for each
     # pin on port B.
     GPINTENB = 0x05
     # Default value for port A - These bits set the compare value for pins
     # configured for interrupt-on-change.  If the associated pin level is the
     # opposite from the register bit, an interrupt occurs.
     DEFVALA = 0x06
+
     # Default value for port B - These bits set the compare value for pins
     # configured for interrupt-on-change.  If the associated pin level is the
     # opposite from the register bit, an interrupt occurs.
     DEFVALB = 0x07
-    # Interrupt control register for port A.  If 1 interrupt is fired when the
-    # pin matches the default value, if 0 the interrupt is fired on state
-    # change
+
+    # Interrupt control register for port A.
+    # If 1, interrupt is fired when the pin matches the default value.
+    # If 0, the interrupt is fired on state change.
     INTCONA = 0x08
-    # Interrupt control register for port B.  If 1 interrupt is fired when the
-    # pin matches the default value, if 0 the interrupt is fired on state
+
+    # Interrupt control register for port B.
+    # If 1 interrupt is fired when the pin matches the default value.
+    # If 0 the interrupt is fired on state change.
     # change
     INTCONB = 0x09
-    IOCON = 0x0A  # see datasheet for configuration register
-    GPPUA = 0x0C  # pull-up resistors for port A
-    GPPUB = 0x0D  # pull-up resistors for port B
+
+    IOCON = 0x0A  # See datasheet for configuration register
+    GPPUA = 0x0C  # Pullup resistors for port A
+    GPPUB = 0x0D  # Pullup resistors for port B
+
     # The INTF register reflects the interrupt condition on the port A pins of
     # any pin that is enabled for interrupts. A set bit indicates that the
-    # associated pin caused the interrupt.
+    # associated pin caused the interrupt trigger.
     INTFA = 0x0E
+
     # The INTF register reflects the interrupt condition on the port B pins of
     # any pin that is enabled for interrupts.  A set bit indicates that the
-    # associated pin caused the interrupt.
+    # associated pin caused the interrupt trigger.
     INTFB = 0x0F
+
     # The INTCAP register captures the GPIO port A value at the time the
     # interrupt occurred.
     INTCAPA = 0x10
+
     # The INTCAP register captures the GPIO port B value at the time the
     # interrupt occurred.
     INTCAPB = 0x11
+
     GPIOA = 0x12  # data port A
     GPIOB = 0x13  # data port B
     OLATA = 0x14  # output latches A
@@ -385,12 +399,12 @@ class IO:
         """
         IOPi object initialisation
 
-        :param initialise: True = direction set as inputs, pull-ups disabled,
-                           ports not inverted.
-                           False = device state unaltered., defaults to True
+        :param initialise: True = direction set as inputs, pullups disabled,
+                           ports are not inverted.
+                           False = device state unaltered. Defaults to True
         :type initialise: bool, optional
         :param bus: I2C bus number.  If no value is set the class will try to
-                    find the i2c bus automatically using the device name
+                    find the I2C bus automatically using the device name
         :type bus: int, optional
         """
         self.__helper = _ABEHelpers()
@@ -414,7 +428,7 @@ class IO:
         :type byte: int
         :param bit: location within value to check
         :type bit: int
-        :return: value of selected bit, 0 or 1
+        :return: value of the selected bit, 0 or 1
         :rtype: int
         """
         value = 0
@@ -650,7 +664,7 @@ class IO:
 
     def set_pin_pullup(self, pin, value):
         """
-        Set the internal 100K pull-up resistors for an individual pin
+        Set the internal 100K pullup resistors for an individual pin
 
         :param pin: pin to update, 1 to 16
         :type pin: int
@@ -664,7 +678,7 @@ class IO:
 
     def get_pin_pullup(self, pin):
         """
-        Get the internal 100K pull-up resistors for an individual pin
+        Get the internal 100K pullup resistors for an individual pin
 
         :param pin: pin to read, 1 to 16
         :type pin: int
@@ -676,7 +690,7 @@ class IO:
 
     def set_port_pullups(self, port, value):
         """
-        Set the internal 100K pull-up resistors for the selected IO port
+        Set the internal 100K pullup resistors for the selected IO port
 
          :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
         :type port: int
@@ -691,7 +705,7 @@ class IO:
 
     def get_port_pullups(self, port):
         """
-        Get the internal pull-up status for the selected IO port
+        Get the internal pullup status for the selected IO port
 
         :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
         :type port: int
@@ -703,7 +717,7 @@ class IO:
 
     def set_bus_pullups(self, value):
         """
-        Set internal 100K pull-up resistors for an IO bus
+        Set internal 100K pullup resistors for an IO bus
 
         :param value: 16-bit number 0 to 65535 (0xFFFF).
                       For each bit 1 = enabled, 0 = disabled
@@ -715,7 +729,7 @@ class IO:
 
     def get_bus_pullups(self):
         """
-        Get the internal 100K pull-up resistors for an IO bus
+        Get the internal 100K pullup resistors for an IO bus
 
         :return: 16-bit number 0 to 65535 (0xFFFF).
                  For each bit 1 = enabled, 0 = disabled
@@ -880,7 +894,7 @@ class IO:
     def mirror_interrupts(self, value):
         """
         Sets whether the interrupt pins INT A and INT B are independently
-        connected to each port or internally connected together
+        connected to each port or internally connected
 
         :param value: 1 = The INT pins are internally connected,
                       0 = The INT pins are not connected.
@@ -968,7 +982,7 @@ class IO:
         """
         These bits set the compare value for pins configured for
         interrupt-on-change on the selected port.
-        If the associated pin level is the opposite from the register bit, an
+        If the associated pin level is the opposite of the register bit, an
         interrupt occurs.
 
         :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
@@ -1075,7 +1089,7 @@ class IO:
         :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
         :type port: int
         :raises ValueError: port out of range: 0 or 1
-        :return: interrupt status for selected port
+        :return: interrupt status for the selected port
         :rtype: int
         """
         return self.__get_port(port, self.INTFA, self.INTFB)
@@ -1134,7 +1148,7 @@ class RTC:
         """
         Initialise the RTC module
         :param bus: I2C bus number.  If no value is set the class will try to
-                    find the i2c bus automatically using the device name
+                    find the I2C bus automatically using the device name
         :type bus: int, optional
         """
         self.__helper = _ABEHelpers()
@@ -1146,7 +1160,7 @@ class RTC:
     @staticmethod
     def __bcd_dec(bcd):
         """
-        Internal method for converting BCD format number to decimal
+        Internal method for converting a BCD format number to decimal
 
         :param bcd: BCD formatted number
         :type bcd: int
@@ -1158,7 +1172,7 @@ class RTC:
     @staticmethod
     def __dec_bcd(dec):
         """
-        Internal method for converting decimal formatted number to BCD
+        Internal method for converting a decimal formatted number to BCD
 
         :param dec: decimal number
         :type dec: int

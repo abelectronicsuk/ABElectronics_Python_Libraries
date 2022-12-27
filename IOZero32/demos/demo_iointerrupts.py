@@ -13,7 +13,7 @@ run with: python demo_iointerrupts.py
 This example shows how to use the interrupt pin on the IO Zero 32 
 connected to a GPIO pin on the Raspberry Pi.
 Pin 1 on Bus 1 will be set as an input.
-GPIO 17 on the Raspberry Pi will set as an input with the internal pull-up resistor enabled.
+GPIO 17 on the Raspberry Pi will be set as an input with the internal pullup resistor enabled.
 An interrupt will be enabled on GPIO 17 to call a function when the IN1 pin goes low.
 Setting Pin 1 on Bus 1 to high or low will trigger the interrupt and call the interrupt_callback() function.
 
@@ -43,7 +43,7 @@ iobus = IOZero32(0x20)
 
 def signal_handler(sig, frame):
     '''
-    Clean-up the GPIO object and exit program
+    Clean up the GPIO object and exit the program
     '''
     GPIO.cleanup()
     sys.exit(0)
@@ -64,7 +64,7 @@ def main():
     # Set pin 1 on the IO bus to be an input.
     iobus.set_bus_direction(0x01)
 
-    # Configure the Raspberry Pi GPIO pin 17 as an input with pull-up resistor enabled
+    # Configure the Raspberry Pi GPIO pin 17 as an input with pullup resistor enabled
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     
@@ -78,4 +78,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    GPIO.cleanup()           # clean up GPIO on normal exit
+    GPIO.cleanup()           # Clean up GPIO on normal exit

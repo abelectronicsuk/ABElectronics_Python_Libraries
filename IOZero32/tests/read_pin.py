@@ -65,7 +65,7 @@ def main():
     iobus.write_bus(0x0000)
     iobus.set_bus_direction(0xFFFF)
 
-    # Check read_pin pin for low out of bounds
+    # Check read_pin pin for low out-of-bounds
     try:
         iobus.read_pin(0)
         pass
@@ -80,7 +80,7 @@ def main():
         print("pin low boundary check: FAILED")
         pass
 
-    # Check read_pin pin for high out of bounds
+    # Check read_pin pin for high out-of-bounds
     try:
         iobus.read_pin(17)
         pass

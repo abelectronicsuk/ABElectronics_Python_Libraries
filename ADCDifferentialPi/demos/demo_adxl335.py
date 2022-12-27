@@ -1,23 +1,23 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics ADC Differential Pi 8-Channel ADC read ADXL335
+AB Electronics UK ADC Differential Pi 8-Channel ADC read ADXL335
 SparkFun Triple Axis Accelerometer Breakout
 
 The ADXL335 outputs are connected to inputs 1, 2 and 3 on
 the ADC Differential Pi and the negative inputs are connected to GND
 
 The inputs must run via a voltage divider to avoid damaging the ADC chips
-inputs. The demo uses a 18K and 27K divider with the 18K connected to the
+inputs. The demo uses an 18K and 27K divider with the 18K connected to the
 sensor board and the lower side of the 27K connected to GND
 
 Requires python smbus to be installed
 run with: python demo_adxl335.py
 ================================================
 
-Initialise the ADC device using the default addresses and 12 bit sample rate,
+Initialise the ADC device using the default addresses and 12-bit sample rate,
 change this value if you have changed the address selection jumpers
-Bit rate can be 12,14, 16 or 18
+The bit rate can be 12, 14, 16 or 18
 """
 
 from __future__ import absolute_import, division, print_function, \
@@ -61,7 +61,7 @@ def main():
     z_max = 0.0
     z_min = 0.0
 
-    # get 50 samples from each adc channel and use that to get an
+    # get 50 samples from each ADC channel and use that to get an
     # average value for 0G.
     # Keep the accelerometer still while this part of the code is running
     for _ in range(0, 50):
@@ -74,7 +74,7 @@ def main():
 
     # loop forever reading the values and printing them to screen
     while True:
-        # read from adc channels and print to screen
+        # read from ADC channels and print to screen
 
         x_force = ((adc.read_voltage(1) * conversionfactor) - x_static) / 0.3
         y_force = ((adc.read_voltage(2) * conversionfactor) - y_static) / 0.3

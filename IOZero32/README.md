@@ -7,7 +7,7 @@ The example python files can be found in /ABElectronics_Python_Libraries/IOZero3
 
 ### Downloading and Installing the library
 
-To download to your Raspberry Pi type in terminal: 
+To download to your Raspberry Pi type in the terminal: 
 
 ```
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
@@ -24,7 +24,7 @@ For Python 3:
 sudo python3 setup.py install
 ```
 
-If you have PIP installed you can install the library directly from github with the following command:
+If you have PIP installed you can install the library directly from GitHub with the following command:
 
 For Python 2.7:
 ```
@@ -213,19 +213,19 @@ To use the IO Zero 32 library in your code you must first import the library:
 from IOZero32 import IOZero32
 ```
 
-Next you must initialise the IOZero32 object with the I2C address of the I/O controller chip.  The default addresses for the IO Zero 32 are 0x20 and 0x21:
+Next, you must initialise the IOZero32 object with the I2C address of the I/O controller chip.  The default addresses for the IO Zero 32 are 0x20 and 0x21:
 
 ```
 bus1 = IOZero32(0x20)
 ```
 
-We will read the inputs 1 to 8 from bus 1 so set port 0 to be inputs.  
+We will read the inputs 1 to 8 from bus 1 so set port 0 as inputs.  
 
 ```
 bus1.set_port_direction(0, 0xFF)
 ```
 
-You can now read the pin 1 with:
+You can now read pin 1 with:
 ```
 print('Pin 1: ' + str(bus1.read_pin(1)))
 ```

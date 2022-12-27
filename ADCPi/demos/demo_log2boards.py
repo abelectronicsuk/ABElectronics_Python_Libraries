@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics ADC Pi 8-Channel ADC data-logger demo
+AB Electronics UK ADC Pi 8-Channel ADC data-logger demo
 
 Requires python smbus to be installed
 run with: python demo_log2boards.py
@@ -10,7 +10,7 @@ run with: python demo_log2boards.py
 Initialise two ADC Pi boards using the  addresses 0x6A to 0x6D 
 and sample rate to 12 bits
 
-Sample rate can be 12,14, 16 or 18
+Sample rate can be 12, 14, 16 or 18
 """
 
 from __future__ import absolute_import, division, print_function, \
@@ -58,7 +58,7 @@ def main():
 
     while True:
 
-        # read from adc channels on board 1 and write to the log file
+        # read from the ADC channels on board 1 and write to the log file
         writetofile("Board 1 - Channel 1: %02f\n" % adc1.read_voltage(1))
         writetofile("Board 1 - Channel 2: %02f\n" % adc1.read_voltage(2))
         writetofile("Board 1 - Channel 3: %02f\n" % adc1.read_voltage(3))
@@ -68,7 +68,7 @@ def main():
         writetofile("Board 1 - Channel 7: %02f\n" % adc1.read_voltage(7))
         writetofile("Board 1 - Channel 8: %02f\n" % adc1.read_voltage(8))
 
-        # read from adc channels on board 2 and write to the log file
+        # read from the ADC channels on board 2 and write to the log file
         writetofile("Board 2 - Channel 1: %02f\n" % adc2.read_voltage(1))
         writetofile("Board 2 - Channel 2: %02f\n" % adc2.read_voltage(2))
         writetofile("Board 2 - Channel 3: %02f\n" % adc2.read_voltage(3))

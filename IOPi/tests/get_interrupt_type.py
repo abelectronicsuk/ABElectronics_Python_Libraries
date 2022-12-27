@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | test get_interrupt_type function
+AB Electronics UK IO Pi Tests | test get_interrupt_type function
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -42,7 +42,7 @@ def main():
 
     iopi = IOPi(0x20, False)  # new iopi object without initialisation
 
-    # Check get_interrupt_type for low out of bounds
+    # Check get_interrupt_type for low out-of-bounds
     try:
         iopi.get_interrupt_type(-1)
         pass
@@ -57,7 +57,7 @@ def main():
         print("get_interrupt_type() low boundary check: FAILED")
         pass
 
-    # Check get_interrupt_type for low out of bounds
+    # Check get_interrupt_type for low out-of-bounds
     try:
         iopi.get_interrupt_type(2)
         pass

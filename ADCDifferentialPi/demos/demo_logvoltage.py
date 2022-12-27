@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics ADC Differential 8-Channel ADC data-logger demo
+AB Electronics UK ADC Differential 8-Channel ADC data-logger demo
 
 Requires python smbus to be installed
 run with: python demo_logvoltage.py
@@ -10,7 +10,7 @@ run with: python demo_logvoltage.py
 Initialise the ADC device using the default addresses and sample rate, change
 this value if you have changed the address selection jumpers
 
-Sample rate can be 12,14, 16 or 18
+Sample rate can be 12, 14, 16 or 18
 """
 
 from __future__ import absolute_import, division, print_function, \
@@ -51,7 +51,7 @@ def main():
 
     while True:
 
-        # read from adc channels and write to the log file
+        # read from ADC channels and write to the log file
         writetofile("Channel 1: %02f\n" % adc.read_voltage(1))
         writetofile("Channel 2: %02f\n" % adc.read_voltage(2))
         writetofile("Channel 3: %02f\n" % adc.read_voltage(3))

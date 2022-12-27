@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics RTC Pi | RTC memory integer demo
+AB Electronics UK RTC Pi | RTC memory integer demo
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -34,7 +34,7 @@ except ImportError:
 
 def int_to_array(val):
     '''
-    convert an integer into a four byte array
+    Convert an integer into a four-byte array
     '''
     arraybytes = [0, 0, 0, 0]
     arraybytes[3] = val & 0xFF
@@ -49,7 +49,7 @@ def int_to_array(val):
 
 def array_to_int(arraybytes):
     '''
-    convert a four byte array into an integer
+    Convert a four-byte array into an integer
     '''
     val = (arraybytes[0] << 24) + (arraybytes[1] << 16) + \
           (arraybytes[2] << 8) + arraybytes[3]
@@ -61,23 +61,23 @@ def main():
     Main program function
     '''
 
-    # create a new instance of the RTC class
+    # Create a new instance of the RTC class
     rtc = RTC()
 
-    # integer to be written to the RTC memory
+    # Integer to be written to the RTC memory
     writeval = 176247
     print("Writing to memory: ", writeval)
 
-    # convert the integer into an array of bytes
+    # Convert the integer into an array of bytes
     writearray = int_to_array(writeval)
 
-    # write the array to the RTC memory
+    # Write the array to the RTC memory
     rtc.write_memory(0x08, writearray)
 
-    # read four bytes from the RTC memory into an array
+    # Read four bytes from the RTC memory into an array
     readarray = rtc.read_memory(0x08, 4)
 
-    # combine the array values into an integer and print it
+    # Combine the array values into an integer and print it
     print("Reading from memory: ", array_to_int(readarray))
 
 if __name__ == "__main__":

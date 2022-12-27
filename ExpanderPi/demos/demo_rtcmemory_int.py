@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics Expander Pi | RTC memory integer demo
+AB Electronics UK Expander Pi | RTC memory integer demo
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -13,6 +13,7 @@ run with: python demo_rtcmemory_int.py
 
 This demo shows how to write to and read from the internal battery
 backed memory on the DS1307 RTC chip
+
 """
 
 from __future__ import absolute_import, division, print_function, \
@@ -34,7 +35,7 @@ except ImportError:
 
 def int_to_array(val):
     '''
-    convert an integer into a four byte array
+    convert an integer into a four-byte array
     '''
     arraybytes = [0, 0, 0, 0]
     arraybytes[3] = val & 0xFF
@@ -49,7 +50,7 @@ def int_to_array(val):
 
 def array_to_int(arraybytes):
     '''
-    convert a four byte array into an integer
+    convert a four-byte array into an integer
     '''
     val = (arraybytes[0] << 24) + (arraybytes[1] << 16) + \
           (arraybytes[2] << 8) + arraybytes[3]

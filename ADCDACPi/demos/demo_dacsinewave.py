@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics ADC-DAC Pi 2-Channel ADC, 2-Channel DAC
+AB Electronics UK ADC DAC Pi 2-Channel ADC, 2-Channel DAC
 DAC sine wave generator demo
 
 run with: python demo_dacsinewave.py
@@ -34,7 +34,7 @@ def main():
     Main program function
     '''
 
-    # create an instance of the ADCDAC Pi with a DAC gain set to 1
+    # create an instance of the ADC DAC Pi with a DAC gain set to 1
     adcdac = ADCDACPi(1)
 
     sinewave_array = \

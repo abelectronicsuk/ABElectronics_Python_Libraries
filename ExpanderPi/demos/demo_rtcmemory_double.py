@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics Expander Pi | RTC memory double demo
+AB Electronics UK Expander Pi | RTC memory double demo
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -13,6 +13,7 @@ run with: python demo_rtcmemory_double.py
 
 This demo shows how to write to and read from the internal battery
 backed memory on the DS1307 RTC chip
+
 """
 
 from __future__ import absolute_import, division, print_function, \
@@ -36,7 +37,7 @@ except ImportError:
 
 def double_to_array(val):
     '''
-    convert a double into an eight byte array
+    convert a double into an eight-byte array
     '''
     buf = bytearray(struct.pack('d', val))
     arraybytes = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -47,7 +48,7 @@ def double_to_array(val):
 
 def array_to_double(val):
     '''
-    convert an eight byte array into a double
+    convert an eight-byte array into a double
     '''
     dval, = struct.unpack('d', bytearray(val))
     return dval
@@ -74,7 +75,7 @@ def main():
     # read eight bytes from the RTC memory into an array
     read_array = rtc.read_memory(0x08, 8)
 
-    # combine the array values into an number and print it
+    # combine the array values into a number and print it
     print("Reading from memory: ", array_to_double(read_array))
 
 if __name__ == "__main__":

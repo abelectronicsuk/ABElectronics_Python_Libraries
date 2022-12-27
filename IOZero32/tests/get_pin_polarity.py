@@ -42,7 +42,7 @@ def main():
 
     iobus = IOZero32(0x20)  # new iobus object
 
-    # Check get_pin_polarity for low out of bounds
+    # Check get_pin_polarity for low out-of-bounds
     try:
         iobus.get_pin_polarity(-1)
         pass
@@ -57,7 +57,7 @@ def main():
         print("get_pin_polarity() low boundary check: FAILED")
         pass
 
-    # Check get_pin_polarity for low out of bounds
+    # Check get_pin_polarity for low out-of-bounds
     try:
         iobus.get_pin_polarity(17)
         pass

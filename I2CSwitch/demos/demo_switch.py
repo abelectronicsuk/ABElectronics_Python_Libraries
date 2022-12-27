@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics I2CSwitch | Channel select demo
+AB Electronics UK I2CSwitch | Channel select demo
 
 run with: python demo_switch.py -c 1
 ================================================
 
-This demo shows how to set I2C output channel using a command line parameter.
-Specify the paramter -c or --channel as a number 1 to 4
+This demo shows how to set the I2C output channel 
+using a command line parameter.
+
+Specify the parameter -c or --channel as a number 1 to 4
 """
 
 from __future__ import absolute_import, division, print_function, \

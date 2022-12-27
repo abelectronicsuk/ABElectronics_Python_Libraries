@@ -3,13 +3,19 @@ AB Electronics UK Expander Pi Python Library
 
 Python Library to use with Expander Pi board from https://www.abelectronics.co.uk
 
-The Expander Pi contains separate classes for the real-time clock, analogue to digital converter, digital to analogue converter and the digital I/O pins.  Examples are included to show how each of the classes can be used.
+The Expander Pi contains separate classes for the real-time clock, analogue to digital converter, digital to analogue converter and 16 digital I/O pins.  Examples are included to show how each of the classes can be used.
+
+The Expander Pi uses the following devices:  
+- Maxim DS1307 Real-time Clock (RTC)  
+- Microchip MCP3208 8-channel 12-bit resolution analogue input (ADC)  
+- Microchip MCP4822 2 channel 12-bit resolution analogue output (DAC)  
+- Microchip MCP23017 16-channel digital I/O controller  
 
 The example python files can be found in /ABElectronics_Python_Libraries/ExpanderPi/demos  
 
 ### Downloading and Installing the library
 
-To download to your Raspberry Pi type in terminal: 
+To download to your Raspberry Pi type in the terminal: 
 
 ```
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
@@ -21,21 +27,21 @@ For Python 2.7:
 ```
 sudo python setup.py install
 ```
-For Python 3.5:
+For Python 3:
 ```
 sudo python3 setup.py install
 ```
 
-If you have PIP installed you can install the library directly from github with the following command:
+If you have PIP installed you can install the library directly from GitHub with the following command:
 
 For Python 2.7:
 ```
 sudo python2.7 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
 
-For Python 3.5:
+For Python 3:
 ```
-sudo python3.4 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
+sudo python3 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
 
 The Expander Pi library is located in the ExpanderPi directory
@@ -53,7 +59,7 @@ sudo pip3 install smbus2
 
 # Class: ADC #
 
-The ADC class controls the functions on the 12 bit 8 channel Analogue to Digital converter.  The Expander Pi comes with an on board  4.096 voltage reference.  To use an external voltage reference remover the solder bridge from jumper J1 and connect the external voltage reference to the Vref pin.
+The ADC class controls the functions on the 12-bit 8-channel Analogue to Digital converter.  The Expander Pi comes with an onboard  4.096 voltage reference.  To use an external voltage reference, remove the solder bridge from jumper **J1** and connect the external voltage reference to the Vref pin.
 
 Functions:
 ----------
@@ -63,10 +69,11 @@ Functions:
 read_adc_voltage(channel, mode) 
 ```   
 Read the voltage from the selected channel on the ADC   
-**Parameters:** channel = options are: 1 to 8 , mode = 0 or 1 - 0 = single ended, 1 = differential
+**Parameters:** channel - options are: 1 to 8, mode = 0 or 1 - 0 = single-ended, 1 = differential  
 **Returns:** voltage
 
-In single ended mode the channel number corresponds to the number on the Expander Pi.  In differential mode channel the number selects the channels as follows:
+In single-ended mode, the channel number corresponds to the number on the Expander Pi.  
+In differential mode, the channel number selects the channels as follows:
 
 | Channel  | Mode         | Channel Selection On Expander Pi   |
 |-------|--------------|----------------------|
@@ -92,10 +99,10 @@ ___
 read_adc_raw(channel, mode) 
 ```   
 Read the raw value from the selected channel on the ADC   
-**Parameters:** channel = options are: 1 to 8 , mode = 0 or 1 - 0 = single ended, 1 = differential  
-**Returns:** raw 12 bit value (0 to 4096)
+**Parameters:** channel = options are: 1 to 8 , mode = 0 or 1 - 0 = single-ended, 1 = differential  
+**Returns:** raw 12-bit value (0 to 4096)
 
-In single ended mode the channel number corresponds to the number on the Expander Pi.  In differential mode channel the number selects the channels as follows:
+In single-ended mode, the channel number corresponds to the number on the Expander Pi.  In differential mode, the channel the number selects the channels as follows:
 
 | Channel  | Mode         | Channel Selection On Expander Pi   |
 |-------|--------------|----------------------|
@@ -122,7 +129,7 @@ ___
 set_adc_refvoltage(voltage) 
 ```   
 set the reference voltage for the analogue to digital converter.  
-By default the ADC uses an on-board 4.096V voltage reference.  If you choose to use an external voltage reference you will need to use this method to set the ADC reference voltage to match the supplied reference voltage.
+By default, the ADC uses an onboard 4.096V voltage reference.  If you choose to use an external voltage reference you will need to use this method to set the ADC reference voltage to match the supplied reference voltage.
 The reference voltage must be less than or equal to the voltage on the Raspberry Pi 5V rail. 
 
 **Parameters:** voltage (use a decimal number)   
@@ -139,7 +146,7 @@ To use the ADC class in your code you must first import the library:
 from ExpanderPi import ADC
 ```
 
-Next you must initialise the ADC object:
+Next, you must initialise the ADC object:
 
 ```
 adc = ADC()
@@ -151,7 +158,7 @@ If you are using an external voltage reference set the voltage using:
 adc.set_adc_refvoltage(4.096)
 ```
 
-Read the voltage from the ADC channel 1 in single ended mode at 1 second intervals:
+Read the voltage from the ADC channel 1 in single-ended mode at 1-second intervals:
 
 ```
 while (True):
@@ -161,8 +168,8 @@ while (True):
 
 # Class: DAC #
 
-The DAC class controls the 2 channel 12 bit digital to analogue converter.  The DAC uses an internal voltage reference and can output a voltage between 0 and 2.048V.
-A gain setting allows you to increase the voltage to between 0 and 4.095V when gain is set to 2
+The DAC class controls the 2-channel 12-bit digital-to-analogue converter.  The DAC uses an internal voltage reference and can output a voltage between 0 and 2.048V.
+A gain setting allows you to increase the voltage to between 0 and 4.095V when the gain is set to 2
 
 Functions:
 ----------
@@ -172,7 +179,8 @@ set_dac_voltage(channel, voltage)
 ```
 
 Set the voltage for the selected channel on the DAC  
-**Parameters:** channel - 1 or 2,  voltage can be between 0 and 2.047 volts when gain is set to 1 or 0 and 4.095 volts when gain is set to 2
+**Parameters:**  
+channel - 1 or 2, the voltage can be between 0 and 2.047 volts when the gain is set to 1 or 0 and 4.095 volts when the gain is set to 2  
 **Returns:** null 
 ___
 ```
@@ -180,7 +188,8 @@ set_dac_raw(channel, value)
 ```
 
 Set the raw value from the selected channel on the DAC  
-**Parameters:** channel - 1 or 2,value int between 0 and 4095  
+**Parameters:**  
+channel - 1 or 2, value int between 0 and 4095  
 **Returns:** null 
 
 Usage
@@ -192,7 +201,7 @@ To use the DAC class in your code you must first import the library:
 from ExpanderPi import DAC
 ```
 
-Next you must initialise the DAC object with a gain setting of 1 or 2:
+Next, you must initialise the DAC object with a gain setting of 1 or 2:
 
 ```
 dac = DAC(1)
@@ -213,8 +222,8 @@ When writing to or reading from a port the least significant bit represents the 
 IO(initialise, bus)
 ```
 **Parameters:**  
-initialise (optional): True = direction set as inputs, pull-ups disabled, ports not inverted. False = device state unaltered., defaults to True  
-bus (optional): I2C bus number (integer).  If no value is set the class will try to find the i2c bus automatically using the device name.  
+initialise (optional): True = direction set as inputs, pullups disabled, ports not inverted. False = device state unaltered., defaults to True  
+bus (optional): I2C bus number (integer).  If no value is set the class will try to find the I2C bus automatically using the device name.  
 
 Functions:
 ----------
@@ -270,7 +279,7 @@ ___
 ```
 set_pin_pullup(pin, value)
 ```
-Set the internal 100K pull-up resistors for an individual pin  
+Set the internal 100K pullup resistors for an individual pin  
 **Parameters:**  
 pin: pin to update, 1 to 16 
 value: 1 = enabled, 0 = disabled  
@@ -279,7 +288,7 @@ ___
 ```
 get_pin_pullup(pin)
 ```  
-Get the internal 100K pull-up resistors for an individual pin  
+Get the internal 100K pullup resistors for an individual pin  
 **Parameters:**  
 pin: pin to read, 1 to 16  
 **Returns:** 1 = enabled, 0 = disabled  
@@ -287,7 +296,7 @@ ___
 ```
 set_port_pullups(port, value)
 ```
-Set the internal 100K pull-up resistors for the selected IO port  
+Set the internal 100K pullup resistors for the selected IO port  
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16  
 value: number between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  1 = Enabled, 0 = Disabled  
@@ -296,7 +305,7 @@ ___
 ```
 get_port_pullups(port): 
 ```
-Get the internal pull-up status for the selected IO port  
+Get the internal pullup status for the selected IO port  
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16   
 **Returns:** number between 0 and 255 (0xFF)  
@@ -304,7 +313,7 @@ ___
 ```
 set_bus_pullups(value)
 ```
-Set internal 100K pull-up resistors for an IO bus  
+Set internal 100K pullup resistors for an IO bus  
 **Parameters:**  
 value: 16-bit number 0 to 65535 (0xFFFF). For each bit 1 = enabled, 0 = disabled  
 **Returns:** null
@@ -312,7 +321,7 @@ ___
 ```
 get_bus_pullups()
 ```
-Get the internal 100K pull-up resistors for an IO bus  
+Get the internal 100K pullup resistors for an IO bus  
 **Returns:** 16-bit number 0 to 65535 (0xFFFF). For each bit 1 = enabled, 0 = disabled  
 ___
 ```
@@ -414,7 +423,7 @@ ___
 ```
 mirror_interrupts(value)
 ```
-Sets whether the interrupt pins INT A and INT B are independently connected to each port or internally connected together  
+Sets whether the interrupt pins INT A and INT B are independently connected to each port or internally connected  
 **Parameters:**  
 value: 1 = The INT pins are internally connected, 0 = The INT pins are not connected. INT A is associated with PortA and INT B is associated with PortB    
 **Returns:** null
@@ -455,7 +464,7 @@ ___
 set_interrupt_defaults(port, value)
 ```
 These bits set the compare value for pins configured for interrupt-on-change on the selected port.  
-If the associated pin level is the opposite from the register bit, an interrupt occurs.    
+If the associated pin level is the opposite of the register bit, an interrupt occurs.    
 **Parameters:**  
 port: 0 = pins 1 to 8, 1 = pins 9 to 16, 
 value: compare value between 0 and 255 or 0x00 and 0xFF.  Each bit in the 8-bit number represents a pin on the port.  
@@ -549,33 +558,33 @@ To use the IO Pi library in your code you must first import the library:
 from ExpanderPi import IO
 ```
 
-Next you must initialise the IO object:
+Next, you must initialise the IO object:
 
 ```
 io = IO()
 ```
 
-By default the IO object will be initialised in a reset state with the ports set as inputs, pull-up resistors disabled and the pins non-inverted.  If you want to initialase the IO object without updating the port direction or the pull-up status you can add a reset=False parameter.
+By default the IO object will be initialised in a reset state with the ports set as inputs, pullup resistors disabled and the pins non-inverted.  If you want to initialise the IO object without updating the port direction or the pullup status you can add a reset=False parameter.
 
 ```
 io = IO(reset=False)
 ```
 
-We will read the inputs 1 to 8 from the I/O bus so set port 0 to be inputs and enable the internal pull-up resistors 
+We will read the inputs 1 to 8 from the I/O bus so set port 0 as inputs and enable the internal pullup resistors 
 
 ```
 io.set_port_direction(0, 0xFF)
 io.set_port_pullups(0, 0xFF)
 ```
 
-You can now read the pin 1 with:
+You can now read pin 1 with:
 ```
 print 'Pin 1: ' + str(io.read_pin(1))
 ```
 
 # Class: RTC #
 
-The RTC class controls the DS1307 real-time clock on the Expander Pi.  You can set and read the date and time from the clock as well as controlling the pulse output on the RTC pin.  
+The RTC class controls the DS1307 real-time clock on the Expander Pi.  You can set and read the date and time from the clock as well as control the pulse output on the RTC pin.  
 
 ```
 RTC(bus)
@@ -650,7 +659,7 @@ To use the RTC class in your code you must first import the library:
 from ExpanderPi import RTC
 ```
 
-Next you must initialise the RTC object:
+Next, you must initialise the RTC object:
 
 ```
 rtc = RTC()
@@ -669,7 +678,7 @@ rtc.set_frequency(3)
 rtc.enable_output()
 ```
 
-Read the current date and time from the RTC at 1 second intervals:
+Read the current date and time from the RTC at 1-second intervals:
 
 ```
 while (True):

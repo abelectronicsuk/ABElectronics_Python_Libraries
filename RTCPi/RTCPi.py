@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics RTC Pi Real-time clock
+AB Electronics UK RTC Pi Real-time clock
 
 Requires smbus2 or python smbus to be installed
 ================================================
@@ -23,7 +23,7 @@ class RTC:
     Based on the Maxim DS1307
     """
 
-    # define registers from datasheet
+    # Define registers from the datasheet
     SECONDS = 0x00
     MINUTES = 0x01
     HOURS = 0x02
@@ -33,30 +33,30 @@ class RTC:
     YEAR = 0x06
     CONTROL = 0x07
 
-    # variables
+    # Variables
     __rtcaddress = 0x68  # I2C address
-    # initial configuration - square wave and output disabled, frequency set
+    # Initial configuration - square wave and output disabled, frequency set
     # to 32.768KHz.
     __rtcconfig = 0x03
-    # the DS1307 does not store the current century so that has to be added on
-    # manually.
+    # The DS1307 does not store the current century so that has to be 
+    # added on manually.
     __century = 2000
 
     __bus = None
 
-    # local methods
+    # Local methods
 
     @staticmethod
     def __get_smbus(bus):
         """
-        Internal method for getting an instance of the i2c bus
+        Internal method for getting an instance of the I2C bus
 
-        :param bus: I2C bus number.  If value is None the class will try to
-                    find the i2c bus automatically using the device name
+        :param bus: I2C bus number.  If the value is None the class will try to
+                    find the I2C bus automatically using the device name
         :type bus: int
-        :return: i2c bus for target device
+        :return: I2C bus for the target device
         :rtype: SMBus
-        :raises IOError: Could not open the i2c bus
+        :raises IOError: Could not open the I2C bus
         """
         i2c__bus = 1
         if bus is not None:
@@ -84,7 +84,7 @@ class RTC:
                 i2c__bus = 0
 
             elif device == "raspberrypi":  # running on raspberry pi
-                # detect i2C port number and assign to i2c__bus
+                # detect I2C port number and assign to i2c__bus
                 for line in open('/proc/cpuinfo').readlines():
                     model = re.match('(.*?)\\s*:\\s*(.*)', line)
                     if model:
@@ -98,7 +98,7 @@ class RTC:
         try:
             return SMBus(i2c__bus)
         except IOError:
-            raise 'Could not open the i2c bus'
+            raise 'Could not open the I2C bus'
 
     @staticmethod
     def __updatebyte(byte, bit, value):
@@ -123,7 +123,7 @@ class RTC:
     @staticmethod
     def __bcd_dec(bcd):
         """
-        Internal method for converting BCD format number to decimal
+        Internal method for converting a BCD format number to decimal
 
         :param bcd: BCD formatted number
         :type bcd: int
@@ -135,7 +135,7 @@ class RTC:
     @staticmethod
     def __dec_bcd(dec):
         """
-        Internal method for converting decimal formatted number to BCD
+        Internal method for converting a decimal format number to BCD
 
         :param dec: decimal number
         :type dec: int
@@ -169,7 +169,7 @@ class RTC:
         """
         Initialise the RTC module
         :param bus: I2C bus number.  If no value is set the class will try to
-                    find the i2c bus automatically using the device name
+                    find the I2C bus automatically using the device name
         :type bus: int, optional
         """
         self.__bus = self.__get_smbus(bus)

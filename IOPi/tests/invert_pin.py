@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | invert_pin
+AB Electronics UK IO Pi Tests | invert_pin
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -75,7 +75,7 @@ def main():
     # Reset invert to 0x00
     iopi.invert_bus(0x0000)
 
-    # Check invert_pin pin for low out of bounds
+    # Check invert_pin pin for low out-of-bounds
     try:
         iopi.invert_pin(0, 0)
         pass
@@ -90,7 +90,7 @@ def main():
         print("pin low boundary check: FAILED")
         pass
 
-    # Check invert_pin pin for high out of bounds
+    # Check invert_pin pin for high out-of-bounds
     try:
         iopi.invert_pin(17, 0)
         pass
@@ -105,7 +105,7 @@ def main():
         print("pin high boundary check: FAILED")
         pass
 
-    # Check invert_pin value for low out of bounds
+    # Check invert_pin value for low out-of-bounds
     try:
         iopi.invert_pin(0, -1)
         pass
@@ -120,7 +120,7 @@ def main():
         print("value low boundary check: FAILED")
         pass
 
-    # Check invert_pin value for high out of bounds
+    # Check invert_pin value for high out-of-bounds
     try:
         iopi.invert_pin(17, 2)
         pass

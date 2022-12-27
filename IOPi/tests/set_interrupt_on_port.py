@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | set_interrupt_on_port
+AB Electronics UK IO Pi Tests | set_interrupt_on_port
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -61,7 +61,7 @@ def main():
 
     iopi = IOPi(0x20, False)  # new iopi object without initialisation
 
-    # Check set_interrupt_on_port port for low out of bounds
+    # Check set_interrupt_on_port port for low out-of-bounds
     try:
         iopi.set_interrupt_on_port(-1, 0)
         pass
@@ -76,7 +76,7 @@ def main():
         print("port low boundary check: FAILED")
         pass
 
-    # Check set_interrupt_on_port port for high out of bounds
+    # Check set_interrupt_on_port port for high out-of-bounds
     try:
         iopi.set_interrupt_on_port(2, 0)
         pass
@@ -91,7 +91,7 @@ def main():
         print("port high boundary check: FAILED")
         pass
 
-    # Check set_interrupt_on_port value for low out of bounds
+    # Check set_interrupt_on_port value for low out-of-bounds
     try:
         iopi.set_interrupt_on_port(0, -1)
         pass
@@ -106,7 +106,7 @@ def main():
         print("value low boundary check: FAILED")
         pass
 
-    # Check set_interrupt_on_port value for high out of bounds
+    # Check set_interrupt_on_port value for high out-of-bounds
     try:
         iopi.set_interrupt_on_port(0, 256)
         pass

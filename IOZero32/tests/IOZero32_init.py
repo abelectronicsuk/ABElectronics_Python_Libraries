@@ -41,7 +41,7 @@ def main():
 
     passed = True
 
-    # Check i2c address for low out of bounds
+    # Check i2c address for low out-of-bounds
     try:
         a = IOZero32(0x19)
         del a
@@ -57,7 +57,7 @@ def main():
         print("I2C address low boundary check: FAILED")
         pass
 
-    # Check i2c address for high out of bounds
+    # Check i2c address for high out-of-bounds
     try:
         b = IOZero32(0x28)
         del b

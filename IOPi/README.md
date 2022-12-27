@@ -7,7 +7,7 @@ The example python files can be found in /ABElectronics_Python_Libraries/IOPi/de
 
 ### Downloading and Installing the library
 
-To download to your Raspberry Pi type in terminal: 
+To download to your Raspberry Pi type in the terminal: 
 
 ```
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
@@ -24,7 +24,7 @@ For Python 3.5:
 sudo python3 setup.py install
 ```
 
-If you have PIP installed you can install the library directly from github with the following command:
+If you have PIP installed you can install the library directly from GitHub with the following command:
 
 For Python 2.7:
 ```
@@ -257,7 +257,7 @@ ___
 ```
 mirror_interrupts(value)
 ```
-Sets whether the interrupt pins INT A and INT B are independently connected to each port or internally connected together  
+Sets whether the interrupt pins INT A and INT B are independently connected to each port or internally connected  
 **Parameters:**  
 value: 1 = The INT pins are internally connected, 0 = The INT pins are not connected. INT A is associated with PortA and INT B is associated with PortB    
 **Returns:** null
@@ -390,20 +390,20 @@ To use the IO Pi library in your code you must first import the library:
 from IOPi import IOPi
 ```
 
-Next you must initialise the IO object with the I2C address of the I/O controller chip.  The default addresses for the IO Pi are 0x20 and 0x21:
+Next, you must initialise the IO object with the I2C address of the I/O controller chip.  The default addresses for the IO Pi are 0x20 and 0x21:
 
 ```
 bus1 = IOPI(0x20)
 ```
 
-We will read the inputs 1 to 8 from bus 2 so set port 0 to be inputs and enable the internal pull-up resistors 
+We will read the inputs 1 to 8 from bus 2 so set port 0 as inputs and enable the internal pull-up resistors 
 
 ```
 bus1.set_port_direction(0, 0xFF)
 bus1.set_port_pullups(0, 0xFF)
 ```
 
-You can now read the pin 1 with:
+You can now read pin 1 with:
 ```
 print('Pin 1: ' + str(bus1.read_pin(1)))
 ```

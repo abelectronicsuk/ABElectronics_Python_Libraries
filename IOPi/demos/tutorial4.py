@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics IO Pi 32-Channel Port Expander - Tutorial 4
+AB Electronics UK IO Pi 32-Channel Port Expander - Tutorial 4
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -42,20 +42,20 @@ def button_pressed(interrupt_pin):
     global bus
 
     """
-    this function will be called when GPIO 23 falls low
+    This function will be called when GPIO 23 falls low
     """
-    # read the interrupt capture for port 0 and store it in variable intval
+    # Read the interrupt capture for port 0 and store it in the variable intval
     intval = bus.read_interrupt_capture(0)
 
-    # compare the value of intval with the IO Pi port 0
-    # using read_port().  wait until the port changes which will indicate
+    # Compare the value of intval with the IO Pi port 0
+    # using read_port(). Wait until the port changes which will indicate
     # the button has been released.
-    # without this while loop the function will keep repeating.
+    # Without this while loop the function will keep repeating.
 
     while (intval == bus.read_port(0)):
         time.sleep(0.2)
 
-    # loop through each bit in the intval variable and check if the bit is 1
+    # Loop through each bit in the intval variable and check if the bit is 1
     # which will indicate a button has been pressed
     for num in range(0, 8):
         if (intval & (1 << num)):
@@ -73,7 +73,7 @@ def main():
 
     bus = IOPi(0x20)
 
-    # Set port 0 on the bus to be inputs with internal pull-ups enabled.
+    # Set port 0 on the bus as inputs with internal pullups enabled.
 
     bus.set_port_pullups(0, 0xFF)
     bus.set_port_direction(0, 0xFF)
@@ -83,7 +83,7 @@ def main():
 
     bus.invert_port(0, 0xFF)
 
-    # Set the interrupt polarity to be active low so Int A and IntB go low
+    # Set the interrupt polarity to be active low so Int A and Int B go low
     # when an interrupt is triggered and mirroring disabled, so
     # Int A is mapped to port 0 and Int B is mapped to port 1
 
@@ -91,11 +91,11 @@ def main():
     bus.mirror_interrupts(0)
 
     # Set the interrupts default value to 0 so it will trigger when any of
-    # the pins on the port 0 change to 1
+    # the pins on port 0 change to 1
 
     bus.set_interrupt_defaults(0, 0x00)
 
-    # Set the interrupt type to be 0xFF so an interrupt is
+    # Set the interrupt type as 0xFF so an interrupt is
     # fired when the pin matches the default value
 
     bus.set_interrupt_type(0, 0xFF)
@@ -104,11 +104,11 @@ def main():
 
     bus.set_interrupt_on_port(0, 0xFF)
 
-    # reset the interrups on the IO Pi bus
+    # Reset the interrupts on the IO Pi bus
 
     bus.reset_interrupts()
 
-    # set the Raspberry Pi GPIO mode to be BCM
+    # Set the Raspberry Pi GPIO mode to be BCM
 
     GPIO.setmode(GPIO.BCM)
 
@@ -116,15 +116,15 @@ def main():
     # level shifter will act as a pull-up.
     GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_OFF)
 
-    # when a falling edge is detected on GPIO 23 the function
+    # When a falling edge is detected on GPIO 23 the function
     # button_pressed will be run
 
     GPIO.add_event_detect(23, GPIO.FALLING, callback=button_pressed)
 
-    # print out a message and wait for keyboard input before
+    # Print out a message and wait for keyboard input before
     # exiting the program
 
-    input("press enter to exit ")
+    input("Press enter to exit ")
 
 
 if __name__ == "__main__":

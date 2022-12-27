@@ -58,7 +58,7 @@ def main():
 
     iobus = IOZero32(0x20)  # new iobus object
 
-    # Check set_port_polarity port for low out of bounds
+    # Check set_port_polarity port for low out-of-bounds
     try:
         iobus.set_port_polarity(-1, 0)
         pass
@@ -73,7 +73,7 @@ def main():
         print("port low boundary check: FAILED")
         pass
 
-    # Check set_port_polarity port for high out of bounds
+    # Check set_port_polarity port for high out-of-bounds
     try:
         iobus.set_port_polarity(2, 0)
         pass
@@ -88,7 +88,7 @@ def main():
         print("port high boundary check: FAILED")
         pass
 
-    # Check set_port_polarity value for low out of bounds
+    # Check set_port_polarity value for low out-of-bounds
     try:
         iobus.set_port_polarity(0, -1)
         pass
@@ -103,7 +103,7 @@ def main():
         print("value low boundary check: FAILED")
         pass
 
-    # Check set_port_polarity value for high out of bounds
+    # Check set_port_polarity value for high out-of-bounds
     try:
         iobus.set_port_polarity(0, 256)
         pass

@@ -7,7 +7,7 @@ The example python files can be found in /ABElectronics_Python_Libraries/RTCPi/d
 
 ### Downloading and Installing the library
 
-To download to your Raspberry Pi type in terminal: 
+To download to your Raspberry Pi type in the terminal: 
 
 ```
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
@@ -24,7 +24,7 @@ For Python 3.5:
 sudo python3 setup.py install
 ```
 
-If you have PIP installed you can install the library directly from github with the following command:
+If you have PIP installed you can install the library directly from GitHub with the following command:
 
 For Python 2.7:
 ```
@@ -119,7 +119,7 @@ To use the RTC Pi library in your code you must first import the library:
 from RTCPi import RTC
 ```
 
-Next you must initialise the RTC object:
+Next, you must initialise the RTC object:
 
 ```
 rtc = RTC()
@@ -133,7 +133,7 @@ Enable the square-wave output at 8.192KHz on the SQW pin:
 rtc.set_frequency(3)
 rtc.enable_output()
 ```
-Read the current date and time from the RTC at 1 second intervals:
+Read the current date and time from the RTC at 1-second intervals:
 ```
 while (True):
   print rtc.read_date()

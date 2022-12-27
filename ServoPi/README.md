@@ -7,7 +7,7 @@ The example python files can be found in /ABElectronics_Python_Libraries/ServoPi
 
 ### Downloading and Installing the library
 
-To download to your Raspberry Pi type in terminal: 
+To download to your Raspberry Pi type in the terminal: 
 
 ```
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
@@ -24,7 +24,7 @@ For Python 3.5:
 sudo python3 setup.py install
 ```
 
-If you have PIP installed you can install the library directly from github with the following command:
+If you have PIP installed you can install the library directly from GitHub with the following command:
 
 For Python 2.7:
 ```
@@ -53,11 +53,11 @@ sudo pip3 install smbus2
 ```
 PWM(address, bus)
 ```
-The PWM class provides control over the pulse-width modution outputs on the PCA9685 controller.  Functions include setting the frequency and duty cycle for each channel.  
+The PWM class provides control over the pulse-width modulation outputs on the PCA9685 controller.  Functions include setting the frequency and duty cycle for each channel.  
 
 **Parameters:**  
-address (optional): device i2c address, defaults to 0x40  
-bus (optional): I2C bus number (integer).  If no value is set the class will try to find the i2c bus automatically using the device name.  
+address (optional): device I2C address, defaults to 0x40  
+bus (optional): I2C bus number (integer).  If no value is set the class will try to find the I2C bus automatically using the device name.  
 
 Initialise with the I2C address for the Servo Pi.
 
@@ -79,21 +79,21 @@ Set the PWM frequency
 set_pwm(channel, on, off) 
 ```
 Set the output on single channels  
-**Parameters:** channel - 1 to 16, on - time period 0 to 4095 , off - time period 0 to 4095.  Total on time and off time can not exceed 4095  
+**Parameters:** channel - 1 to 16, on-time period 0 to 4095, off-time period 0 to 4095.  Total on-time and off-time can not exceed 4095  
 **Returns:** null  
 
 ```
 set_pwm_on_time(channel, on_time) 
 ```
 Set the output on time for a single channels  
-**Parameters:** channel - 1 to 16, on - time period 0 to 4095  
+**Parameters:** channel - 1 to 16, on - period 0 to 4095  
 **Returns:** null  
 
 ```
 set_pwm_off_time(self, channel, off_time) 
 ```
 Set the output off time for a single channels  
-**Parameters:** channel - 1 to 16, off_time - time period 0 to 4095  
+**Parameters:** channel - 1 to 16, off_time - period 0 to 4095  
 **Returns:** null  
 
 ```
@@ -115,20 +115,20 @@ Get the output off time for a single channels
 set_all_pwm(on, off) 
 ```
 Set the output on all channels  
-**Parameters:** on - time period, off - time period 0 to 4095.  Total on time and off time can not exceed 4095  
+**Parameters:** on-time period, off-time period 0 to 4095.  Total on-time and off-time can not exceed 4095  
 **Returns:** null  
 
 ```
 output_disable()
 ```
-Disable the output via OE pin  
+Disable the output via the OE pin  
 **Parameters:** null  
 **Returns:** null  
 
 ```
 output_enable()
 ```
-Enable the output via OE pin  
+Enable the output via the OE pin  
 **Parameters:** null  
 **Returns:** null  
 
@@ -185,7 +185,7 @@ Inverts the outputs on all PWM channels.
 ```
 Servo(address, low_limit, high_limit, reset, bus)
 ```
-The Servo class provides functions for controlling the position of servo motors commonly used on radio control models and small robots.  The Servo class initialises with a default frequency of 50Hz and low and high limits of 1ms and 2ms. 
+The Servo class provides functions for controlling the position of servo motors commonly used on radio control models and small robots.  The Servo class initialises with a default frequency of 50Hz and low and high limits of 1.0ms and 2.0ms. 
 
 Initialise with the I2C address for the Servo Pi.
 
@@ -195,7 +195,7 @@ servo_object = Servo(0x40)
 **Optional Parameters:**  
 low_limit = Pulse length in milliseconds for the lower servo limit. (default = 1.0ms)  
 high_limit = Pulse length in milliseconds for the upper servo limit. (default = 2.0ms)  
-reset = True: reset the servo controller and turn off all channels .  False: initialise with existing servo positions and frequency. (default = true)  
+reset = True: reset the servo controller and turn off all channels.  False: initialise with existing servo positions and frequency. (default = true)  
 bus: I2C bus number (integer).  If no value is set the class will try to find the i2c bus automatically using the device name.   
 
 Functions:
@@ -208,7 +208,7 @@ Set the servo position
 **Parameters:**  
 channel - 1 to 16  
 position - value between 0 and the maximum number of steps.  
-steps (optional) - The number of steps between the the low and high servo limits.  This is preset at 250 but can be any number between 0 and 4095.  On a typical RC servo a step value of 250 is recommended.  
+steps (optional) - The number of steps between the low and high servo limits.  This is preset at 250 but can be any number between 0 and 4095.  On a typical RC servo, a step value of 250 is recommended.  
 **Returns:** null  
 
 ```
@@ -217,14 +217,14 @@ get_position(channel, steps=250)
 Get the servo position  
 **Parameters:** 
 channel - 1 to 16  
-steps (optional) - The number of steps between the the low and high servo limits.  This is preset at 250 but can be any number between 0 and 4095.  On a typical RC servo a step value of 250 is recommended.  
-**Returns:** position - value between 0 and the maximum number of steps. Due to rounding errors when calculating the position, the returned value may not be exactly the same as the set value. 
+steps (optional) - The number of steps between the low and high servo limits.  This is preset at 250 but can be any number between 0 and 4095.  On a typical RC servo, a step value of 250 is recommended.  
+**Returns:** position - value between 0 and the maximum number of steps. Due to rounding errors when calculating the position, the returned value may not be the same as the set value. 
 
 ```
 set_low_limit(low_limit, channel)
 ```
-Set the pulse length for the lower servo limits.  Typically around 1ms.  
-Warning: Setting the pulse limit below 1ms may damage your servo.  
+Set the pulse length for the lower servo limits.  Typically 1.0ms.  
+Warning: Setting the pulse limit below 1.0ms may damage your servo.  
 **Parameters:**  
 low_limit - Pulse length in milliseconds for the lower servo limit.  
 channel (optional) - The channel for which the low limit will be set.  
@@ -234,8 +234,8 @@ If this value is omitted the low limit will be set for all channels.
 ```
 set_high_limit(high_limit, channel)
 ```
-Set the pulse length for the upper servo limits.  Typically around 2ms. 
-Warning: Setting the pulse limit above 2ms may damage your servo.  
+Set the pulse length for the upper servo limits.  Typically 2.0ms. 
+Warning: Setting the pulse limit above 2.0ms may damage your servo.  
 **Parameters:**  
 high_limit - Pulse length in milliseconds for the upper servo limit.  
 channel (optional) - The channel for which the upper limit will be set.  
@@ -253,14 +253,14 @@ calibration - optional integer value to offset oscillator errors.
 ```
 output_disable()
 ```
-Disable the output via OE pin  
+Disable the output via the OE pin  
 **Parameters:** null  
 **Returns:** null  
 
 ```
 output_enable()
 ```
-Enable the output via OE pin  
+Enable the output via the OE pin  
 **Parameters:** null  
 **Returns:** null  
 
@@ -294,16 +294,16 @@ To use the Servo Pi PWM class in your code you must first import the class:
 ```
 from ServoPi import PWM
 ```
-Next you must initialise the PWM object:
+Next, you must initialise the PWM object:
 ```
 pwm = PWM(0x40)
 ```
-Set PWM frequency to 200 Hz and enable the output
+Set the PWM frequency to 200 Hz and enable the output
 ```
 pwm.set_pwm_freq(200)  
 pwm.output_enable()  
 ```
-Set the pulse with of channel 1 to 1024 or 25% duty cycle
+Set the pulse width of channel 1 to 1024 or 25% duty cycle
 ```
 pwm.set_pwm(1, 0, 1024) 
 ```
@@ -314,7 +314,7 @@ To use the Servo Pi Servo class in your code you must first import the class:
 ```
 from ServoPi import Servo
 ```
-Next you must initialise the Servo object:
+Next, you must initialise the Servo object:
 ```
 servo = Servo(0x40)
 ```

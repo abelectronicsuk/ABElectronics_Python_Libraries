@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics Expander Pi | DAC Write Demo
+AB Electronics UK Expander Pi | DAC Write Demo
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -10,7 +10,7 @@ For Python 3 install with: sudo apt-get install python3-smbus
 run with: python demo_dacwrite.py
 ================================================
 
-this demo will generate a 1.5V p-p square wave at 1Hz on channel 1
+this demo will generate a 1.5V p-p square wave at 1Hz on Channel 1
 """
 from __future__ import absolute_import, division, print_function, \
                                                     unicode_literals

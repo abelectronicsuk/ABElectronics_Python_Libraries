@@ -2,7 +2,7 @@
 
 """
 ================================================
-# ABElectronics Expander Pi | ADC Speed Demo
+# AB Electronics UK Expander Pi | ADC Speed Demo
 #
 # Requires python smbus to be installed
 # For Python 2 install with: sudo apt-get install python-smbus
@@ -11,7 +11,8 @@
 # run with: python demo_adcspeed.py
 ================================================
 
-this demo tests the maximum sample speed for the ADC
+This demo tests the maximum sample speed for the ADC
+
 """
 
 from __future__ import (absolute_import, division, print_function,

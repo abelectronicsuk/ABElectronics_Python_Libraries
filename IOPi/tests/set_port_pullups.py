@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | set_port_pullups
+AB Electronics UK IO Pi Tests | set_port_pullups
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -63,7 +63,7 @@ def main():
 
     iopi.set_bus_pullups(0x0000)
 
-    # Check set_port_pullups port for low out of bounds
+    # Check set_port_pullups port for low out-of-bounds
     try:
         iopi.set_port_pullups(-1, 0)
         pass
@@ -78,7 +78,7 @@ def main():
         print("port low boundary check: FAILED")
         pass
 
-    # Check set_port_pullups port for high out of bounds
+    # Check set_port_pullups port for high out-of-bounds
     try:
         iopi.set_port_pullups(2, 0)
         pass
@@ -93,7 +93,7 @@ def main():
         print("port high boundary check: FAILED")
         pass
 
-    # Check set_port_pullups value for low out of bounds
+    # Check set_port_pullups value for low out-of-bounds
     try:
         iopi.set_port_pullups(0, -1)
         pass
@@ -108,7 +108,7 @@ def main():
         print("value low boundary check: FAILED")
         pass
 
-    # Check set_port_pullups value for high out of bounds
+    # Check set_port_pullups value for high out-of-bounds
     try:
         iopi.set_port_pullups(0, 256)
         pass

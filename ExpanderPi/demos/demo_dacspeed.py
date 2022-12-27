@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics Expander Pi 2-Channel ADC, 2-Channel DAC | DAC Speed Demo
+AB Electronics UK Expander Pi 2-Channel ADC, 2-Channel DAC | DAC Speed Demo
 
 run with: python demo_dacspeed.py
 ================================================

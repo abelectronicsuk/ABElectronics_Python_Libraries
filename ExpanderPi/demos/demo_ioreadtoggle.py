@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics Expander Pi | Digital I/O Read Toggle Demo
+AB Electronics UK Expander Pi | Digital I/O Read Toggle Demo
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -47,7 +47,7 @@ def main():
     iobus.set_pin_direction(1, 1)
     iobus.set_pin_pullup(1, 1)
 
-    # Invert pin 1 so pressing the button will be read as 1 instead of 0
+    # Invert pin 1 so pressing the button will read as 1 instead of 0
     iobus.invert_pin(1, 1)
 
     # create a variable to store the toggle state of the input

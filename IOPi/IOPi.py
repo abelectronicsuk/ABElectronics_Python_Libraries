@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
  ================================================
- ABElectronics IO Pi 32-Channel Port Expander
+ AB Electronics UK IO Pi 32-Channel Port Expander
 
 Requires smbus2 or python smbus to be installed
 ================================================
@@ -32,7 +32,7 @@ class IOPi(object):
     #
     """
 
-    # Define registers values from datasheet
+    # Define registers values from the datasheet
     IODIRA = 0x00  # IO direction A - 1= input 0 = output
     IODIRB = 0x01  # IO direction B - 1= input 0 = output
     # Input polarity A - If a bit is set, the corresponding GPIO register bit
@@ -41,10 +41,10 @@ class IOPi(object):
     # Input polarity B - If a bit is set, the corresponding GPIO register bit
     # will reflect the inverted value on the pin.
     IPOLB = 0x03
-    # The GPINTEN register controls the interrupt-onchange feature for each
+    # The GPINTEN register controls the interrupt-on-change feature for each
     # pin on port A.
     GPINTENA = 0x04
-    # The GPINTEN register controls the interrupt-onchange feature for each
+    # The GPINTEN register controls the interrupt-on-change feature for each
     # pin on port B.
     GPINTENB = 0x05
     # Default value for port A - These bits set the compare value for pins
@@ -55,12 +55,12 @@ class IOPi(object):
     # configured for interrupt-on-change.  If the associated pin level is the
     # opposite from the register bit, an interrupt occurs.
     DEFVALB = 0x07
-    # Interrupt control register for port A.  If 1 interrupt is fired when the
-    # pin matches the default value, if 0 the interrupt is fired on state
+    # Interrupt control register for port A.  If 1 interrupt triggers when the
+    # pin matches the default value, if 0 the interrupt triggers on state
     # change
     INTCONA = 0x08
-    # Interrupt control register for port B.  If 1 interrupt is fired when the
-    # pin matches the default value, if 0 the interrupt is fired on state
+    # Interrupt control register for port B.  If 1 interrupt triggers when the
+    # pin matches the default value, if 0 the interrupt triggers on state
     # change
     INTCONB = 0x09
     IOCON = 0x0A  # see datasheet for configuration register
@@ -68,11 +68,11 @@ class IOPi(object):
     GPPUB = 0x0D  # pull-up resistors for port B
     # The INTF register reflects the interrupt condition on the port A pins of
     # any pin that is enabled for interrupts. A set bit indicates that the
-    # associated pin caused the interrupt.
+    # associated pin caused the interrupt event.
     INTFA = 0x0E
     # The INTF register reflects the interrupt condition on the port B pins of
     # any pin that is enabled for interrupts.  A set bit indicates that the
-    # associated pin caused the interrupt.
+    # associated pin caused the interrupt event.
     INTFB = 0x0F
     # The INTCAP register captures the GPIO port A value at the time the
     # interrupt occurred.
@@ -99,7 +99,7 @@ class IOPi(object):
         :param address: i2c address for the target device, 0x20 to 0x27
         :type address: int
         :param initialise: True = direction set as inputs, pull-ups disabled,
-                           ports not inverted.
+                           ports are not inverted.
                            False = device state unaltered., defaults to True
         :type initialise: bool, optional
         :param bus: I2C bus number.  If no value is set the class will try to
@@ -128,10 +128,10 @@ class IOPi(object):
         """
         Internal method for getting an instance of the i2c bus
 
-        :param bus: I2C bus number.  If value is None the class will try to
+        :param bus: I2C bus number.  If the value is None the class will try to
                     find the i2c bus automatically using the device name
         :type bus: int
-        :return: i2c bus for target device
+        :return: i2c bus for the target device
         :rtype: SMBus
         :raises IOError: Could not open the i2c bus
         """
@@ -175,7 +175,7 @@ class IOPi(object):
         try:
             return SMBus(i2c__bus)
         except IOError:
-            raise 'Could not open the i2c bus'
+            raise 'Could not open the I2C bus'
 
     @staticmethod
     def __checkbit(byte, bit):
@@ -186,7 +186,7 @@ class IOPi(object):
         :type byte: int
         :param bit: location within value to check
         :type bit: int
-        :return: value of selected bit, 0 or 1
+        :return: value of the selected bit, 0 or 1
         :rtype: int
         """
         value = 0
@@ -353,8 +353,8 @@ class IOPi(object):
         :type pin: int
         :param value: 1 = input, 0 = output
         :type value: int
-        :raises ValueError: if pin is out of range, 1 to 16
-        :raises ValueError: if value is out of range, 0 or 1
+        :raises ValueError:  pin is out of range, 1 to 16
+        :raises ValueError:  value is out of range, 0 or 1
         """
         self.__set_pin(pin, value, self.IODIRA, self.IODIRB)
         return
@@ -365,7 +365,7 @@ class IOPi(object):
 
         :param pin: pin to read, 1 to 16
         :type pin: int
-        :raises ValueError: if pin is out of range, 1 to 16
+        :raises ValueError:  pin is out of range, 1 to 16
         :return: 1 = input, 0 = output
         :rtype: int
         """
@@ -380,8 +380,8 @@ class IOPi(object):
         :param value: 8-bit number 0 to 255 (0xFF)
                       For each bit 1 = input, 0 = output
         :type value: int
-        :raises ValueError: if port is out of range, 0 or 1
-        :raises ValueError: if value out of range: 0 to 255 (0xFF)
+        :raises ValueError:  port is out of range, 0 or 1
+        :raises ValueError:  value out of range: 0 to 255 (0xFF)
         """
         self.__set_port(port, value, self.IODIRA, self.IODIRB)
         return
@@ -394,7 +394,7 @@ class IOPi(object):
         :type port: int
         :return: number between 0 and 255 (0xFF)
         :rtype: int
-        :raises ValueError: if port is out of range, 0 or 1
+        :raises ValueError:  port is out of range, 0 or 1
         """
         return self.__get_port(port, self.IODIRA, self.IODIRB)
 
@@ -405,7 +405,7 @@ class IOPi(object):
         :param value: 16-bit number 0 to 65535 (0xFFFF).
                       For each bit 1 = input, 0 = output
         :type value: int
-        :raises ValueError: if value is out of range, 0 to 65535 (0xFFFF)
+        :raises ValueError:  value is out of range, 0 to 65535 (0xFFFF)
         """
         self.__set_bus(value, self.IODIRA)
         return
@@ -428,8 +428,8 @@ class IOPi(object):
         :type pin: int
         :param value: 1 = enabled, 0 = disabled
         :type value: int
-        :raises ValueError: if pin is out of range, 1 to 16
-        :raises ValueError: if value is out of range, 0 or 1
+        :raises ValueError:  pin is out of range, 1 to 16
+        :raises ValueError:  value is out of range, 0 or 1
         """
         self.__set_pin(pin, value, self.GPPUA, self.GPPUB)
         return
@@ -440,7 +440,7 @@ class IOPi(object):
 
         :param pin: pin to read, 1 to 16
         :type pin: int
-        :raises ValueError: if pin is out of range, 1 to 16
+        :raises ValueError:  pin is out of range, 1 to 16
         :return: 1 = enabled, 0 = disabled
         :rtype: int
         """
@@ -455,7 +455,7 @@ class IOPi(object):
         :param value: 8-bit number 0 to 255 (0xFF)
                       For each bit 1 = enabled, 0 = disabled
         :type value: int
-        :raises ValueError: if port is out of range, 0 or 1
+        :raises ValueError:  port is out of range, 0 or 1
         :raises ValueError: value out of range: 0 to 255 (0xFF)
         """
         self.__set_port(port, value, self.GPPUA, self.GPPUB)
@@ -469,7 +469,7 @@ class IOPi(object):
         :type port: int
         :return: number between 0 and 255 (0xFF)
         :rtype: int
-        :raises ValueError: if port is out of range, 0 or 1
+        :raises ValueError:  port is out of range, 0 or 1
         """
         return self.__get_port(port, self.GPPUA, self.GPPUB)
 
@@ -480,7 +480,7 @@ class IOPi(object):
         :param value: 16-bit number 0 to 65535 (0xFFFF).
                       For each bit 1 = enabled, 0 = disabled
         :type value: int
-        :raises ValueError: if value is out of range, 0 to 65535 (0xFFFF)
+        :raises ValueError:  value is out of range, 0 to 65535 (0xFFFF)
         """
         self.__set_bus(value, self.GPPUA)
         return
@@ -503,8 +503,8 @@ class IOPi(object):
         :type pin: int
         :param value: 1 = enabled, 0 = disabled
         :type value: int
-        :raises ValueError: if pin is out of range, 1 to 16
-        :raises ValueError: if value is out of range, 0 or 1
+        :raises ValueError:  pin is out of range, 1 to 16
+        :raises ValueError:  value is out of range, 0 or 1
         """
         self.__set_pin(pin, value, self.GPIOA, self.GPIOB)
         return
@@ -531,7 +531,7 @@ class IOPi(object):
         :param value: 16-bit number 0 to 65535 (0xFFFF).
                       For each bit 1 = logic high, 0 = logic low
         :type value: int
-        :raises ValueError: if value is out of range, 0 to 65535 (0xFFFF)
+        :raises ValueError:  value is out of range, 0 to 65535 (0xFFFF)
         """
         self.__set_bus(value, self.GPIOA)
         return
@@ -591,7 +591,7 @@ class IOPi(object):
 
         :param pin: pin to read, 1 to 16
         :type pin: int
-        :raises ValueError: if pin is out of range, 1 to 16
+        :raises ValueError:  pin is out of range, 1 to 16
         :return: 0 = same logic state of the input pin,
                  1 = inverted logic state of the input pin
         :rtype: int
@@ -608,8 +608,8 @@ class IOPi(object):
                       0 = same logic state of the input pin,
                       1 = inverted logic state of the input pin
         :type value: int
-        :raises ValueError: if port is out of range, 0 or 1
-        :raises ValueError: if value is out of range, 0 to 0xFF
+        :raises ValueError:  port is out of range, 0 or 1
+        :raises ValueError:  value is out of range, 0 to 0xFF
         """
         self.__set_port(port, value, self.IPOLA, self.IPOLB)
         return
@@ -621,7 +621,7 @@ class IOPi(object):
         :type port: int
         :return: number between 0 and 255 (0xFF)
         :rtype: int
-        :raises ValueError: if port is out of range, 0 or 1
+        :raises ValueError:  port is out of range, 0 or 1
         """
         return self.__get_port(port, self.IPOLA, self.IPOLB)
 
@@ -633,7 +633,7 @@ class IOPi(object):
                       0 = same logic state of the input pin,
                       1 = inverted logic state of the input pin
         :type value: int
-        :raises ValueError: if value is out of range, 0 to 65535 (0xFFFF)
+        :raises ValueError:  value is out of range, 0 to 65535 (0xFFFF)
         """
         self.__set_bus(value, self.IPOLA)
         return
@@ -652,7 +652,7 @@ class IOPi(object):
     def mirror_interrupts(self, value):
         """
         Sets whether the interrupt pins INT A and INT B are independently
-        connected to each port or internally connected together
+        connected to each port or internally connected
 
         :param value: 1 = The INT pins are internally connected,
                       0 = The INT pins are not connected.
@@ -714,11 +714,11 @@ class IOPi(object):
         :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
         :type port: int
         :param value: 8-bit number 0 to 255 (0xFF)
-                      For each bit 1 = interrupt is fired when the pin matches
+                      For each bit 1 = interrupt triggers when the pin matches
                       the default value, 0 = interrupt fires on state change
         :type value: int
-        :raises ValueError: if port is out of range, 0 or 1
-        :raises ValueError: if value is out of range, 0 to 0xFF
+        :raises ValueError:  port is out of range, 0 or 1
+        :raises ValueError:  value is out of range, 0 to 0xFF
         """
         self.__set_port(port, value, self.INTCONA, self.INTCONB)
         return
@@ -729,10 +729,10 @@ class IOPi(object):
         :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
         :type port: int
         :return: 8-bit number 0 to 255 (0xFF)
-                 For each bit 1 = interrupt is fired when the pin matches
+                 For each bit 1 = interrupt triggers when the pin matches
                  the default value, 0 = interrupt fires on state change
         :rtype: int
-        :raises ValueError: if port is out of range, 0 or 1
+        :raises ValueError: port is out of range, 0 or 1
         """
         return self.__get_port(port, self.INTCONA, self.INTCONB)
 
@@ -740,15 +740,15 @@ class IOPi(object):
         """
         These bits set the compare value for pins configured for
         interrupt-on-change on the selected port.
-        If the associated pin level is the opposite from the register bit, an
+        If the associated pin level is the opposite of the register bit, an
         interrupt occurs.
 
         :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
         :type port: int
         :param value: 8-bit number 0 to 255 (0xFF)
         :type value: int
-        :raises ValueError: if port is out of range, 0 or 1
-        :raises ValueError: if value is out of range, 0 to 0xFF
+        :raises ValueError: port is out of range, 0 or 1
+        :raises ValueError: value is out of range, 0 to 0xFF
         """
         self.__set_port(port, value, self.DEFVALA, self.DEFVALB)
         return
@@ -760,7 +760,7 @@ class IOPi(object):
         :type port: int
         :return: 8-bit number 0 to 255 (0xFF)
         :rtype: int
-        :raises ValueError: if port is out of range, 0 or 1
+        :raises ValueError: port is out of range, 0 or 1
         """
         return self.__get_port(port, self.DEFVALA, self.DEFVALB)
 
@@ -784,7 +784,7 @@ class IOPi(object):
 
         :param pin: pin to read, 1 to 16
         :type pin: int
-        :raises ValueError: if pin is out of range, 1 to 16
+        :raises ValueError: pin is out of range, 1 to 16
         :return: 1 = enabled, 0 = disabled
         :rtype: int
         """
@@ -799,8 +799,8 @@ class IOPi(object):
         :param value: 8-bit number 0 to 255 (0xFF)
                       For each bit 1 = enabled, 0 = disabled
         :type value: int
-        :raises ValueError: if port is out of range, 0 or 1
-        :raises ValueError: if value is out of range, 0 to 0xFF
+        :raises ValueError: port is out of range, 0 or 1
+        :raises ValueError: value is out of range, 0 to 0xFF
         """
         self.__set_port(port, value, self.GPINTENA, self.GPINTENB)
         return
@@ -813,7 +813,7 @@ class IOPi(object):
         :return: number between 0 and 255 (0xFF)
                  For each bit 1 = enabled, 0 = disabled
         :rtype: int
-        :raises ValueError: if port is out of range, 0 or 1
+        :raises ValueError: port is out of range, 0 or 1
         """
         return self.__get_port(port, self.GPINTENA, self.GPINTENB)
 
@@ -824,7 +824,7 @@ class IOPi(object):
         :param value: 16-bit number 0 to 65535 (0xFFFF).
                       For each bit 1 = enabled, 0 = disabled
         :type value: int
-        :raises ValueError: if value is out of range, 0 to 65535 (0xFFFF)
+        :raises ValueError: value is out of range, 0 to 65535 (0xFFFF)
         """
         self.__set_bus(value, self.GPINTENA)
         return
@@ -847,7 +847,7 @@ class IOPi(object):
         :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
         :type port: int
         :raises ValueError: port out of range: 0 or 1
-        :return: interrupt status for selected port
+        :return: interrupt status for the selected port
         :rtype: int
         """
         return self.__get_port(port, self.INTFA, self.INTFB)

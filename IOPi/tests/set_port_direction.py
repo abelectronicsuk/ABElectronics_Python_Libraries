@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | set_port_direction
+AB Electronics UK IO Pi Tests | set_port_direction
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -67,7 +67,7 @@ def main():
 
     iopi.set_bus_direction(0x0000)
 
-    # Check set_port_direction port for low out of bounds
+    # Check set_port_direction port for low out-of-bounds
     try:
         iopi.set_port_direction(-1, 0)
         pass
@@ -82,7 +82,7 @@ def main():
         print("port low boundary check: FAILED")
         pass
 
-    # Check set_port_direction port for high out of bounds
+    # Check set_port_direction port for high out-of-bounds
     try:
         iopi.set_port_direction(2, 0)
         pass
@@ -97,7 +97,7 @@ def main():
         print("port high boundary check: FAILED")
         pass
 
-    # Check set_port_direction value for low out of bounds
+    # Check set_port_direction value for low out-of-bounds
     try:
         iopi.set_port_direction(0, -1)
         pass
@@ -112,7 +112,7 @@ def main():
         print("value low boundary check: FAILED")
         pass
 
-    # Check set_port_direction value for high out of bounds
+    # Check set_port_direction value for high out-of-bounds
     try:
         iopi.set_port_direction(0, 256)
         pass

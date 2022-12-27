@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | set_pin_direction
+AB Electronics UK IO Pi Tests | set_pin_direction
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -76,7 +76,7 @@ def main():
     # Reset to 0x00
     iopi.set_bus_direction(0x0000)
 
-    # Check set_pin_direction pin for low out of bounds
+    # Check set_pin_direction pin for low out-of-bounds
     try:
         iopi.set_pin_direction(0, 0)
         pass
@@ -91,7 +91,7 @@ def main():
         print("pin low boundary check: FAILED")
         pass
 
-    # Check set_pin_direction pin for high out of bounds
+    # Check set_pin_direction pin for high out-of-bounds
     try:
         iopi.set_pin_direction(17, 0)
         pass
@@ -106,7 +106,7 @@ def main():
         print("pin high boundary check: FAILED")
         pass
 
-    # Check set_pin_direction value for low out of bounds
+    # Check set_pin_direction value for low out-of-bounds
     try:
         iopi.set_pin_direction(0, -1)
         pass
@@ -121,7 +121,7 @@ def main():
         print("value low boundary check: FAILED")
         pass
 
-    # Check set_pin_direction value for high out of bounds
+    # Check set_pin_direction value for high out-of-bounds
     try:
         iopi.set_pin_direction(17, 2)
         pass

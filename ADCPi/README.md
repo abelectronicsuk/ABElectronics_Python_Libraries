@@ -8,7 +8,7 @@ The example python files can be found in /ABElectronics_Python_Libraries/ADCPi/d
 
 ### Downloading and Installing the library
 
-To download to your Raspberry Pi type in terminal: 
+To download to your Raspberry Pi type in the terminal: 
 
 ```
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
@@ -25,7 +25,7 @@ For Python 3.5:
 sudo python3 setup.py install
 ```
 
-If you have PIP installed you can install the library directly from github with the following command:
+If you have PIP installed you can install the library directly from GitHub with the following command:
 
 For Python 2.7:
 ```
@@ -68,14 +68,14 @@ read_voltage(channel)
 ```
 Read the voltage from the selected channel  
 **Parameters:** channel - 1 to 8  
-**Returns:** number as float between 0 and 5.0
+**Returns:** number as a float between 0 and 5.0
 
 ```
 read_raw(channel) 
 ```
 Read the raw int value from the selected channel  
 **Parameters:** channel - 1 to 8  
-**Returns:** number as int
+**Returns:** number as an int
 
 ```
 set_pga(gain)
@@ -87,7 +87,7 @@ Set the gain of the PGA on the chip
 ```
 setBitRate(rate)
 ```
-Set the sample bit rate of the adc  
+Set the sample bit rate of the ADC  
 **Parameters:** rate -  12, 14, 16, 18  
 **Returns:** null  
 12 = 12 bit (240SPS max)  
@@ -98,7 +98,7 @@ Set the sample bit rate of the adc
 ```
 set_conversion_mode(mode)
 ```
-Set the conversion mode for the adc  
+Set the conversion mode for the ADC  
 **Parameters:** mode -  0 = One-shot conversion, 1 = Continuous conversion  
 **Returns:** null  
 
@@ -136,13 +136,13 @@ To use the ADC Pi library in your code you must first import the library:
 from ADCPi import ADCPi
 ```
 
-Next you must initialise the adc object:
+Next, you must initialise the ADCPi object:
 ```
 adc = ADCPi(0x68, 0x69, 18)
 ```
 The first two arguments are the I2C addresses of the ADC chips. The values shown are the default addresses of the ADC board.  
 
-The third argument is the sample bit rate you want to use on the adc chips. Sample rate can be 12, 14, 16 or 18  
+The third argument is the sample bit rate you want to use on the ADC chips. The sample rate can be 12, 14, 16 or 18  
 
 You can now read the voltage from channel 1 with:
 ```

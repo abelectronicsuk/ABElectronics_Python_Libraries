@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics Servo Pi pwm controller | PWM output demo
+AB Electronics UK Servo Pi PWM controller | PWM output demo
 
 run with: python demo_pwm.py
 ================================================
@@ -32,7 +32,7 @@ def main():
     Main program function
     """
 
-    # create an instance of the PWM class on i2c address 0x40
+    # Create an instance of the PWM class on i2c address 0x40
     pwm = PWM(0x40)
 
     # Set PWM frequency to 1 Khz and enable the output

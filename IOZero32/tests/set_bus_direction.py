@@ -53,7 +53,7 @@ def main():
 
     iobus = IOZero32(0x20)  # new iobus object
 
-    # Check set_bus_direction value for low out of bounds
+    # Check set_bus_direction value for low out-of-bounds
     try:
         iobus.set_bus_direction(-1)
         pass
@@ -68,7 +68,7 @@ def main():
         print("value low boundary check: FAILED")
         pass
 
-    # Check set_bus_direction value for high out of bounds
+    # Check set_bus_direction value for high out-of-bounds
     try:
         iobus.set_bus_direction(65536)
         pass

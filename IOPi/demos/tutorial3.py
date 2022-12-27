@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics IO Pi | - Tutorial 3
+AB Electronics UK IO Pi | - Tutorial 3
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -44,7 +44,7 @@ def main():
     busin = IOPi(0x20)
     busout = IOPi(0x21)
 
-    # Set port 0 on the busin bus to be inputs with internal pull-ups enabled.
+    # Set port 0 on the busin bus as inputs with internal pullups enabled.
 
     busin.set_port_pullups(0, 0xFF)
     busin.set_port_direction(0, 0xFF)
@@ -52,7 +52,7 @@ def main():
     # Invert the port so pins will show 1 when grounded
     busin.invert_port(0, 0xFF)
 
-    # Set port 0 on busout to be outputs and set the port to be off
+    # Set port 0 on busout as outputs and set the port to be off
     busout.set_port_direction(0, 0x00)
     busout.write_port(0, 0x00)
 
@@ -75,7 +75,7 @@ def main():
         # read the interrupt status for each port.
 
         if (busin.read_interrupt_status(0) != 0):
-            # If the status is not 0 then an interrupt has occured
+            # If the status is not 0 then an interrupt has occurred
             # on one of the pins so read the value from the interrupt capture
             value = busin.read_interrupt_capture(0)
 

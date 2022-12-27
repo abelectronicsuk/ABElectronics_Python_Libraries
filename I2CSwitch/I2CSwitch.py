@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics I2CSwitch - 4 Channel I2C Switch
+AB Electronics UK I2CSwitch - 4 Channel I2C Switch
 
 Requires smbus2 or python smbus to be installed
 ================================================
@@ -40,10 +40,10 @@ class I2CSwitch(object):
         """
         Internal method for getting an instance of the i2c bus
 
-        :param bus: I2C bus number.  If value is None the class will try to
-                    find the i2c bus automatically using the device name
+        :param bus: I2C bus number.  If the value is None the class will try to
+                    find the I2C bus automatically using the device name
         :type bus: int
-        :return: i2c bus for target device
+        :return: I2C bus for the target device
         :rtype: SMBus
         :raises IOError: Could not open the i2c bus
         """
@@ -87,7 +87,7 @@ class I2CSwitch(object):
         try:
             return SMBus(i2c__bus)
         except IOError:
-            raise 'Could not open the i2c bus'
+            raise 'Could not open the I2C bus'
 
     @staticmethod
     def __checkbit(byte, bit):
@@ -98,7 +98,7 @@ class I2CSwitch(object):
         :type byte: int
         :param bit: location within value to check
         :type bit: int
-        :return: value of selected bit, 0 or 1
+        :return: value of the selected bit, 0 or 1
         :rtype: int
         """
         value = 0
@@ -127,7 +127,7 @@ class I2CSwitch(object):
 
     def __write(self, value):
         """
-        Internal method to write data to I2C bus
+        Internal method for writing data to the I2C bus
 
         :param value: value to write
         :type value: int
@@ -141,7 +141,7 @@ class I2CSwitch(object):
 
     def __read(self):
         """
-        Internal method to read data from I2C bus
+        Internal method for reading data from the I2C bus
 
         :return: IOError
         :rtype: IOError
@@ -156,7 +156,7 @@ class I2CSwitch(object):
 
     def __init__(self, address=0x70, bus=None):
         """
-        Initialise object with i2c address for the I2C Switch board
+        Initialise object with i2c address for the I2C switch
 
         :param address: device i2c address, defaults to 0x70
         :type address: int, optional
@@ -193,7 +193,7 @@ class I2CSwitch(object):
 
         :param channel: 1 to 4
         :type channel: int
-        :param state: True of False
+        :param state: True or False
         :type state: bool
         :raises ValueError: set_channel: channel out of range (1 to 4)
         :raises ValueError: set_channel: state out of range (True or False)
@@ -233,7 +233,7 @@ class I2CSwitch(object):
         Reset the PCA9546A I2C switch.
         Resetting allows the PCA9546A to recover from a situation in which one
         of the downstream I2C buses is stuck in a low state.
-        All channels will be set to an off state.
+        All channels will be set to an off-state.
 
         :raises ValueError: Failed to write to GPIO pin
         """

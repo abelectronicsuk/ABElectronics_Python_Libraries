@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | test get_port_polarity function
+AB Electronics UK IO Pi Tests | test get_port_polarity function
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -42,7 +42,7 @@ def main():
 
     iopi = IOPi(0x20, False)  # new iopi object without initialisation
 
-    # Check get_port_polarity for low out of bounds
+    # Check get_port_polarity for low out-of-bounds
     try:
         iopi.get_port_polarity(-1)
         pass
@@ -57,7 +57,7 @@ def main():
         print("get_port_polarity() low boundary check: FAILED")
         pass
 
-    # Check get_port_polarity for low out of bounds
+    # Check get_port_polarity for low out-of-bounds
     try:
         iopi.get_port_polarity(2)
         pass

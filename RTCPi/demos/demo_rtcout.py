@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics RTC Pi | RTC clock output demo
+AB Electronics UK RTC Pi | RTC clock output demo
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -37,12 +37,12 @@ def main():
     Main program function
     '''
 
-    rtc = RTC()  # create a new instance of the RTC class
+    rtc = RTC()  # Create a new instance of the RTC class
 
-    # set the frequency of the output square-wave, options are: 1 = 1Hz, 2 =
-    # 4.096KHz, 3 = 8.192KHz, 4 = 32.768KHz
+    # Set the frequency of the output square wave, options are: 
+    # 1 = 1Hz, 2 = 4.096KHz, 3 = 8.192KHz, 4 = 32.768KHz
     rtc.set_frequency(3)
-    rtc.enable_output()  # enable the square-wave
+    rtc.enable_output()  # Enable the square wave
 
 if __name__ == "__main__":
     main()

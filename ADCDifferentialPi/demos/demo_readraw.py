@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics ADC Differential Pi 8-Channel ADC Read Raw demo
+AB Electronics UK ADC Differential Pi 8-Channel ADC Read Raw demo
 
 Requires python smbus to be installed
 run with: python demo_readraw.py
@@ -10,7 +10,7 @@ run with: python demo_readraw.py
 
 Initialise the ADC device using the default addresses and sample rate,
 change this value if you have changed the address selection jumpers
-Sample rate can be 12,14, 16 or 18
+Sample rate can be 12, 14, 16 or 18
 """
 
 from __future__ import absolute_import, division, print_function, \
@@ -44,7 +44,7 @@ def main():
         # clear the console
         os.system('clear')
 
-        # read the raw value from adc channels and print to screen
+        # read the raw value from ADC channels and print to screen
         print("Channel 1: %d" % adc.read_raw(1))
         print("Channel 2: %d" % adc.read_raw(2))
         print("Channel 3: %d" % adc.read_raw(3))

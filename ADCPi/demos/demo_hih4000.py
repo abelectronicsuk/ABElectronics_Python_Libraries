@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics ADC Pi HIH4000 humidity sensor demo
+AB Electronics UK ADC Pi HIH4000 humidity sensor demo
 
 Requires python smbus to be installed
 run with: python demo_hih4000.py
@@ -14,7 +14,7 @@ ADC Pi input pin to make the sensor work correctly
 Initialise the ADC device using the default addresses and sample rate,
 change this value if you have changed the address selection jumpers
 
-Sample rate can be 12,14, 16 or 18
+Sample rate can be 12, 14, 16 or 18
 """
 
 from __future__ import absolute_import, division, print_function, \
@@ -61,7 +61,7 @@ def main():
         # clear the console
         os.system('clear')
 
-        # read from adc channels and print to screen
+        # read from the ADC channels and print to screen
         print("Humidity on channel 1: %0.1f%%" %
               calc_humidity(adc.read_voltage(1)))
 

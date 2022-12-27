@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics Expander Pi | Digital I/O Read Demo
+AB Electronics UK Expander Pi | Digital I/O Read Demo
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -11,7 +11,7 @@ For Python 3 install with: sudo apt-get install python3-smbus
 run with: python demo_ioread.py
 ================================================
 
-This example reads the first 8 pins of on the Expander Pi Digital I/O
+This example reads the first 8 pins of the Expander Pi Digital I/O
 port.  The internal pull-up resistors are enabled so each pin will read
 as 1 unless the pin is connected to ground.
 
@@ -42,7 +42,7 @@ def main():
     iobus = ExpanderPi.IO()
 
     # We will read the inputs 1 to 16 from the I/O bus so set port 0,
-    # port 1 to be inputs and enable the internal pull-up resistors
+    # port 1 as inputs and enable the internal pull-up resistors
     iobus.set_port_direction(0, 0xFF)
     iobus.set_port_pullups(0, 0xFF)
 

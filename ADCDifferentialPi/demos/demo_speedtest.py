@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics ADC Differential Pi 8-Channel ADC speed test demo
+AB Electronics UK ADC Differential Pi 8-Channel ADC speed test demo
 
 Requires python3 smbus to be installed
 run with: python3 demo_speedtest.py

@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics ADC Pi 8-Channel ADC
+AB Electronics UK ADC Pi 8-Channel ADC
 
 Requires smbus2 or python smbus to be installed
 ================================================
@@ -47,11 +47,11 @@ class ADCPi(object):
 
     __bitrate = 18  # current bitrate
     __conversionmode = 1  # Conversion Mode
-    __pga = float(0.5)  # current pga setting
-    __lsb = float(0.0000078125)  # default lsb value for 18 bit
+    __pga = float(0.5)  # current PGA setting
+    __lsb = float(0.0000078125)  # default LSB value for 18 bit
     __signbit = 0  # stores the sign bit for the sampled value
 
-    # create byte array and fill with initial values to define size
+    # create a byte array and fill it with initial values to define the size
     __adcreading = bytearray([0, 0, 0, 0])
 
     __bus = None
@@ -63,10 +63,10 @@ class ADCPi(object):
         """
         Internal method for getting an instance of the i2c bus
 
-        :param bus: I2C bus number.  If value is None the class will try to
-                    find the i2c bus automatically using the device name
+        :param bus: I2C bus number.  If the value is None the class will 
+                    try to find the i2c bus automatically using the device name
         :type bus: int
-        :return: i2c bus for target device
+        :return: i2c bus for the target device
         :rtype: SMBus
         :raises IOError: Could not open the i2c bus
         """
@@ -177,7 +177,7 @@ class ADCPi(object):
             raise ValueError('__setchannel: channel out of range 1 to 8')
         return
 
-    # init object with i2caddress, default is 0x68, 0x69 for ADCoPi board
+    # init object with i2caddress, default is 0x68, 0x69 for ADCPi board
     def __init__(self, address=0x68, address2=0x69, rate=18, bus=None):
         """
         Class constructor - Initialise the two ADC chips with their
@@ -304,7 +304,7 @@ class ADCPi(object):
             self.__bus.write_byte(address, config)
             config = config & ~(1 << 7)  # reset the ready bit to 0
 
-        # determine a reasonable amount of time to wait for a conversion
+        # determine a reasonable amount of time to wait for the conversion
         if self.__bitrate == 18:
             seconds_per_sample = 0.26666
         elif self.__bitrate == 16:
@@ -315,7 +315,7 @@ class ADCPi(object):
             seconds_per_sample = 0.00416
         timeout_time = time.time() + (100 * seconds_per_sample)
 
-        # keep reading the adc data until the conversion result is ready
+        # keep reading the ADC data until the conversion result is ready
         while True:
             __adcreading = self.__bus.read_i2c_block_data(address, config, 4)
             if self.__bitrate == 18:
@@ -338,7 +338,7 @@ class ADCPi(object):
 
         self.__signbit = False
         raw = 0
-        # extract the returned bytes and combine in the correct order
+        # extract the returned bytes and combine them in the correct order
         if self.__bitrate == 18:
             raw = ((high & 0x03) << 16) | (mid << 8) | low
             self.__signbit = bool(raw & (1 << 17))
@@ -445,7 +445,7 @@ class ADCPi(object):
 
     def set_conversion_mode(self, mode):
         """
-        conversion mode for adc
+        conversion mode for ADC
 
         :param mode: 0 = One shot conversion mode
                      1 = Continuous conversion mode

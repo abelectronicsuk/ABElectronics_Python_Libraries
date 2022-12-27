@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | read_pin
+AB Electronics UK IO Pi Tests | read_pin
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -66,7 +66,7 @@ def main():
     iopi.write_bus(0x0000)
     iopi.set_bus_direction(0xFFFF)
 
-    # Check read_pin pin for low out of bounds
+    # Check read_pin pin for low out-of-bounds
     try:
         iopi.read_pin(0)
         pass
@@ -81,7 +81,7 @@ def main():
         print("pin low boundary check: FAILED")
         pass
 
-    # Check read_pin pin for high out of bounds
+    # Check read_pin pin for high out-of-bounds
     try:
         iopi.read_pin(17)
         pass

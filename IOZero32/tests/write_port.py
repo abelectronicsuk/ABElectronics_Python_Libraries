@@ -59,7 +59,7 @@ def main():
 
     iobus = IOZero32(0x20)  # new IOZero32 object
 
-    # Check write_port port for low out of bounds
+    # Check write_port port for low out-of-bounds
     try:
         iobus.write_port(-1, 0)
         pass
@@ -74,7 +74,7 @@ def main():
         print("port low boundary check: FAILED")
         pass
 
-    # Check write_port port for high out of bounds
+    # Check write_port port for high out-of-bounds
     try:
         iobus.write_port(2, 0)
         pass
@@ -89,7 +89,7 @@ def main():
         print("port high boundary check: FAILED")
         pass
 
-    # Check write_port value for low out of bounds
+    # Check write_port value for low out-of-bounds
     try:
         iobus.write_port(0, -1)
         pass
@@ -104,7 +104,7 @@ def main():
         print("value low boundary check: FAILED")
         pass
 
-    # Check write_port value for high out of bounds
+    # Check write_port value for high out-of-bounds
     try:
         iobus.write_port(0, 256)
         pass

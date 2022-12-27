@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics IO Pi 32-Channel Port Expander - Tutorial 1
+AB Electronics UK IO Pi 32-Channel Port Expander - Tutorial 1
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus

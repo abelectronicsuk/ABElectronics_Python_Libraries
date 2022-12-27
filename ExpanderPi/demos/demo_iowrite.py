@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics Expander Pi | Digital I/O Write Demo
+AB Electronics UK Expander Pi | Digital I/O Write Demo
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -11,7 +11,7 @@ For Python 3 install with: sudo apt-get install python3-smbus
 run with: python demo_iowrite.py
 ================================================
 
-This example uses the write_pin and writeBank methods to switch the pins
+This example uses the write_pin and write_port methods to switch the pins
 on and off on the I/O bus.
 
 """
@@ -39,8 +39,8 @@ def main():
     '''
     iobus = ExpanderPi.IO()
 
-    # We will write to the pins 9 to 16 so set port 1 to be outputs turn off
-    # the pins
+    # We will write to the pins 9 to 16 so set port 1 as outputs and
+    # turn off the pins
     iobus.set_port_direction(1, 0x00)
     iobus.write_port(1, 0x00)
 
@@ -54,7 +54,7 @@ def main():
         # turn off all of the pins on bank 1
         iobus.write_port(1, 0x00)
 
-        # now turn on all of the leds in turn by writing to one pin at a time
+        # now turn on all of the LEDs in turn by writing to one pin at a time
         iobus.write_pin(9, 1)
         time.sleep(0.1)
         iobus.write_pin(10, 1)
@@ -71,7 +71,7 @@ def main():
         time.sleep(0.1)
         iobus.write_pin(16, 1)
 
-        # and turn off all of the leds in turn by writing to one pin at a time
+        # and turn off all of the LEDs in turn by writing to one pin at a time
         iobus.write_pin(9, 0)
         time.sleep(0.1)
         iobus.write_pin(10, 0)

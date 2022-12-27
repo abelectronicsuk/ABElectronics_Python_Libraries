@@ -11,7 +11,7 @@ For Python 3 install with: sudo apt-get install python3-smbus
 run with: python demo_ioread.py
 ================================================
 
-This tutorial controls 8 leds connected to bus 1.  For the full tutorial visit
+This tutorial controls 8 LEDs connected to bus 1.  For the full tutorial visit
 https://www.abelectronics.co.uk/kb/article/1099/io-zero-32-tutorial-1---the-blinking-led
 
 """

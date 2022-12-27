@@ -54,7 +54,7 @@ def main():
 
     iobus = IOZero32(0x20)  # new iobus object
 
-    # Check invert_bus value for low out of bounds
+    # Check invert_bus value for low out-of-bounds
     try:
         iobus.set_bus_polarity(-1)
         pass
@@ -69,7 +69,7 @@ def main():
         print("value low boundary check: FAILED")
         pass
 
-    # Check invert_bus value for high out of bounds
+    # Check invert_bus value for high out-of-bounds
     try:
         iobus.set_bus_polarity(65536)
         pass

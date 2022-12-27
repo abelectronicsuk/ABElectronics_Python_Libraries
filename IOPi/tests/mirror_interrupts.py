@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | mirror_interrupts
+AB Electronics UK IO Pi Tests | mirror_interrupts
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -53,7 +53,7 @@ def main():
 
     iopi = IOPi(0x20, False)  # new iopi object without initialisation
 
-    # Check mirror_interrupts value for low out of bounds
+    # Check mirror_interrupts value for low out-of-bounds
     try:
         iopi.mirror_interrupts(-1)
         pass
@@ -68,7 +68,7 @@ def main():
         print("value low boundary check: FAILED")
         pass
 
-    # Check mirror_interrupts value for high out of bounds
+    # Check mirror_interrupts value for high out-of-bounds
     try:
         iopi.mirror_interrupts(2)
         pass

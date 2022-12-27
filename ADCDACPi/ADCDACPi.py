@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics ADCDAC Pi Analogue to Digital / Digital to Analogue Converter
+AB Electronics UK ADC DAC Pi Analogue to Digital / Digital to Analogue Converter
 ================================================
 
 Based on the Microchip MCP3202 and MCP4822
@@ -35,7 +35,7 @@ class ADCDACPi(object):
 
     dactx = [0, 0]
 
-    # Max DAC output voltage. Depends on gain factor
+    # Max DAC output voltage. Depends on the gain factor
     # The following table is in the form <gain factor>:<max voltage>
 
     __dacMaxOutput__ = {
@@ -43,15 +43,15 @@ class ADCDACPi(object):
         2: 3.3  # This is the voltage of the 3.3V rail
     }
 
-    # public methods
+    # Public methods
     def __init__(self, gain_factor=1):
         """
         Class Constructor - Initialise the DAC
 
         :param gain_factor: Set the DAC's gain factor. The value should
-           be 1 or 2.  Gain factor is used to determine output voltage
+           be 1 or 2. The gain factor is used to determine the output voltage
            from the formula: Vout = G * Vref * D/4096
-           Where G is gain factor, Vref (for this chip) is 2.048 and
+           Where G is the gain factor, Vref (for this chip) is 2.048 and
            D is the 12-bit digital value, defaults to 1
         :type gain_factor: int, optional
         :raises ValueError: DAC __init__: Invalid gain factor. Must be 1 or 2
@@ -69,7 +69,7 @@ class ADCDACPi(object):
 
         :param channel: 1 or 2
         :type channel: int
-        :param mode: 0 = single ended, 1 = differential
+        :param mode: 0 = single-ended, 1 = differential
         :type mode: int
         :raises ValueError: read_adc_voltage: channel out of range
         :raises ValueError: read_adc_voltage: mode out of range
@@ -90,7 +90,7 @@ class ADCDACPi(object):
 
         :param channel: 1 or 2
         :type channel: int
-        :param mode: 0 = single ended, 1 = differential
+        :param mode: 0 = single-ended, 1 = differential
         :type mode: int
         :raises ValueError: read_adc_voltage: channel out of range
         :raises ValueError: read_adc_voltage: mode out of range

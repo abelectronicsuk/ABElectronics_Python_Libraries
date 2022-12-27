@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 ================================================
-ABElectronics ADC Pi ACS712 30 Amp current sensor demo
+AB Electronics UK ADC Pi ACS712 30 Amp current sensor demo
 
 Requires python smbus to be installed
 run with: python demo_acs712_30.py
@@ -10,7 +10,7 @@ run with: python demo_acs712_30.py
 Initialise the ADC device using the default addresses and sample rate,
 change this value if you have changed the address selection jumpers
 
-Sample rate can be 12,14, 16 or 18
+Sample rate can be 12, 14, 16 or 18
 """
 
 from __future__ import absolute_import, division, print_function, \
@@ -51,7 +51,7 @@ def main():
         # clear the console
         os.system('clear')
 
-        # read from adc channels and print to screen
+        # read from the ADC channels and print to screen
         print("Current on channel 1: %02f" % calc_current(adc.read_voltage(1)))
 
         # wait 0.5 seconds before reading the pins again

@@ -2,7 +2,7 @@
 
 """
 ================================================
-ABElectronics IO Pi Tests | set_interrupt_polarity
+AB Electronics UK IO Pi Tests | set_interrupt_polarity
 
 Requires python smbus to be installed
 For Python 2 install with: sudo apt-get install python-smbus
@@ -53,7 +53,7 @@ def main():
 
     iopi = IOPi(0x20, False)  # new iopi object without initialisation
 
-    # Check set_interrupt_polarity value for low out of bounds
+    # Check set_interrupt_polarity value for low out-of-bounds
     try:
         iopi.set_interrupt_polarity(-1)
         pass
@@ -68,7 +68,7 @@ def main():
         print("value low boundary check: FAILED")
         pass
 
-    # Check set_interrupt_polarity value for high out of bounds
+    # Check set_interrupt_polarity value for high out-of-bounds
     try:
         iopi.set_interrupt_polarity(2)
         pass
