@@ -1,3 +1,7 @@
+## 2023-02-04 Andrew Dorey  
+
+* 2.4.7 Updates to IO Pi and Expander Pi documentation.
+
 #### 2022-12-27 Andrew Dorey
 
 * 2.4.6 Updated spelling and grammar in the ReadMe files and code comments.

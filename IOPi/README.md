@@ -5,6 +5,8 @@ Python Library to use with IO Pi Raspberry Pi expansion board from https://www.a
 
 The example python files can be found in /ABElectronics_Python_Libraries/IOPi/demos  
 
+**Note:** Microchip recommends that pin 8 (GPA7) and pin 16 (GPB7) are used as outputs only.  This change was made for revision D MCP23017 chips manufactured after June 2020. See the [MCP23017 datasheet](https://www.abelectronics.co.uk/docs/pdf/microchip-mcp23017.pdf) for more information.
+
 ### Downloading and Installing the library
 
 To download to your Raspberry Pi type in the terminal: 
