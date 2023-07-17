@@ -271,7 +271,7 @@ class ADCDifferentialPi(object):
             # check if bit 7 of the command byte is 0.
             if(cmdbyte & (1 << 7)) == 0:
                 break
-            elif time.time.monotonic() > timeout_time:
+            elif time.monotonic() > timeout_time:
                 msg = 'read_raw: channel %i conversion timed out' % channel
                 raise TimeoutError(msg)
             else:
