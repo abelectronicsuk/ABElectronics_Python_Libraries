@@ -1,3 +1,7 @@
+## 2023-10-10 Andrew Dorey  
+
+* 2.4.8 Added Orange Pi Zero 2 support for I2C based expansion boards.
+
 ## 2023-02-04 Andrew Dorey  
 
 * 2.4.7 Updates to IO Pi and Expander Pi documentation.

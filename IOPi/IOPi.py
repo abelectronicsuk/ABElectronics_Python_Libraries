@@ -145,6 +145,9 @@ class IOPi(object):
             if device == "orangepione":  # orange pi one
                 i2c__bus = 0
 
+            elif device == "orangepizero2": # orange pi zero 2
+                i2c__bus = 3
+
             elif device == "orangepiplus":  # orange pi plus
                 i2c__bus = 0
 
