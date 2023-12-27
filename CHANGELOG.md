@@ -1,3 +1,7 @@
+## 2023-12-27 Andrew Dorey  
+
+* 2.4.9 Added pyproject.toml file to allow the use of python3 build. Updated documentation.
+
 ## 2023-10-10 Andrew Dorey  
 
 * 2.4.8 Added Orange Pi Zero 2 support for I2C based expansion boards.

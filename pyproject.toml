@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "abelectronics"
+version = "2.4.9"
+description = "AB Electronics UK Python Libraries"
+authors = [{name = "AB Electronics UK", email = "sales@abelectronics.co.uk"}]
+license = {file = "LICENSE"}
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+urls = {Homepage = "https://github.com/abelectronicsuk/ABElectronics_Python_Libraries"}
+
+[tool.setuptools]
+packages = ["ADCDACPi", "ADCDifferentialPi", "ADCPi", "ExpanderPi", "I2CSwitch", "IOPi", "IOZero32", "RTCPi", "ServoPi"]
