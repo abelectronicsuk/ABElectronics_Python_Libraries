@@ -13,7 +13,7 @@ To install the library you will need the Python3 build and install packages. To 
 
 ```
 sudo apt update
-sudo apt install python3-build python3-installer git.
+sudo apt install python3-build python3-installer git
 ```
 
 Download the ABElectronics_Python_Libraries to your Raspberry Pi: 
