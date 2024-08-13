@@ -83,7 +83,7 @@ class PWM(object):
             if device == "orangepione":  # orange pi one
                 i2c__bus = 0
 
-            elif device == "orangepizero2": # orange pi zero 2
+            elif device == "orangepizero2":  # orange pi zero 2
                 i2c__bus = 3
 
             elif device == "orangepiplus":  # orange pi plus
@@ -119,7 +119,7 @@ class PWM(object):
             raise 'Could not open the i2c bus'
 
     @staticmethod
-    def __checkbit(byte, bit):
+    def __check_bit(byte, bit):
         """
         Internal method for reading the value of a single bit within a byte
 
@@ -182,9 +182,9 @@ class PWM(object):
 
         mode = GPIO.getmode()  # Check if the GPIO mode has been set
 
-        if (mode == 10):  # Mode set to GPIO.BOARD
+        if mode == 10:  # Mode set to GPIO.BOARD
             self.__oe_pin = 7
-        elif (mode == 11):  # Mode set to GPIO.BCM
+        elif mode == 11:  # Mode set to GPIO.BCM
             self.__oe_pin = 4
         else:  # Mode not set
             GPIO.setmode(GPIO.BOARD)
@@ -206,19 +206,19 @@ class PWM(object):
         if freq < 40 or freq > 1000:
             raise ValueError('set_pwm_freq: freq out of range')
 
-        scaleval = 25000000.0    # 25MHz
-        scaleval /= 4096.0       # 12-bit
-        scaleval /= float(freq)
-        scaleval -= 1.0
-        prescale = math.floor(scaleval + 0.5)
-        prescale = prescale + calibration
-        oldmode = self.__read(self.__MODE1)
-        newmode = (oldmode & 0x7F) | 0x10
-        self.__write(self.__MODE1, newmode)
-        self.__write(self.__PRE_SCALE, int(prescale))
-        self.__write(self.__MODE1, oldmode)
+        scale_value = 25000000.0    # 25MHz
+        scale_value /= 4096.0       # 12-bit
+        scale_value /= float(freq)
+        scale_value -= 1.0
+        pre_scaler = math.floor(scale_value + 0.5)
+        pre_scaler = pre_scaler + calibration
+        old_mode = self.__read(self.__MODE1)
+        new_mode = (old_mode & 0x7F) | 0x10
+        self.__write(self.__MODE1, new_mode)
+        self.__write(self.__PRE_SCALE, int(pre_scaler))
+        self.__write(self.__MODE1, old_mode)
         time.sleep(0.005)
-        self.__write(self.__MODE1, oldmode | 0x80)
+        self.__write(self.__MODE1, old_mode | 0x80)
 
     def set_pwm(self, channel, on_time, off_time):
         """
@@ -319,9 +319,9 @@ class PWM(object):
             raise ValueError('get_pwm_on_time: channel out of range')
 
         channel = channel - 1
-        lowbyte = self.__read(self.__LED0_ON_L + 4 * channel)
-        highbyte = self.__read(self.__LED0_ON_H + 4 * channel)
-        value = lowbyte | highbyte << 8
+        low_byte = self.__read(self.__LED0_ON_L + 4 * channel)
+        high_byte = self.__read(self.__LED0_ON_H + 4 * channel)
+        value = low_byte | high_byte << 8
 
         return value
 
@@ -339,9 +339,9 @@ class PWM(object):
             raise ValueError('get_pwm_off_time: channel out of range')
 
         channel = channel - 1
-        lowbyte = self.__read(self.__LED0_OFF_L + 4 * channel)
-        highbyte = self.__read(self.__LED0_OFF_H + 4 * channel)
-        value = lowbyte | highbyte << 8
+        low_byte = self.__read(self.__LED0_OFF_L + 4 * channel)
+        high_byte = self.__read(self.__LED0_OFF_H + 4 * channel)
+        value = low_byte | high_byte << 8
 
         return value
 
@@ -402,42 +402,42 @@ class PWM(object):
         :param i2caddress: I2C address for the All Call function
         :type i2caddress: int
         """
-        oldmode = self.__read(self.__MODE1)
-        newmode = oldmode | (1 << self.__MODE1_ALLCALL)
-        self.__write(self.__MODE1, newmode)
+        old_mode = self.__read(self.__MODE1)
+        new_mode = old_mode | (1 << self.__MODE1_ALLCALL)
+        self.__write(self.__MODE1, new_mode)
         self.__write(self.__ALLCALLADR, i2caddress << 1)
 
     def enable_allcall_address(self):
         """
         Enable the I2C address for the All Call function
         """
-        oldmode = self.__read(self.__MODE1)
-        newmode = oldmode | (1 << self.__MODE1_ALLCALL)
-        self.__write(self.__MODE1, newmode)
+        old_mode = self.__read(self.__MODE1)
+        new_mode = old_mode | (1 << self.__MODE1_ALLCALL)
+        self.__write(self.__MODE1, new_mode)
 
     def disable_allcall_address(self):
         """
         Disable the I2C address for the All Call function
         """
-        oldmode = self.__read(self.__MODE1)
-        newmode = oldmode & ~(1 << self.__MODE1_ALLCALL)
-        self.__write(self.__MODE1, newmode)
+        old_mode = self.__read(self.__MODE1)
+        new_mode = old_mode & ~(1 << self.__MODE1_ALLCALL)
+        self.__write(self.__MODE1, new_mode)
 
     def sleep(self):
         """
         Put the device into a sleep state
         """
-        oldmode = self.__read(self.__MODE1)
-        newmode = oldmode | (1 << self.__MODE1_SLEEP)
-        self.__write(self.__MODE1, newmode)
+        old_mode = self.__read(self.__MODE1)
+        new_mode = old_mode | (1 << self.__MODE1_SLEEP)
+        self.__write(self.__MODE1, new_mode)
 
     def wake(self):
         """
         Wake the device from its sleep state
         """
-        oldmode = self.__read(self.__MODE1)
-        newmode = oldmode & ~(1 << self.__MODE1_SLEEP)
-        self.__write(self.__MODE1, newmode)
+        old_mode = self.__read(self.__MODE1)
+        new_mode = old_mode & ~(1 << self.__MODE1_SLEEP)
+        self.__write(self.__MODE1, new_mode)
 
     def is_sleeping(self):
         """
@@ -446,8 +446,8 @@ class PWM(object):
         :return: True or False
         :rtype: bool
         """
-        regval = self.__read(self.__MODE1)
-        if (self.__checkbit(regval, self.__MODE1_SLEEP)):
+        register_value = self.__read(self.__MODE1)
+        if self.__check_bit(register_value, self.__MODE1_SLEEP):
             return True
         else:
             return False
@@ -460,13 +460,13 @@ class PWM(object):
         :type state: bool
         """
         if state is True:
-            oldmode = self.__read(self.__MODE2)
-            newmode = oldmode | (1 << self.__MODE2_INVRT)
-            self.__write(self.__MODE2, newmode)
+            old_mode = self.__read(self.__MODE2)
+            new_mode = old_mode | (1 << self.__MODE2_INVRT)
+            self.__write(self.__MODE2, new_mode)
         else:
-            oldmode = self.__read(self.__MODE2)
-            newmode = oldmode & ~(1 << self.__MODE2_INVRT)
-            self.__write(self.__MODE2, newmode)
+            old_mode = self.__read(self.__MODE2)
+            new_mode = old_mode & ~(1 << self.__MODE2_INVRT)
+            self.__write(self.__MODE2, new_mode)
 
 
 class Servo(object):
@@ -475,9 +475,9 @@ class Servo(object):
     """
     __pwm = None
     __position = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    __lowpos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    __highpos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    __useoffset = False
+    __low_position = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    __high_position = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    __use_offset = False
     __offset = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     __frequency = 50
 
@@ -491,7 +491,7 @@ class Servo(object):
             if self.__position == 0:
                 self.__pwm.set_pwm(i+1, 0, 0)
             else:
-                if self.__useoffset is True:
+                if self.__use_offset is True:
                     self.__pwm.set_pwm(i+1, self.__offset[i],
                                        self.__position[i] + self.__offset[i])
                 else:
@@ -504,9 +504,9 @@ class Servo(object):
         """
         x = 0
         for i in range(0, 16):
-            x = x + self.__highpos[i]
-            if x > 4095 - self.__highpos[i]:
-                x = self.__highpos[0] / 2
+            x = x + self.__high_position[i]
+            if x > 4095 - self.__high_position[i]:
+                x = self.__high_position[0] / 2
             self.__offset[i] = x
         self.__refresh_channels()
 
@@ -570,16 +570,16 @@ class Servo(object):
         if steps < 0 or steps > 4095:
             raise ValueError('move: steps out of range')
 
-        if position >= 0 and position <= steps:
-            high = float(self.__highpos[channel - 1])
-            low = float(self.__lowpos[channel - 1])
+        if 0 <= position <= steps:
+            high = float(self.__high_position[channel - 1])
+            low = float(self.__low_position[channel - 1])
 
             pwm_value = int((((high - low) / float(steps)) *
                             float(position)) + low)
 
             self.__position[channel - 1] = pwm_value
 
-            if self.__useoffset:
+            if self.__use_offset:
                 self.__pwm.set_pwm(channel, self.__offset[channel - 1],
                                    pwm_value + self.__offset[channel - 1])
 
@@ -610,12 +610,12 @@ class Servo(object):
 
         pwm_value = float(self.__pwm.get_pwm_off_time(channel))
 
-        if self.__useoffset:
+        if self.__use_offset:
             pwm_value = pwm_value - self.__offset[channel - 1]
 
         steps = float(steps)
-        high = float(self.__highpos[channel - 1])
-        low = float(self.__lowpos[channel - 1])
+        high = float(self.__high_position[channel - 1])
+        low = float(self.__low_position[channel - 1])
 
         position = int(math.ceil((steps * (pwm_value - low)) / (high - low)))
 
@@ -639,18 +639,18 @@ class Servo(object):
         if channel < 0 or channel > 16:
             raise ValueError('set_low_limit: channel out of range')
 
-        lowpos = int(4096.0 * (low_limit / 1000.0) * self.__frequency)
+        low_position = int(4096.0 * (low_limit / 1000.0) * self.__frequency)
 
-        if (lowpos < 0) or (lowpos > 4095):
+        if (low_position < 0) or (low_position > 4095):
             raise ValueError('set_low_limit: low limit out of range')
 
-        if channel >= 1 and channel <= 16:
+        if 1 <= channel <= 16:
             # update the specified channel
-            self.__lowpos[channel - 1] = lowpos
+            self.__low_position[channel - 1] = low_position
         else:
             # no channel specified so update all channels
             for i in range(16):
-                self.__lowpos[i] = lowpos
+                self.__low_position[i] = low_position
 
     def set_high_limit(self, high_limit, channel=0):
         """
@@ -670,18 +670,18 @@ class Servo(object):
         if channel < 0 or channel > 16:
             raise ValueError('set_high_limit: channel out of range')
 
-        highpos = int(4096.0 * (high_limit / 1000.0) * self.__frequency)
+        high_position = int(4096.0 * (high_limit / 1000.0) * self.__frequency)
 
-        if (highpos < 0) or (highpos > 4095):
+        if (high_position < 0) or (high_position > 4095):
             raise ValueError('set_high_limit: high limit out of range')
 
-        if channel >= 1 and channel <= 16:
+        if 1 <= channel <= 16:
             # update the specified channel
-            self.__highpos[channel - 1] = highpos
+            self.__high_position[channel - 1] = high_position
         else:
             # no channel specified so update all channels
             for i in range(16):
-                self.__highpos[i] = highpos
+                self.__high_position[i] = high_position
 
     def set_frequency(self, freq, calibration=0):
         """
@@ -725,7 +725,7 @@ class Servo(object):
         This will set servo pulses to be staggered across the channels
         to reduce surges in the current draw
         """
-        self.__useoffset = True
+        self.__use_offset = True
         self.__calculate_offsets()  # update the offset values
 
     def offset_disable(self):
@@ -733,7 +733,7 @@ class Servo(object):
         Disable pulse offsets.
         This will set all servo pulses to start at the same time.
         """
-        self.__useoffset = False
+        self.__use_offset = False
         self.__refresh_channels()  # refresh the channel locations
 
     def sleep(self):

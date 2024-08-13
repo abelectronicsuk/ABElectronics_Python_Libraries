@@ -1,3 +1,7 @@
+## 2024-08-13 Andrew Dorey  
+
+* 2.5.0 Cleaned up code. Fixed PEP8 formatting issues. Fixed spelling mistakes. Changed Expander Pi ADC clock speed to 1MHz to increase sample rate.
+
 ## 2023-12-27 Andrew Dorey  
 
 * 2.4.9 Added pyproject.toml file to allow the use of python3 build. Updated documentation.

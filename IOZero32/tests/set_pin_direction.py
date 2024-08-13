@@ -59,14 +59,14 @@ def main():
 
     passed = True
 
-    iobus = IOZero32(0x20)  # new iobus object
+    io_bus = IOZero32(0x20)  # new io_bus object
 
     # Reset to 0x00
-    iobus.set_bus_direction(0x0000)
+    io_bus.set_bus_direction(0x0000)
 
     # Check set_pin_direction pin for low out-of-bounds
     try:
-        iobus.set_pin_direction(0, 0)
+        io_bus.set_pin_direction(0, 0)
         pass
     except ValueError:
         print("pin low boundary check: PASSED")
@@ -81,7 +81,7 @@ def main():
 
     # Check set_pin_direction pin for high out-of-bounds
     try:
-        iobus.set_pin_direction(17, 0)
+        io_bus.set_pin_direction(17, 0)
         pass
     except ValueError:
         print("pin high boundary check: PASSED")
@@ -96,7 +96,7 @@ def main():
 
     # Check set_pin_direction value for low out-of-bounds
     try:
-        iobus.set_pin_direction(0, -1)
+        io_bus.set_pin_direction(0, -1)
         pass
     except ValueError:
         print("value low boundary check: PASSED")
@@ -111,7 +111,7 @@ def main():
 
     # Check set_pin_direction value for high out-of-bounds
     try:
-        iobus.set_pin_direction(17, 2)
+        io_bus.set_pin_direction(17, 2)
         pass
     except ValueError:
         print("value high boundary check: PASSED")
@@ -128,7 +128,7 @@ def main():
     print("Logic output Started")
 
     for x in range(1, 17):
-        iobus.set_pin_direction(x, 1)
+        io_bus.set_pin_direction(x, 1)
 
     print("Logic output Ended")
 

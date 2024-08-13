@@ -83,7 +83,6 @@ def main():
         print("value high boundary check: FAILED")
         pass
 
-
     # Logic Analyser Check
     print("Logic output Started")
 

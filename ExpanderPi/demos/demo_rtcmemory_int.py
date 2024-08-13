@@ -34,52 +34,53 @@ except ImportError:
 
 
 def int_to_array(val):
-    '''
+    """
     convert an integer into a four-byte array
-    '''
-    arraybytes = [0, 0, 0, 0]
-    arraybytes[3] = val & 0xFF
+    """
+    array_bytes = [0, 0, 0, 0]
+    array_bytes[3] = val & 0xFF
     val >>= 8
-    arraybytes[2] = val & 0xFF
+    array_bytes[2] = val & 0xFF
     val >>= 8
-    arraybytes[1] = val & 0xFF
+    array_bytes[1] = val & 0xFF
     val >>= 8
-    arraybytes[0] = val & 0xFF
-    return arraybytes
+    array_bytes[0] = val & 0xFF
+    return array_bytes
 
 
-def array_to_int(arraybytes):
-    '''
+def array_to_int(array_bytes):
+    """
     convert a four-byte array into an integer
-    '''
-    val = (arraybytes[0] << 24) + (arraybytes[1] << 16) + \
-          (arraybytes[2] << 8) + arraybytes[3]
+    """
+    val = (array_bytes[0] << 24) + (array_bytes[1] << 16) + \
+          (array_bytes[2] << 8) + array_bytes[3]
     return val
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
 
     # create a new instance of the RTC class
     rtc = ExpanderPi.RTC()
 
     # integer to be written to the RTC memory
-    writeval = 176247
-    print("Writing to memory: ", writeval)
+    write_value = 176247
+    print("Writing to memory: ", write_value)
 
     # convert the integer into an array of bytes
-    writearray = int_to_array(writeval)
+    write_array = int_to_array(write_value)
 
     # write the array to the RTC memory
-    rtc.write_memory(0x08, writearray)
+    rtc.write_memory(0x08, write_array)
 
     # read four bytes from the RTC memory into an array
-    readarray = rtc.read_memory(0x08, 4)
+    read_array = rtc.read_memory(0x08, 4)
 
     # combine the array values into an integer and print it
-    print("Reading from memory: ", array_to_int(readarray))
+    print("Reading from memory: ", array_to_int(read_array))
+
 
 if __name__ == "__main__":
     main()

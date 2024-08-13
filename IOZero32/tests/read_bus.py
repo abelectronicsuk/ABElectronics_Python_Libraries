@@ -49,16 +49,16 @@ def main():
 
     passed = True
 
-    iobus = IOZero32(0x20)  # new iobus object without initialisation
+    io_bus = IOZero32(0x20)  # new io_bus object without initialisation
 
     # Reset to 0x00
-    iobus.write_bus(0x0000)
-    iobus.set_bus_direction(0xFFFF)
+    io_bus.write_bus(0x0000)
+    io_bus.set_bus_direction(0xFFFF)
     
     # Logic Analyser Check
     print("Logic output Started")
 
-    iobus.read_bus()
+    io_bus.read_bus()
 
     print("Logic output Ended")
 

@@ -15,7 +15,8 @@ Specify the parameter -c or --channel as a number 1 to 4
 from __future__ import absolute_import, division, print_function, \
                                                     unicode_literals
 
-import sys, getopt
+import sys
+import getopt
 
 try:
     from I2CSwitch import I2CSwitch
@@ -39,10 +40,10 @@ def main(argv):
     # create an instance of the I2CSwitch class on i2c address 0x70
     i2cswitch = I2CSwitch(0x70)
 
-    #reset the switch
+    # reset the switch
     i2cswitch.reset()
 
-    channelparam = 0
+    channel_param = 0
 
     try:
         opts, args = getopt.getopt(argv, "hc:", ["channel="])
@@ -55,24 +56,24 @@ def main(argv):
             sys.exit()
         elif opt in ("-c", "--channel"):
             try:
-                channelparam = int(arg)                
+                channel_param = int(arg)
             except ValueError:
                 print('error: channel must be between 1 and 4')
                 sys.exit(2)
 
-    if (channelparam < 1 or channelparam > 4):
+    if channel_param < 1 or channel_param > 4:
         print('error: channel must be between 1 and 4')
         sys.exit(2)
     else:
         # Set the I2C channel
-        i2cswitch.switch_channel(channelparam)
+        i2cswitch.switch_channel(channel_param)
 
         # Get the state of the selected channel from the I2C switch
-        status = i2cswitch.get_channel_state(channelparam)
+        status = i2cswitch.get_channel_state(channel_param)
 
         # Print the result from get_channel_state()
         if status is True:
-            print('Channel set to ', channelparam)
+            print('Channel set to ', channel_param)
         else:
             print('Error setting channel')
 

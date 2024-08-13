@@ -15,8 +15,9 @@ samples per second at each bit rate
 from __future__ import absolute_import, division, print_function, \
                                                     unicode_literals
 import datetime
-import numpy as N
-import threading, queue
+import numpy as n
+import threading
+import queue
 
 try:
     from ADCDifferentialPi import ADCDifferentialPi
@@ -31,88 +32,89 @@ except ImportError:
         raise ImportError(
             "Failed to import library from parent folder")
 
-def adc_thread_function(name, adc, ch1, ch2, ch3, ch4, queue):
+
+def adc_thread_function(adc, ch1, ch2, ch3, ch4, thread_queue):
     t1 = adc.read_voltage(ch1)
     t2 = adc.read_voltage(ch2)
     t3 = adc.read_voltage(ch3)
     t4 = adc.read_voltage(ch4)
-    queue.put((t1, t2, t3, t4))
+    thread_queue.put((t1, t2, t3, t4))
 
-def sampleratecheck(adc, rate, samples):
+
+def sample_rate_check(adc, rate, samples):
     """
     This function calls read_adc_voltage for a specified
     number of samples and measures how long it takes to complete the task
     """
     # create a counter and arrays to store the sampled voltages for each channel
     counter = 1
-    readarray1 = N.zeros(samples)
-    readarray2 = N.zeros(samples)
-    readarray3 = N.zeros(samples)
-    readarray4 = N.zeros(samples)
-    readarray5 = N.zeros(samples)
-    readarray6 = N.zeros(samples)
-    readarray7 = N.zeros(samples)
-    readarray8 = N.zeros(samples)
+    read_array1 = n.zeros(samples)
+    read_array2 = n.zeros(samples)
+    read_array3 = n.zeros(samples)
+    read_array4 = n.zeros(samples)
+    read_array5 = n.zeros(samples)
+    read_array6 = n.zeros(samples)
+    read_array7 = n.zeros(samples)
+    read_array8 = n.zeros(samples)
 
     # set the bit rate of the ADC to the specified rate
     adc.set_bit_rate(rate)
 
-    starttime = datetime.datetime.now()
+    start_time = datetime.datetime.now()
 
     while counter < samples:
         # start thread reading channels 1 to 4
         queue1 = queue.Queue()
-        a = threading.Thread(target=adc_thread_function, args=(1,adc, 1, 2, 3, 4, queue1))
+        a = threading.Thread(target=adc_thread_function, args=(adc, 1, 2, 3, 4, queue1))
         a.start()
 
         # start thread reading channels 5 to 8
         queue2 = queue.Queue()
-        b = threading.Thread(target=adc_thread_function, args=(1,adc, 5, 6, 7, 8, queue2))
+        b = threading.Thread(target=adc_thread_function, args=(adc, 5, 6, 7, 8, queue2))
         b.start()
 
         # wait for threads to complete before starting the next loop
         a.join()
         b.join()
 
-        readarray1[counter], readarray2[counter], readarray3[counter], readarray4[counter] = queue1.get()
-        readarray5[counter], readarray6[counter], readarray7[counter], readarray8[counter] = queue2.get()
+        read_array1[counter], read_array2[counter], read_array3[counter], read_array4[counter] = queue1.get()
+        read_array5[counter], read_array6[counter], read_array7[counter], read_array8[counter] = queue2.get()
 
         counter = counter + 1
 
-
     # stop the timer
-    endtime = datetime.datetime.now()
+    end_time = datetime.datetime.now()
 
     # calculate the samples per second
-    totalseconds = (endtime - starttime).total_seconds()
-    samplespersecond = samples / totalseconds
+    total_seconds = (end_time - start_time).total_seconds()
+    samples_per_second = samples / total_seconds
 
-    averagevoltage1 = N.average(readarray1)
-    averagevoltage2 = N.average(readarray2)
-    averagevoltage3 = N.average(readarray3)
-    averagevoltage4 = N.average(readarray4)
-    averagevoltage5 = N.average(readarray5)
-    averagevoltage6 = N.average(readarray6)
-    averagevoltage7 = N.average(readarray7)
-    averagevoltage8 = N.average(readarray8)
+    average_voltage1 = n.average(read_array1)
+    average_voltage2 = n.average(read_array2)
+    average_voltage3 = n.average(read_array3)
+    average_voltage4 = n.average(read_array4)
+    average_voltage5 = n.average(read_array5)
+    average_voltage6 = n.average(read_array6)
+    average_voltage7 = n.average(read_array7)
+    average_voltage8 = n.average(read_array8)
 
-    print("Bit Rate: %i" % (rate))
-    print("%.2f samples per seconds" % (samplespersecond * 8))
-    print("Average Voltage - Channel 1: %.2f" % (averagevoltage1))
-    print("Average Voltage - Channel 2: %.2f" % (averagevoltage2))
-    print("Average Voltage - Channel 3: %.2f" % (averagevoltage3))
-    print("Average Voltage - Channel 4: %.2f" % (averagevoltage4))
-    print("Average Voltage - Channel 5: %.2f" % (averagevoltage5))
-    print("Average Voltage - Channel 6: %.2f" % (averagevoltage6))
-    print("Average Voltage - Channel 7: %.2f" % (averagevoltage7))
-    print("Average Voltage - Channel 8: %.2f" % (averagevoltage8))
+    print("Bit Rate: %i" % rate)
+    print("%.2f samples per seconds" % (samples_per_second * 8))
+    print("Average Voltage - Channel 1: %.2f" % average_voltage1)
+    print("Average Voltage - Channel 2: %.2f" % average_voltage2)
+    print("Average Voltage - Channel 3: %.2f" % average_voltage3)
+    print("Average Voltage - Channel 4: %.2f" % average_voltage4)
+    print("Average Voltage - Channel 5: %.2f" % average_voltage5)
+    print("Average Voltage - Channel 6: %.2f" % average_voltage6)
+    print("Average Voltage - Channel 7: %.2f" % average_voltage7)
+    print("Average Voltage - Channel 8: %.2f" % average_voltage8)
     print("---------------------------------------------")
     
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
 
     # create an instance of the ADCDifferentialPi class
     adc = ADCDifferentialPi(0x68, 0x69, 12)
@@ -122,16 +124,17 @@ def main():
     print("Testing ---- This may take some time")
 
     # 12-bit test - 100 samples
-    sampleratecheck(adc, 12, 100)
+    sample_rate_check(adc, 12, 100)
 
     # 14-bit test - 100 samples
-    sampleratecheck(adc, 14, 100)
+    sample_rate_check(adc, 14, 100)
 
     # 16-bit test - 100 samples
-    sampleratecheck(adc, 16, 100)
+    sample_rate_check(adc, 16, 100)
 
     # 18-bit test - 100 samples
-    sampleratecheck(adc, 18, 100)
+    sample_rate_check(adc, 18, 100)
+
 
 if __name__ == "__main__":
     main()

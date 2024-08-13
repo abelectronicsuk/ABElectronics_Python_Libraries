@@ -43,7 +43,7 @@ def main():
 
     bus.write_pin(8, 0)  # Turn off pin 8
 
-    bus.set_pin_pullup(1, 1)  # Enable the internal pullup resistor on pin 1
+    bus.set_pin_pullup(1, 1)  # Enable the internal pull-up resistor on pin 1
 
     bus.invert_pin(1, 1)  # Invert pin 1 so a button press will register as 1
 
@@ -55,6 +55,7 @@ def main():
             time.sleep(2)  # Wait 2 seconds
         else:
             bus.write_pin(8, 0)  # Turn off the LED on pin 8
+
 
 if __name__ == "__main__":
     main()

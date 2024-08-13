@@ -17,7 +17,7 @@ run with: python demo_mqtt_button.py
 This example reads a button press from Pin 1 on Bus 1 of the IO Pi 
 and publishes it to an MQTT broker.
 
-The internal pullup resistor on pin 1 is enabled so the pin will read
+The internal pull-up resistor on pin 1 is enabled so the pin will read
 as 1 unless the pin is connected to ground.
 
 """
@@ -48,9 +48,9 @@ def on_disconnect(client, userdata, rc):
 def main():
     # Main program loop
 
-    iobus = IOPi(0x20)
-    iobus.set_pin_direction(1, 1)  # Set pin 1 as an input
-    iobus.set_pin_pullup(1, 1)  # Enable the 100K pullup resistor
+    io_bus = IOPi(0x20)
+    io_bus.set_pin_direction(1, 1)  # Set pin 1 as an input
+    io_bus.set_pin_pullup(1, 1)  # Enable the 100K pull-up resistor
 
     # MQTT connection parameters
     mqtt_broker = '192.168.0.1'
@@ -66,7 +66,7 @@ def main():
     previous_state = 0  # Stores the previous button state
 
     while True:
-        button_state = iobus.read_pin(1)  # Read the value from pin 1
+        button_state = io_bus.read_pin(1)  # Read the value from pin 1
 
         if button_state != previous_state:  # Check for a change in the state
             previous_state = button_state

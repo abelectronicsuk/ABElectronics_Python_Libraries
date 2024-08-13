@@ -33,9 +33,9 @@ except ImportError:
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
 
     adc = ADCDifferentialPi(0x68, 0x69, 12)
 
@@ -56,6 +56,7 @@ def main():
 
         # wait 0.2 seconds before reading the pins again
         time.sleep(0.2)
+
 
 if __name__ == "__main__":
     main()

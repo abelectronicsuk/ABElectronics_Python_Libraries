@@ -24,7 +24,6 @@ Test Passed
 """
 from __future__ import absolute_import, division, print_function, \
                                                     unicode_literals
-import time
 
 try:
     import sys
@@ -69,7 +68,6 @@ def main():
         passed = False
         print("I2C address high boundary check: FAILED")
         pass
-
 
     if passed is False:
         print("Test Failed")

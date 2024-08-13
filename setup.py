@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name='abelectronics',
-    version='2.4.9',
+    version='2.5.0',
     description='AB Electronics UK Python Libraries',
     author='AB Electronics UK',
     author_email='sales@abelectronics.co.uk',

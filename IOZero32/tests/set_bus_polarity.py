@@ -52,11 +52,11 @@ def main():
 
     passed = True
 
-    iobus = IOZero32(0x20)  # new iobus object
+    io_bus = IOZero32(0x20)  # new io_bus object
 
     # Check invert_bus value for low out-of-bounds
     try:
-        iobus.set_bus_polarity(-1)
+        io_bus.set_bus_polarity(-1)
         pass
     except ValueError:
         print("value low boundary check: PASSED")
@@ -71,7 +71,7 @@ def main():
 
     # Check invert_bus value for high out-of-bounds
     try:
-        iobus.set_bus_polarity(65536)
+        io_bus.set_bus_polarity(65536)
         pass
     except ValueError:
         print("value high boundary check: PASSED")
@@ -88,7 +88,7 @@ def main():
     print("Logic output Started")
 
     for x in range(0, 65536):
-        iobus.set_bus_polarity(x)
+        io_bus.set_bus_polarity(x)
 
     print("Logic output Ended")
 

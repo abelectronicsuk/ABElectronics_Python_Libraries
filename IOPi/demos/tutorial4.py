@@ -45,20 +45,20 @@ def button_pressed(interrupt_pin):
     This function will be called when GPIO 23 falls low
     """
     # Read the interrupt capture for port 0 and store it in the variable intval
-    intval = bus.read_interrupt_capture(0)
+    interrupt_value = bus.read_interrupt_capture(0)
 
-    # Compare the value of intval with the IO Pi port 0
+    # Compare the value of interrupt_value with the IO Pi port 0
     # using read_port(). Wait until the port changes which will indicate
     # the button has been released.
     # Without this while loop the function will keep repeating.
 
-    while (intval == bus.read_port(0)):
+    while interrupt_value == bus.read_port(0):
         time.sleep(0.2)
 
     # Loop through each bit in the intval variable and check if the bit is 1
     # which will indicate a button has been pressed
     for num in range(0, 8):
-        if (intval & (1 << num)):
+        if interrupt_value & (1 << num):
             print("Pin " + str(num + 1) + " pressed")
 
 
@@ -73,7 +73,7 @@ def main():
 
     bus = IOPi(0x20)
 
-    # Set port 0 on the bus as inputs with internal pullups enabled.
+    # Set port 0 on the bus as inputs with internal pull-ups enabled.
 
     bus.set_port_pullups(0, 0xFF)
     bus.set_port_direction(0, 0xFF)
@@ -90,7 +90,7 @@ def main():
     bus.set_interrupt_polarity(0)
     bus.mirror_interrupts(0)
 
-    # Set the interrupts default value to 0 so it will trigger when any of
+    # Set the interrupts default value to 0, so it will trigger when any of
     # the pins on port 0 change to 1
 
     bus.set_interrupt_defaults(0, 0x00)

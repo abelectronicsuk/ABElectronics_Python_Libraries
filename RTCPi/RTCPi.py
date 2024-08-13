@@ -34,10 +34,10 @@ class RTC:
     CONTROL = 0x07
 
     # Variables
-    __rtcaddress = 0x68  # I2C address
+    __rtc_address = 0x68  # I2C address
     # Initial configuration - square wave and output disabled, frequency set
     # to 32.768KHz.
-    __rtcconfig = 0x03
+    __rtc_config = 0x03
     # The DS1307 does not store the current century so that has to be 
     # added on manually.
     __century = 2000
@@ -58,53 +58,53 @@ class RTC:
         :rtype: SMBus
         :raises IOError: Could not open the I2C bus
         """
-        i2c__bus = 1
+        i2c_bus = 1
         if bus is not None:
-            i2c__bus = bus
+            i2c_bus = bus
         else:
             # detect the device that is being used
             device = platform.uname()[1]
 
             if device == "orangepione":  # orange pi one
-                i2c__bus = 0
+                i2c_bus = 0
 
-            elif device == "orangepizero2": # orange pi zero 2
-                i2c__bus = 3
+            elif device == "orangepizero2":  # orange pi zero 2
+                i2c_bus = 3
 
             elif device == "orangepiplus":  # orange pi plus
-                i2c__bus = 0
+                i2c_bus = 0
 
             elif device == "orangepipcplus":  # orange pi pc plus
-                i2c__bus = 0
+                i2c_bus = 0
 
             elif device == "linaro-alip":  # Asus Tinker Board
-                i2c__bus = 1
+                i2c_bus = 1
 
             elif device == "bpi-m2z":  # Banana Pi BPI M2 Zero Ubuntu
-                i2c__bus = 0
+                i2c_bus = 0
 
             elif device == "bpi-iot-ros-ai":  # Banana Pi BPI M2 Zero Raspbian
-                i2c__bus = 0
+                i2c_bus = 0
 
             elif device == "raspberrypi":  # running on raspberry pi
-                # detect I2C port number and assign to i2c__bus
+                # detect I2C port number and assign to i2c_bus
                 for line in open('/proc/cpuinfo').readlines():
                     model = re.match('(.*?)\\s*:\\s*(.*)', line)
                     if model:
                         (name, value) = (model.group(1), model.group(2))
                         if name == "Revision":
                             if value[-4:] in ('0002', '0003'):
-                                i2c__bus = 0  # original model A or B
+                                i2c_bus = 0  # original model A or B
                             else:
-                                i2c__bus = 1  # later models
+                                i2c_bus = 1  # later models
                             break
         try:
-            return SMBus(i2c__bus)
+            return SMBus(i2c_bus)
         except IOError:
             raise 'Could not open the I2C bus'
 
     @staticmethod
-    def __updatebyte(byte, bit, value):
+    def __update_byte(byte, bit, value):
         """
         Internal method for setting the value of a single bit within a byte
 
@@ -146,11 +146,11 @@ class RTC:
         :rtype: int
         """
         bcd = 0
-        for vala in (dec // 10, dec % 10):
-            for valb in (8, 4, 2, 1):
-                if vala >= valb:
+        for value_a in (dec // 10, dec % 10):
+            for value_b in (8, 4, 2, 1):
+                if value_a >= value_b:
                     bcd += 1
-                    vala -= valb
+                    value_a -= value_b
                 bcd <<= 1
         return bcd >> 1
 
@@ -159,7 +159,7 @@ class RTC:
         Internal method for storing the current century
 
         :param val: year
-        :type val: int
+        :type val: string
         """
         if len(val) > 2:
             year = val[0] + val[1]
@@ -176,8 +176,8 @@ class RTC:
         :type bus: int, optional
         """
         self.__bus = self.__get_smbus(bus)
-        self.__bus.write_byte_data(self.__rtcaddress, self.CONTROL,
-                                   self.__rtcconfig)
+        self.__bus.write_byte_data(self.__rtc_address, self.CONTROL,
+                                   self.__rtc_config)
         return
 
     def set_date(self, date):
@@ -187,17 +187,17 @@ class RTC:
         :param date: ISO 8601 formatted string - "YYYY-MM-DDTHH:MM:SS"
         :type date: string
         """
-        newdate = datetime.datetime.strptime(date, "%Y-%m-%dT%H:%M:%S")
+        new_date = datetime.datetime.strptime(date, "%Y-%m-%dT%H:%M:%S")
         self.__get_century(date)
-        writeval = [self.__dec_bcd(newdate.second),
-                    self.__dec_bcd(newdate.minute),
-                    self.__dec_bcd(newdate.hour),
-                    self.__dec_bcd(newdate.weekday()),
-                    self.__dec_bcd(newdate.day),
-                    self.__dec_bcd(newdate.month),
-                    self.__dec_bcd(newdate.year - self.__century)]
+        write_value = [self.__dec_bcd(new_date.second),
+                       self.__dec_bcd(new_date.minute),
+                       self.__dec_bcd(new_date.hour),
+                       self.__dec_bcd(new_date.weekday()),
+                       self.__dec_bcd(new_date.day),
+                       self.__dec_bcd(new_date.month),
+                       self.__dec_bcd(new_date.year - self.__century)]
 
-        self.__bus.write_i2c_block_data(self.__rtcaddress, 0x00, writeval)
+        self.__bus.write_i2c_block_data(self.__rtc_address, 0x00, write_value)
 
         return
 
@@ -208,14 +208,14 @@ class RTC:
         :return: ISO 8601 formatted string - "YYYY-MM-DDTHH:MM:SS"
         :rtype: string
         """
-        readval = self.__bus.read_i2c_block_data(self.__rtcaddress, 0, 7)
-        date = ("%02d-%02d-%02dT%02d:%02d:%02d" % (self.__bcd_dec(readval[6]) +
+        read_value = self.__bus.read_i2c_block_data(self.__rtc_address, 0, 7)
+        date = ("%02d-%02d-%02dT%02d:%02d:%02d" % (self.__bcd_dec(read_value[6]) +
                                                    self.__century,
-                                                   self.__bcd_dec(readval[5]),
-                                                   self.__bcd_dec(readval[4]),
-                                                   self.__bcd_dec(readval[2]),
-                                                   self.__bcd_dec(readval[1]),
-                                                   self.__bcd_dec(readval[0])))
+                                                   self.__bcd_dec(read_value[5]),
+                                                   self.__bcd_dec(read_value[4]),
+                                                   self.__bcd_dec(read_value[2]),
+                                                   self.__bcd_dec(read_value[1]),
+                                                   self.__bcd_dec(read_value[0])))
         return date
 
     def enable_output(self):
@@ -223,10 +223,10 @@ class RTC:
         Enable the output pin
         """
 
-        self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 7, 1)
-        self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 4, 1)
+        self.__rtc_config = self.__update_byte(self.__rtc_config, 7, 1)
+        self.__rtc_config = self.__update_byte(self.__rtc_config, 4, 1)
         self.__bus.write_byte_data(
-            self.__rtcaddress, self.CONTROL, self.__rtcconfig)
+            self.__rtc_address, self.CONTROL, self.__rtc_config)
         return
 
     def disable_output(self):
@@ -234,10 +234,10 @@ class RTC:
         Disable the output pin
         """
 
-        self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 7, 0)
-        self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 4, 0)
+        self.__rtc_config = self.__update_byte(self.__rtc_config, 7, 0)
+        self.__rtc_config = self.__update_byte(self.__rtc_config, 4, 0)
         self.__bus.write_byte_data(
-            self.__rtcaddress, self.CONTROL, self.__rtcconfig)
+            self.__rtc_address, self.CONTROL, self.__rtc_config)
         return
 
     def set_frequency(self, frequency):
@@ -249,19 +249,19 @@ class RTC:
         """
 
         if frequency == 1:
-            self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 0, 0)
-            self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 1, 0)
+            self.__rtc_config = self.__update_byte(self.__rtc_config, 0, 0)
+            self.__rtc_config = self.__update_byte(self.__rtc_config, 1, 0)
         if frequency == 2:
-            self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 0, 1)
-            self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 1, 0)
+            self.__rtc_config = self.__update_byte(self.__rtc_config, 0, 1)
+            self.__rtc_config = self.__update_byte(self.__rtc_config, 1, 0)
         if frequency == 3:
-            self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 0, 0)
-            self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 1, 1)
+            self.__rtc_config = self.__update_byte(self.__rtc_config, 0, 0)
+            self.__rtc_config = self.__update_byte(self.__rtc_config, 1, 1)
         if frequency == 4:
-            self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 0, 1)
-            self.__rtcconfig = self.__updatebyte(self.__rtcconfig, 1, 1)
+            self.__rtc_config = self.__update_byte(self.__rtc_config, 0, 1)
+            self.__rtc_config = self.__update_byte(self.__rtc_config, 1, 1)
         self.__bus.write_byte_data(
-            self.__rtcaddress, self.CONTROL, self.__rtcconfig)
+            self.__rtc_address, self.CONTROL, self.__rtc_config)
         return
 
     def write_memory(self, address, valuearray):
@@ -278,10 +278,10 @@ class RTC:
         :raises ValueError: write_memory: address out of range
         """
 
-        if address >= 0x08 and address <= 0x3F:
+        if 0x08 <= address <= 0x3F:
             if address + len(valuearray) <= 0x3F:
                 self.__bus.write_i2c_block_data(
-                    self.__rtcaddress, address, valuearray)
+                    self.__rtc_address, address, valuearray)
             else:
                 raise ValueError('write_memory: memory overflow error: address + \
                                 length exceeds 0x3F')
@@ -305,9 +305,9 @@ class RTC:
         :rtype: int array
         """
 
-        if address >= 0x08 and address <= 0x3F:
+        if 0x08 <= address <= 0x3F:
             if address <= (0x3F - length):
-                return self.__bus.read_i2c_block_data(self.__rtcaddress,
+                return self.__bus.read_i2c_block_data(self.__rtc_address,
                                                       address, length)
             else:
                 raise ValueError('read_memory: memory overflow error: address + \

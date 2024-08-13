@@ -40,19 +40,19 @@ ZERO_OFFSET = 0.826  # zero offset value from calibration data printout
 SLOPE = 0.031483  # slope value from calibration data printout
 
 
-def calc_humidity(inval):
-    '''
+def calc_humidity(value):
+    """
     Calculate the humidity
-    '''
-    voltage = inval * RESISTOR_MULTIPLIER
+    """
+    voltage = value * RESISTOR_MULTIPLIER
     humidity = (voltage - ZERO_OFFSET) / SLOPE
     return humidity
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
 
     adc = ADCPi(0x68, 0x69, 14)
 
@@ -67,6 +67,7 @@ def main():
 
         # wait 0.5 seconds before reading the pins again
         time.sleep(0.5)
+
 
 if __name__ == "__main__":
     main()

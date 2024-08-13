@@ -36,28 +36,28 @@ except ImportError:
 
 
 def double_to_array(val):
-    '''
+    """
     convert a double into an eight-byte array
-    '''
+    """
     buf = bytearray(struct.pack('d', val))
-    arraybytes = [0, 0, 0, 0, 0, 0, 0, 0]
+    array_bytes = [0, 0, 0, 0, 0, 0, 0, 0]
     for i in range(0, 8):
-        arraybytes[i] = buf[i]
-    return arraybytes
+        array_bytes[i] = buf[i]
+    return array_bytes
 
 
 def array_to_double(val):
-    '''
+    """
     convert an eight-byte array into a double
-    '''
-    dval, = struct.unpack('d', bytearray(val))
-    return dval
+    """
+    double_value, = struct.unpack('d', bytearray(val))
+    return double_value
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
 
     # create a new instance of the RTC class
     rtc = ExpanderPi.RTC()
@@ -67,16 +67,17 @@ def main():
     print("Writing to memory: ", value)
 
     # convert the number into an array of bytes
-    writearray = double_to_array(value)
+    write_array = double_to_array(value)
 
     # write the array to the RTC memory
-    rtc.write_memory(0x08, writearray)
+    rtc.write_memory(0x08, write_array)
 
     # read eight bytes from the RTC memory into an array
     read_array = rtc.read_memory(0x08, 8)
 
     # combine the array values into a number and print it
     print("Reading from memory: ", array_to_double(read_array))
+
 
 if __name__ == "__main__":
     main()

@@ -8,7 +8,8 @@ Requires smbus2 or python smbus to be installed
 ================================================
 """
 from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
+    unicode_literals
+
 try:
     from smbus2 import SMBus
 except ImportError:
@@ -25,7 +26,6 @@ import re
 import platform
 import datetime
 
-
 """
 Private Classes
 """
@@ -37,7 +37,7 @@ class _ABEHelpers:
     """
 
     @staticmethod
-    def updatebyte(byte, bit, value):
+    def update_byte(byte, bit, value):
         """
         Internal method for setting the value of a single bit within a byte
 
@@ -116,13 +116,12 @@ Public Classes
 
 
 class ADC:
-
     """
     Based on the Microchip MCP3208
     """
 
     # variables
-    __adcrefvoltage = 4.096  # reference voltage for the ADC chip.
+    __adc_ref_voltage = 4.096  # reference voltage for the ADC chip.
 
     __spiADC = None
 
@@ -132,7 +131,7 @@ class ADC:
         """
         self.__spiADC = spidev.SpiDev()
         self.__spiADC.open(0, 0)
-        self.__spiADC.max_speed_hz = (200000)
+        self.__spiADC.max_speed_hz = 1000000
 
     # public methods
 
@@ -158,7 +157,7 @@ class ADC:
             raise ValueError('read_adc_voltage: channel out of range')
 
         raw = self.read_adc_raw(channel, mode)
-        voltage = (self.__adcrefvoltage / 4096) * raw
+        voltage = (self.__adc_ref_voltage / 4096) * raw
         return voltage
 
     def read_adc_raw(self, channel, mode):
@@ -183,6 +182,7 @@ class ADC:
             raise ValueError('read_adc_voltage: channel out of range')
 
         channel = channel - 1
+        raw = 0
         if mode == 0:
             raw = self.__spiADC.xfer2(
                 [6 + (channel >> 2), (channel & 3) << 6, 0])
@@ -208,7 +208,7 @@ class ADC:
         """
 
         if (voltage >= 0.0) and (voltage <= 5.5):
-            self.__adcrefvoltage = voltage
+            self.__adc_ref_voltage = voltage
         else:
             raise ValueError('set_adc_refvoltage: reference voltage \
                             out of range')
@@ -221,7 +221,7 @@ class DAC:
     """
 
     __spiDAC = None
-    dactx = [0, 0]
+    __dac_tx = [0, 0]
 
     # Max DAC output voltage.  Depends on the gain factor
     # The following table is in the form <gain factor>:<max voltage>
@@ -230,7 +230,7 @@ class DAC:
         2: 4.096  # This is double Vref
     }
 
-    maxdacvoltage = 2.048
+    __max_dac_voltage = 2.048
 
     # public methods
     def __init__(self, gainFactor=1):
@@ -249,7 +249,7 @@ class DAC:
         # Define SPI bus and init
         self.__spiDAC = spidev.SpiDev()
         self.__spiDAC.open(0, 1)
-        self.__spiDAC.max_speed_hz = (20000000)
+        self.__spiDAC.max_speed_hz = 20000000
 
         if (gainFactor != 1) and (gainFactor != 2):
             raise ValueError('DAC __init__: Invalid gain factor. \
@@ -257,7 +257,7 @@ class DAC:
         else:
             self.gain = gainFactor
 
-            self.maxdacvoltage = self.__dacMaxOutput__[self.gain]
+            self.__max_dac_voltage = self.__dacMaxOutput__[self.gain]
 
     def set_dac_voltage(self, channel, voltage):
         """
@@ -273,9 +273,9 @@ class DAC:
         """
         if (channel > 2) or (channel < 1):
             raise ValueError('set_dac_voltage: DAC channel needs to be 1 or 2')
-        if (voltage >= 0.0) and (voltage < self.maxdacvoltage):
-            rawval = (voltage / 2.048) * 4096 / self.gain
-            self.set_dac_raw(channel, int(rawval))
+        if (voltage >= 0.0) and (voltage < self.__max_dac_voltage):
+            raw_value = (voltage / 2.048) * 4096 / self.gain
+            self.set_dac_raw(channel, int(raw_value))
         else:
             raise ValueError('set_dac_voltage: voltage out of range')
         return
@@ -297,22 +297,21 @@ class DAC:
         if (value < 0) and (value > 4095):
             raise ValueError('set_dac_voltage: value out of range')
 
-        self.dactx[1] = (value & 0xff)
+        self.__dac_tx[1] = (value & 0xff)
 
         if self.gain == 1:
-            self.dactx[0] = (((value >> 8) & 0xff) | (channel - 1) << 7 |
-                             1 << 5 | 1 << 4)
+            self.__dac_tx[0] = (((value >> 8) & 0xff) | (channel - 1) << 7 |
+                                1 << 5 | 1 << 4)
         else:
-            self.dactx[0] = (((value >> 8) & 0xff) | (channel - 1) << 7 |
-                             1 << 4)
+            self.__dac_tx[0] = (((value >> 8) & 0xff) | (channel - 1) << 7 |
+                                1 << 4)
 
         # Write to device
-        self.__spiDAC.xfer2(self.dactx)
+        self.__spiDAC.xfer2(self.__dac_tx)
         return
 
 
 class IO:
-
     """
     The MCP23017 chip is split into two 8-bit ports.  port 0 controls pins
     1 to 8 while port 1 controls pins 9 to 16.
@@ -341,12 +340,12 @@ class IO:
     GPINTENB = 0x05
     # Default value for port A - These bits set the compare value for pins
     # configured for interrupt-on-change.  If the associated pin level is the
-    # opposite from the register bit, an interrupt occurs.
+    # opposite to the register bit, an interrupt occurs.
     DEFVALA = 0x06
 
     # Default value for port B - These bits set the compare value for pins
     # configured for interrupt-on-change.  If the associated pin level is the
-    # opposite from the register bit, an interrupt occurs.
+    # opposite to the register bit, an interrupt occurs.
     DEFVALB = 0x07
 
     # Interrupt control register for port A.
@@ -387,11 +386,11 @@ class IO:
     OLATA = 0x14  # output latches A
     OLATB = 0x15  # output latches B
 
-    __ioaddress = 0x20  # I2C address
+    __io_address = 0x20  # I2C address
 
     # initial configuration - see IOCON page in the MCP23017 datasheet for
     # more information.
-    __ioconfig = 0x02
+    __io_config = 0x02
     __helper = None
     __bus = None
 
@@ -409,18 +408,18 @@ class IO:
         """
         self.__helper = _ABEHelpers()
         self.__bus = self.__helper.get_smbus(bus)
-        self.__bus.write_byte_data(self.__ioaddress, self.IOCON,
-                                   self.__ioconfig)
+        self.__bus.write_byte_data(self.__io_address, self.IOCON,
+                                   self.__io_config)
 
         if initialise is True:
-            self.__bus.write_word_data(self.__ioaddress, self.IODIRA, 0xFFFF)
-            self.__bus.write_word_data(self.__ioaddress, self.GPPUA, 0x0000)
-            self.__bus.write_word_data(self.__ioaddress, self.IPOLA, 0x0000)
+            self.__bus.write_word_data(self.__io_address, self.IODIRA, 0xFFFF)
+            self.__bus.write_word_data(self.__io_address, self.GPPUA, 0x0000)
+            self.__bus.write_word_data(self.__io_address, self.IPOLA, 0x0000)
         return
 
     # local methods
     @staticmethod
-    def __checkbit(byte, bit):
+    def __check_bit(byte, bit):
         """
         Internal method for reading the value of a single bit within a byte
 
@@ -437,7 +436,7 @@ class IO:
         return value
 
     @staticmethod
-    def __updatebyte(byte, bit, value):
+    def __update_byte(byte, bit, value):
         """
         Internal method for setting the value of a single bit within a byte
 
@@ -472,11 +471,11 @@ class IO:
         :raises ValueError: pin out of range: 1 to 16
         :raises ValueError: value out of range: 0 or 1
         """
-        reg = None
-        if pin >= 1 and pin <= 8:
+
+        if 1 <= pin <= 8:
             reg = a_register
             pin = pin - 1
-        elif pin >= 9 and pin <= 16:
+        elif 9 <= pin <= 16:
             reg = b_register
             pin = pin - 9
         else:
@@ -485,9 +484,9 @@ class IO:
         if value < 0 or value > 1:
             raise ValueError("value out of range: 0 or 1")
 
-        curval = self.__bus.read_byte_data(self.__ioaddress, reg)
-        newval = self.__updatebyte(curval, pin, value)
-        self.__bus.write_byte_data(self.__ioaddress, reg, newval)
+        current_value = self.__bus.read_byte_data(self.__io_address, reg)
+        new_value = self.__update_byte(current_value, pin, value)
+        self.__bus.write_byte_data(self.__io_address, reg, new_value)
 
         return
 
@@ -506,14 +505,13 @@ class IO:
         :return: 0 or 1
         :rtype: int
         """
-        value = 0
 
-        if pin >= 1 and pin <= 8:
-            curval = self.__bus.read_byte_data(self.__ioaddress, a_register)
-            value = self.__checkbit(curval, pin - 1)
-        elif pin >= 9 and pin <= 16:
-            curval = self.__bus.read_byte_data(self.__ioaddress, b_register)
-            value = self.__checkbit(curval, pin - 9)
+        if 1 <= pin <= 8:
+            current_value = self.__bus.read_byte_data(self.__io_address, a_register)
+            value = self.__check_bit(current_value, pin - 1)
+        elif 9 <= pin <= 16:
+            current_value = self.__bus.read_byte_data(self.__io_address, b_register)
+            value = self.__check_bit(current_value, pin - 9)
         else:
             raise ValueError("pin out of range: 1 to 16")
 
@@ -541,9 +539,9 @@ class IO:
             raise ValueError("value out of range: 0 to 255 (0xFF)")
 
         if port == 0:
-            self.__bus.write_byte_data(self.__ioaddress, a_register, value)
+            self.__bus.write_byte_data(self.__io_address, a_register, value)
         else:
-            self.__bus.write_byte_data(self.__ioaddress, b_register, value)
+            self.__bus.write_byte_data(self.__io_address, b_register, value)
         return
 
     def __get_port(self, port, a_register, b_register):
@@ -561,12 +559,11 @@ class IO:
         :rtype: int
         """
         if port == 0:
-            return self.__bus.read_byte_data(self.__ioaddress, a_register)
+            return self.__bus.read_byte_data(self.__io_address, a_register)
         elif port == 1:
-            return self.__bus.read_byte_data(self.__ioaddress, b_register)
+            return self.__bus.read_byte_data(self.__io_address, b_register)
         else:
             raise ValueError("port out of range: 0 or 1")
-        return
 
     def __set_bus(self, value, a_register):
         """
@@ -579,8 +576,8 @@ class IO:
         :type a_register: int
         :raises ValueError: value out of range: 0 to 65535 (0xFFFF)
         """
-        if value >= 0x0000 and value <= 0xFFFF:
-            self.__bus.write_word_data(self.__ioaddress, a_register, value)
+        if 0x0000 <= value <= 0xFFFF:
+            self.__bus.write_word_data(self.__io_address, a_register, value)
         else:
             raise ValueError('value out of range: 0 to 65535 (0xFFFF)')
         return
@@ -660,11 +657,11 @@ class IO:
                  For each bit 1 = input, 0 = output
         :rtype: int
         """
-        return self.__bus.read_word_data(self.__ioaddress, self.IODIRA)
+        return self.__bus.read_word_data(self.__io_address, self.IODIRA)
 
     def set_pin_pullup(self, pin, value):
         """
-        Set the internal 100K pullup resistors for an individual pin
+        Set the internal 100K pull-up resistors for an individual pin
 
         :param pin: pin to update, 1 to 16
         :type pin: int
@@ -690,7 +687,7 @@ class IO:
 
     def set_port_pullups(self, port, value):
         """
-        Set the internal 100K pullup resistors for the selected IO port
+        Set the internal 100K pull-up resistors for the selected IO port
 
          :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
         :type port: int
@@ -705,7 +702,7 @@ class IO:
 
     def get_port_pullups(self, port):
         """
-        Get the internal pullup status for the selected IO port
+        Get the internal pull-up status for the selected IO port
 
         :param port: 0 = pins 1 to 8, 1 = pins 9 to 16
         :type port: int
@@ -717,7 +714,7 @@ class IO:
 
     def set_bus_pullups(self, value):
         """
-        Set internal 100K pullup resistors for an IO bus
+        Set internal 100K pull-up resistors for an IO bus
 
         :param value: 16-bit number 0 to 65535 (0xFFFF).
                       For each bit 1 = enabled, 0 = disabled
@@ -735,7 +732,7 @@ class IO:
                  For each bit 1 = enabled, 0 = disabled
         :rtype: int
         """
-        return self.__bus.read_word_data(self.__ioaddress, self.GPPUA)
+        return self.__bus.read_word_data(self.__io_address, self.GPPUA)
 
     def write_pin(self, pin, value):
         """
@@ -810,7 +807,7 @@ class IO:
         :return: 16-bit number 0 to 65535 (0xFFFF)
         :rtype: int
         """
-        return self.__bus.read_word_data(self.__ioaddress, self.GPIOA)
+        return self.__bus.read_word_data(self.__io_address, self.GPIOA)
 
     def invert_pin(self, pin, value):
         """
@@ -889,7 +886,7 @@ class IO:
                  1 = inverted logic state of the input pin
         :rtype: int
         """
-        return self.__bus.read_word_data(self.__ioaddress, self.IPOLA)
+        return self.__bus.read_word_data(self.__io_address, self.IPOLA)
 
     def mirror_interrupts(self, value):
         """
@@ -907,14 +904,14 @@ class IO:
         if value < 0 or value > 1:
             raise ValueError("value out of range: 0 or 1")
 
-        conf = self.__bus.read_byte_data(self.__ioaddress, self.IOCON)
+        conf = self.__bus.read_byte_data(self.__io_address, self.IOCON)
 
         if value == 0:
-            conf = self.__updatebyte(conf, 6, 0)
-            self.__bus.write_byte_data(self.__ioaddress, self.IOCON, conf)
+            conf = self.__update_byte(conf, 6, 0)
+            self.__bus.write_byte_data(self.__io_address, self.IOCON, conf)
         if value == 1:
-            conf = self.__updatebyte(conf, 6, 1)
-            self.__bus.write_byte_data(self.__ioaddress, self.IOCON, conf)
+            conf = self.__update_byte(conf, 6, 1)
+            self.__bus.write_byte_data(self.__io_address, self.IOCON, conf)
         return
 
     def set_interrupt_polarity(self, value):
@@ -929,14 +926,14 @@ class IO:
         if value < 0 or value > 1:
             raise ValueError("value out of range: 0 or 1")
 
-        conf = self.__bus.read_byte_data(self.__ioaddress, self.IOCON)
+        conf = self.__bus.read_byte_data(self.__io_address, self.IOCON)
 
         if value == 0:
-            conf = self.__updatebyte(conf, 1, 0)
-            self.__bus.write_byte_data(self.__ioaddress, self.IOCON, conf)
+            conf = self.__update_byte(conf, 1, 0)
+            self.__bus.write_byte_data(self.__io_address, self.IOCON, conf)
         if value == 1:
-            conf = self.__updatebyte(conf, 1, 1)
-            self.__bus.write_byte_data(self.__ioaddress, self.IOCON, conf)
+            conf = self.__update_byte(conf, 1, 1)
+            self.__bus.write_byte_data(self.__io_address, self.IOCON, conf)
 
         return
 
@@ -946,8 +943,8 @@ class IO:
         :return: 1 = Active-high.  0 = Active-low.
         :rtype: int
         """
-        return self.__checkbit(self.__bus.read_byte_data(self.__ioaddress,
-                                                         self.IOCON), 1)
+        return self.__check_bit(self.__bus.read_byte_data(self.__io_address,
+                                                          self.IOCON), 1)
 
     def set_interrupt_type(self, port, value):
         """
@@ -1079,7 +1076,7 @@ class IO:
                  For each bit 1 = enabled, 0 = disabled
         :rtype: int
         """
-        return self.__bus.read_word_data(self.__ioaddress, self.GPINTENA)
+        return self.__bus.read_word_data(self.__io_address, self.GPINTENA)
 
     def read_interrupt_status(self, port):
         """
@@ -1111,9 +1108,8 @@ class IO:
         """
         Reset the interrupts A and B to 0
         """
-        tmp = self.read_interrupt_capture(0)
-        tmp = self.read_interrupt_capture(1)
-        del tmp
+        self.read_interrupt_capture(0)
+        self.read_interrupt_capture(1)
         return
 
 
@@ -1131,10 +1127,10 @@ class RTC:
     CONTROL = 0x07
 
     # variables
-    __rtcaddress = 0x68  # I2C address
+    __rtc_address = 0x68  # I2C address
     # initial configuration - square wave and output disabled, frequency set
     # to 32.768KHz.
-    __rtcconfig = 0x03
+    __rtc_config = 0x03
     # the DS1307 does not store the current century so that has to be added on
     # manually.
     __century = 2000
@@ -1154,7 +1150,7 @@ class RTC:
         self.__helper = _ABEHelpers()
         self.__bus = self.__helper.get_smbus(bus)
         self.__bus.write_byte_data(
-            self.__rtcaddress, self.CONTROL, self.__rtcconfig)
+            self.__rtc_address, self.CONTROL, self.__rtc_config)
         return
 
     @staticmethod
@@ -1180,11 +1176,11 @@ class RTC:
         :rtype: int
         """
         bcd = 0
-        for vala in (dec // 10, dec % 10):
-            for valb in (8, 4, 2, 1):
-                if vala >= valb:
+        for value_a in (dec // 10, dec % 10):
+            for value_b in (8, 4, 2, 1):
+                if value_a >= value_b:
                     bcd += 1
-                    vala -= valb
+                    value_a -= value_b
                 bcd <<= 1
         return bcd >> 1
 
@@ -1193,7 +1189,7 @@ class RTC:
         Internal method for storing the current century
 
         :param val: year
-        :type val: int
+        :type val: string
         """
         if len(val) > 2:
             year = val[0] + val[1]
@@ -1208,17 +1204,17 @@ class RTC:
         :param date: ISO 8601 formatted string - "YYYY-MM-DDTHH:MM:SS"
         :type date: string
         """
-        newdate = datetime.datetime.strptime(date, "%Y-%m-%dT%H:%M:%S")
+        new_date = datetime.datetime.strptime(date, "%Y-%m-%dT%H:%M:%S")
         self.__get_century(date)
-        writeval = [self.__dec_bcd(newdate.second),
-                    self.__dec_bcd(newdate.minute),
-                    self.__dec_bcd(newdate.hour),
-                    self.__dec_bcd(newdate.weekday()),
-                    self.__dec_bcd(newdate.day),
-                    self.__dec_bcd(newdate.month),
-                    self.__dec_bcd(newdate.year - self.__century)]
+        write_value = [self.__dec_bcd(new_date.second),
+                       self.__dec_bcd(new_date.minute),
+                       self.__dec_bcd(new_date.hour),
+                       self.__dec_bcd(new_date.weekday()),
+                       self.__dec_bcd(new_date.day),
+                       self.__dec_bcd(new_date.month),
+                       self.__dec_bcd(new_date.year - self.__century)]
 
-        self.__bus.write_i2c_block_data(self.__rtcaddress, 0x00, writeval)
+        self.__bus.write_i2c_block_data(self.__rtc_address, 0x00, write_value)
 
         return
 
@@ -1229,14 +1225,14 @@ class RTC:
         :return: ISO 8601 formatted string - "YYYY-MM-DDTHH:MM:SS"
         :rtype: string
         """
-        readval = self.__bus.read_i2c_block_data(self.__rtcaddress, 0, 7)
-        date = ("%02d-%02d-%02dT%02d:%02d:%02d" % (self.__bcd_dec(readval[6]) +
+        read_value = self.__bus.read_i2c_block_data(self.__rtc_address, 0, 7)
+        date = ("%02d-%02d-%02dT%02d:%02d:%02d" % (self.__bcd_dec(read_value[6]) +
                                                    self.__century,
-                                                   self.__bcd_dec(readval[5]),
-                                                   self.__bcd_dec(readval[4]),
-                                                   self.__bcd_dec(readval[2]),
-                                                   self.__bcd_dec(readval[1]),
-                                                   self.__bcd_dec(readval[0])))
+                                                   self.__bcd_dec(read_value[5]),
+                                                   self.__bcd_dec(read_value[4]),
+                                                   self.__bcd_dec(read_value[2]),
+                                                   self.__bcd_dec(read_value[1]),
+                                                   self.__bcd_dec(read_value[0])))
         return date
 
     def enable_output(self):
@@ -1244,10 +1240,10 @@ class RTC:
         Enable the output pin
         """
 
-        self.__rtcconfig = self.__helper.updatebyte(self.__rtcconfig, 7, 1)
-        self.__rtcconfig = self.__helper.updatebyte(self.__rtcconfig, 4, 1)
+        self.__rtc_config = self.__helper.update_byte(self.__rtc_config, 7, 1)
+        self.__rtc_config = self.__helper.update_byte(self.__rtc_config, 4, 1)
         self.__bus.write_byte_data(
-            self.__rtcaddress, self.CONTROL, self.__rtcconfig)
+            self.__rtc_address, self.CONTROL, self.__rtc_config)
         return
 
     def disable_output(self):
@@ -1255,10 +1251,10 @@ class RTC:
         Disable the output pin
         """
 
-        self.__rtcconfig = self.__helper.updatebyte(self.__rtcconfig, 7, 0)
-        self.__rtcconfig = self.__helper.updatebyte(self.__rtcconfig, 4, 0)
+        self.__rtc_config = self.__helper.update_byte(self.__rtc_config, 7, 0)
+        self.__rtc_config = self.__helper.update_byte(self.__rtc_config, 4, 0)
         self.__bus.write_byte_data(
-            self.__rtcaddress, self.CONTROL, self.__rtcconfig)
+            self.__rtc_address, self.CONTROL, self.__rtc_config)
         return
 
     def set_frequency(self, frequency):
@@ -1270,19 +1266,19 @@ class RTC:
         """
 
         if frequency == 1:
-            self.__rtcconfig = self.__helper.updatebyte(self.__rtcconfig, 0, 0)
-            self.__rtcconfig = self.__helper.updatebyte(self.__rtcconfig, 1, 0)
+            self.__rtc_config = self.__helper.update_byte(self.__rtc_config, 0, 0)
+            self.__rtc_config = self.__helper.update_byte(self.__rtc_config, 1, 0)
         if frequency == 2:
-            self.__rtcconfig = self.__helper.updatebyte(self.__rtcconfig, 0, 1)
-            self.__rtcconfig = self.__helper.updatebyte(self.__rtcconfig, 1, 0)
+            self.__rtc_config = self.__helper.update_byte(self.__rtc_config, 0, 1)
+            self.__rtc_config = self.__helper.update_byte(self.__rtc_config, 1, 0)
         if frequency == 3:
-            self.__rtcconfig = self.__helper.updatebyte(self.__rtcconfig, 0, 0)
-            self.__rtcconfig = self.__helper.updatebyte(self.__rtcconfig, 1, 1)
+            self.__rtc_config = self.__helper.update_byte(self.__rtc_config, 0, 0)
+            self.__rtc_config = self.__helper.update_byte(self.__rtc_config, 1, 1)
         if frequency == 4:
-            self.__rtcconfig = self.__helper.updatebyte(self.__rtcconfig, 0, 1)
-            self.__rtcconfig = self.__helper.updatebyte(self.__rtcconfig, 1, 1)
+            self.__rtc_config = self.__helper.update_byte(self.__rtc_config, 0, 1)
+            self.__rtc_config = self.__helper.update_byte(self.__rtc_config, 1, 1)
         self.__bus.write_byte_data(
-            self.__rtcaddress, self.CONTROL, self.__rtcconfig)
+            self.__rtc_address, self.CONTROL, self.__rtc_config)
         return
 
     def write_memory(self, address, valuearray):
@@ -1299,10 +1295,10 @@ class RTC:
         :raises ValueError: write_memory: address out of range
         """
 
-        if address >= 0x08 and address <= 0x3F:
+        if 0x08 <= address <= 0x3F:
             if address + len(valuearray) <= 0x3F:
                 self.__bus.write_i2c_block_data(
-                    self.__rtcaddress, address, valuearray)
+                    self.__rtc_address, address, valuearray)
             else:
                 raise ValueError('write_memory: memory overflow error: address + \
                                 length exceeds 0x3F')
@@ -1326,9 +1322,9 @@ class RTC:
         :rtype: int array
         """
 
-        if address >= 0x08 and address <= 0x3F:
+        if 0x08 <= address <= 0x3F:
             if address <= (0x3F - length):
-                return self.__bus.read_i2c_block_data(self.__rtcaddress,
+                return self.__bus.read_i2c_block_data(self.__rtc_address,
                                                       address, length)
             else:
                 raise ValueError('read_memory: memory overflow error: address + \

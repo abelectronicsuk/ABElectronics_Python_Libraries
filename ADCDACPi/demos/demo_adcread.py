@@ -31,9 +31,9 @@ except ImportError:
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
 
     # create an instance of the ADC DAC Pi with a DAC gain set to 1
     adcdac = ADCDACPi(1)
@@ -52,6 +52,7 @@ def main():
         print(adcdac.read_adc_voltage(1, 0))
 
         time.sleep(0.1)
+
 
 if __name__ == "__main__":
     main()

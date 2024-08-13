@@ -16,7 +16,6 @@ except ImportError:
         raise ImportError("python-smbus or smbus2 not found")
 import re
 import time
-import types
 import platform
 import RPi.GPIO as GPIO
 
@@ -57,7 +56,7 @@ class I2CSwitch(object):
             if device == "orangepione":  # orange pi one
                 i2c__bus = 0
             
-            elif device == "orangepizero2": # orange pi zero 2
+            elif device == "orangepizero2":  # orange pi zero 2
                 i2c__bus = 3
 
             elif device == "orangepiplus":  # orange pi plus
@@ -93,7 +92,7 @@ class I2CSwitch(object):
             raise 'Could not open the I2C bus'
 
     @staticmethod
-    def __checkbit(byte, bit):
+    def __check_bit(byte, bit):
         """
         Internal method for reading the value of a single bit within a byte
 
@@ -110,7 +109,7 @@ class I2CSwitch(object):
         return value
 
     @staticmethod
-    def __updatebyte(byte, bit, value):
+    def __update_byte(byte, bit, value):
         """
         Internal method for setting the value of a single bit within a byte
 
@@ -187,7 +186,7 @@ class I2CSwitch(object):
             raise ValueError('set_channel: channel out of range (1 to 4)')
         else:
             self.__ctl = 0
-            self.__ctl = self.__updatebyte(self.__ctl, channel - 1, 1)
+            self.__ctl = self.__update_byte(self.__ctl, channel - 1, 1)
             self.__write(self.__ctl)
 
     def set_channel_state(self, channel, state):
@@ -203,13 +202,13 @@ class I2CSwitch(object):
         """
         if channel < 1 or channel > 4:
             raise ValueError('set_channel: channel out of range (1 to 4)')
-        if type(state) != bool:
+        if type(state) is not bool:
             raise ValueError('set_channel: state out of range (True or False)')
         else:
             if state is True:
-                self.__ctl = self.__updatebyte(self.__ctl, channel - 1, 1)
+                self.__ctl = self.__update_byte(self.__ctl, channel - 1, 1)
             else:
-                self.__ctl = self.__updatebyte(self.__ctl, channel - 1, 0)
+                self.__ctl = self.__update_byte(self.__ctl, channel - 1, 0)
             self.__write(self.__ctl)
 
     def get_channel_state(self, channel):
@@ -225,8 +224,8 @@ class I2CSwitch(object):
         if channel < 1 or channel > 4:
             raise ValueError('set_channel: channel out of range (1 to 4)')
         else:
-            ctrreg = self.__read()
-            if (self.__checkbit(ctrreg, channel - 1) == 1):
+            control_register = self.__read()
+            if self.__check_bit(control_register, channel - 1) == 1:
                 return True
             else:
                 return False

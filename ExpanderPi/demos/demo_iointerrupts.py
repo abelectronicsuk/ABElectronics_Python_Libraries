@@ -36,44 +36,44 @@ except ImportError:
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
-    # Create an instance of the IO class called iobus.
-    iobus = ExpanderPi.IO()
+    """
+    # Create an instance of the IO class called io_bus.
+    io_bus = ExpanderPi.IO()
 
     # Set all pins on the IO bus as inputs with internal pullups disabled.
 
-    iobus.set_port_pullups(0, 0x00)
-    iobus.set_port_pullups(1, 0x00)
-    iobus.set_port_direction(0, 0xFF)
-    iobus.set_port_direction(1, 0xFF)
+    io_bus.set_port_pullups(0, 0x00)
+    io_bus.set_port_pullups(1, 0x00)
+    io_bus.set_port_direction(0, 0xFF)
+    io_bus.set_port_direction(1, 0xFF)
 
     # Set the interrupt polarity as active high and mirroring disabled, so
     # pins 1 to 8 trigger INT A and pins 9 to 16 trigger INT B
-    iobus.set_interrupt_polarity(1)
-    iobus.mirror_interrupts(0)
+    io_bus.set_interrupt_polarity(1)
+    io_bus.mirror_interrupts(0)
 
     # Set the interrupts default value to trigger when 5V is applied to pins 1
     # and 16
-    iobus.set_interrupt_defaults(0, 0x01)
-    iobus.set_interrupt_defaults(0, 0x80)
+    io_bus.set_interrupt_defaults(0, 0x01)
+    io_bus.set_interrupt_defaults(0, 0x80)
 
     # Set the interrupt type as 1 for ports A and B so an interrupt is
     # fired when the pin matches the default value
-    iobus.set_interrupt_type(0, 1)
-    iobus.set_interrupt_type(1, 1)
+    io_bus.set_interrupt_type(0, 1)
+    io_bus.set_interrupt_type(1, 1)
 
     # Enable interrupts for pins 1 and 16
-    iobus.set_interrupt_on_pin(1, 1)
-    iobus.set_interrupt_on_pin(16, 1)
+    io_bus.set_interrupt_on_pin(1, 1)
+    io_bus.set_interrupt_on_pin(16, 1)
 
     while True:
 
         # read the port value from the last capture for ports 0 and 1.
         # This will reset the interrupts
-        print(iobus.read_interrupt_capture(0))
-        print(iobus.read_interrupt_capture(1))
+        print(io_bus.read_interrupt_capture(0))
+        print(io_bus.read_interrupt_capture(1))
         time.sleep(2)
 
 

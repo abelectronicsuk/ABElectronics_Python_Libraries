@@ -32,8 +32,8 @@ class IOZero32(object):
 
     # Define registers values from the datasheet
     
-    INPUTPORT0  = 0x00  # Command byte Input port 0
-    INPUTPORT1  = 0x01  # Command byte Input port 1
+    INPUTPORT0 = 0x00  # Command byte Input port 0
+    INPUTPORT1 = 0x01  # Command byte Input port 1
     OUTPUTPORT0 = 0x02  # Command byte Output port 0
     OUTPUTPORT1 = 0x03  # Command byte Output port 1
     INVERTPORT0 = 0x04  # Command byte Polarity Inversion port 0
@@ -42,7 +42,7 @@ class IOZero32(object):
     CONFIGPORT1 = 0x07  # Command byte Configuration port 1
 
     # variables
-    __ioaddress = 0x20  # I2C address
+    __io_address = 0x20  # I2C address
     __bus = None
 
     def __init__(self, address, bus=None):
@@ -59,7 +59,7 @@ class IOZero32(object):
         if address < 0x20 or address > 0x27:
             raise ValueError("__init__ i2c address out of range: 0x20 to 0x27")
 
-        self.__ioaddress = address
+        self.__io_address = address
         self.__bus = self.__get_smbus(bus)
 
         return
@@ -87,7 +87,7 @@ class IOZero32(object):
             if device == "orangepione":  # orange pi one
                 i2c__bus = 0
 
-            elif device == "orangepizero2": # orange pi zero 2
+            elif device == "orangepizero2":  # orange pi zero 2
                 i2c__bus = 3
 
             elif device == "orangepiplus":  # orange pi plus
@@ -123,7 +123,7 @@ class IOZero32(object):
             raise 'Could not open the i2c bus'
 
     @staticmethod
-    def __checkbit(byte, bit):
+    def __check_bit(byte, bit):
         """
         Internal method for reading the value of a single bit within a byte
 
@@ -140,7 +140,7 @@ class IOZero32(object):
         return value
 
     @staticmethod
-    def __updatebyte(byte, bit, value):
+    def __update_byte(byte, bit, value):
         """
         Internal method for setting the value of a single bit within a byte
 
@@ -175,11 +175,11 @@ class IOZero32(object):
         :raises ValueError: pin out of range: 1 to 16
         :raises ValueError: value out of range: 0 or 1
         """
-        reg = None
-        if pin >= 1 and pin <= 8:
+
+        if 1 <= pin <= 8:
             reg = a_register
             pin = pin - 1
-        elif pin >= 9 and pin <= 16:
+        elif 9 <= pin <= 16:
             reg = b_register
             pin = pin - 9
         else:
@@ -188,9 +188,9 @@ class IOZero32(object):
         if value < 0 or value > 1:
             raise ValueError("value out of range: 0 or 1")
 
-        curval = self.__bus.read_byte_data(self.__ioaddress, reg)
-        newval = self.__updatebyte(curval, pin, value)
-        self.__bus.write_byte_data(self.__ioaddress, reg, newval)
+        current_value = self.__bus.read_byte_data(self.__io_address, reg)
+        new_value = self.__update_byte(current_value, pin, value)
+        self.__bus.write_byte_data(self.__io_address, reg, new_value)
 
         return
 
@@ -209,14 +209,13 @@ class IOZero32(object):
         :return: 0 or 1
         :rtype: int
         """
-        value = 0
 
-        if pin >= 1 and pin <= 8:
-            curval = self.__bus.read_byte_data(self.__ioaddress, a_register)
-            value = self.__checkbit(curval, pin - 1)
-        elif pin >= 9 and pin <= 16:
-            curval = self.__bus.read_byte_data(self.__ioaddress, b_register)
-            value = self.__checkbit(curval, pin - 9)
+        if 1 <= pin <= 8:
+            current_value = self.__bus.read_byte_data(self.__io_address, a_register)
+            value = self.__check_bit(current_value, pin - 1)
+        elif 9 <= pin <= 16:
+            current_value = self.__bus.read_byte_data(self.__io_address, b_register)
+            value = self.__check_bit(current_value, pin - 9)
         else:
             raise ValueError("pin out of range: 1 to 16")
 
@@ -244,9 +243,9 @@ class IOZero32(object):
             raise ValueError("value out of range: 0 to 255 (0xFF)")
 
         if port == 0:
-            self.__bus.write_byte_data(self.__ioaddress, a_register, value)
+            self.__bus.write_byte_data(self.__io_address, a_register, value)
         else:
-            self.__bus.write_byte_data(self.__ioaddress, b_register, value)
+            self.__bus.write_byte_data(self.__io_address, b_register, value)
         return
 
     def __get_port(self, port, a_register, b_register):
@@ -264,12 +263,11 @@ class IOZero32(object):
         :rtype: int
         """
         if port == 0:
-            return self.__bus.read_byte_data(self.__ioaddress, a_register)
+            return self.__bus.read_byte_data(self.__io_address, a_register)
         elif port == 1:
-            return self.__bus.read_byte_data(self.__ioaddress, b_register)
+            return self.__bus.read_byte_data(self.__io_address, b_register)
         else:
             raise ValueError("port out of range: 0 or 1")
-        return
 
     def __set_bus(self, value, a_register):
         """
@@ -282,8 +280,8 @@ class IOZero32(object):
         :type a_register: int
         :raises ValueError: value out of range: 0 to 65535 (0xFFFF)
         """
-        if value >= 0x0000 and value <= 0xFFFF:
-            self.__bus.write_word_data(self.__ioaddress, a_register, value)
+        if 0x0000 <= value <= 0xFFFF:
+            self.__bus.write_word_data(self.__io_address, a_register, value)
         else:
             raise ValueError('value out of range: 0 to 65535 (0xFFFF)')
         return
@@ -301,7 +299,7 @@ class IOZero32(object):
         :raises ValueError: pin is out of range, 1 to 16
         :raises ValueError: value is out of range, 0 or 1
         """
-        self.__set_pin(pin, value, self.CONFIGPORT0 , self.CONFIGPORT1)
+        self.__set_pin(pin, value, self.CONFIGPORT0, self.CONFIGPORT1)
         return
 
     def get_pin_direction(self, pin):
@@ -314,7 +312,7 @@ class IOZero32(object):
         :return: 1 = input, 0 = output
         :rtype: int
         """
-        return self.__get_pin(pin, self.CONFIGPORT0 , self.CONFIGPORT1)
+        return self.__get_pin(pin, self.CONFIGPORT0, self.CONFIGPORT1)
 
     def set_port_direction(self, port, value):
         """
@@ -328,7 +326,7 @@ class IOZero32(object):
         :raises ValueError: port is out of range, 0 or 1
         :raises ValueError: value out of range: 0 to 255 (0xFF)
         """
-        self.__set_port(port, value, self.CONFIGPORT0 , self.CONFIGPORT1)
+        self.__set_port(port, value, self.CONFIGPORT0, self.CONFIGPORT1)
         return
 
     def get_port_direction(self, port):
@@ -341,7 +339,7 @@ class IOZero32(object):
         :rtype: int
         :raises ValueError: port is out of range, 0 or 1
         """
-        return self.__get_port(port, self.CONFIGPORT0 , self.CONFIGPORT1)
+        return self.__get_port(port, self.CONFIGPORT0, self.CONFIGPORT1)
 
     def set_bus_direction(self, value):
         """
@@ -363,7 +361,7 @@ class IOZero32(object):
                  For each bit 1 = input, 0 = output
         :rtype: int
         """
-        return self.__bus.read_word_data(self.__ioaddress, self.CONFIGPORT0)
+        return self.__bus.read_word_data(self.__io_address, self.CONFIGPORT0)
 
     def write_pin(self, pin, value):
         """
@@ -438,7 +436,7 @@ class IOZero32(object):
         :return: 16-bit number 0 to 65535 (0xFFFF)
         :rtype: int
         """
-        return self.__bus.read_word_data(self.__ioaddress, self.INPUTPORT0)
+        return self.__bus.read_word_data(self.__io_address, self.INPUTPORT0)
 
     def set_pin_polarity(self, pin, value):
         """
@@ -517,4 +515,4 @@ class IOZero32(object):
                  1 = inverted logic state of the input pin
         :rtype: int
         """
-        return self.__bus.read_word_data(self.__ioaddress, self.INVERTPORT0)
+        return self.__bus.read_word_data(self.__io_address, self.INVERTPORT0)

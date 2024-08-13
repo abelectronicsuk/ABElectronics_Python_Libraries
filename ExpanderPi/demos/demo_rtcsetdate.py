@@ -35,18 +35,19 @@ except ImportError:
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
     rtc = ExpanderPi.RTC()  # create a new instance of the RTC class
 
     # set the date using ISO 8601 format - YYYY-MM-DDTHH:MM:SS
-    rtc.set_date("2013-04-23T12:32:11")
+    rtc.set_date("2024-01-01T00:00:00")
 
     while True:
         # read the date from the RTC in ISO 8601 format and print it
         print(rtc.read_date())
         time.sleep(1)  # wait 1 second
+
 
 if __name__ == "__main__":
     main()

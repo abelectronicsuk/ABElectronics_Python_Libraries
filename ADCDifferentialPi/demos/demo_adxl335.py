@@ -40,14 +40,14 @@ except ImportError:
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
 
     adc = ADCDifferentialPi(0x68, 0x69, 14)
 
     # the conversion factor is the ratio of the voltage divider on the inputs
-    conversionfactor = 1.666
+    conversion_factor = 1.666
 
     # setup these static values when the sensor is not moving
     x_static = 0.0
@@ -68,17 +68,17 @@ def main():
         x_static = x_static + adc.read_voltage(1)
         y_static = y_static + adc.read_voltage(2)
         z_static = z_static + adc.read_voltage(3)
-    x_static = (x_static / 50) * conversionfactor
-    y_static = (y_static / 50) * conversionfactor
-    z_static = (z_static / 50) * conversionfactor
+    x_static = (x_static / 50) * conversion_factor
+    y_static = (y_static / 50) * conversion_factor
+    z_static = (z_static / 50) * conversion_factor
 
     # loop forever reading the values and printing them to screen
     while True:
         # read from ADC channels and print to screen
 
-        x_force = ((adc.read_voltage(1) * conversionfactor) - x_static) / 0.3
-        y_force = ((adc.read_voltage(2) * conversionfactor) - y_static) / 0.3
-        z_force = ((adc.read_voltage(3) * conversionfactor) - z_static) / 0.3
+        x_force = ((adc.read_voltage(1) * conversion_factor) - x_static) / 0.3
+        y_force = ((adc.read_voltage(2) * conversion_factor) - y_static) / 0.3
+        z_force = ((adc.read_voltage(3) * conversion_factor) - z_static) / 0.3
 
         # Check values against max and min and update if needed
         if x_force >= x_max:
@@ -121,6 +121,7 @@ def main():
 
         # wait 0.05 seconds before reading the pins again
         time.sleep(0.05)
+
 
 if __name__ == "__main__":
     main()

@@ -40,11 +40,11 @@ def main():
 
     passed = True
 
-    iobus = IOZero32(0x20)  # new iobus object
+    io_bus = IOZero32(0x20)  # new io_bus object
 
     # Check get_port_polarity for low out-of-bounds
     try:
-        iobus.get_port_polarity(-1)
+        io_bus.get_port_polarity(-1)
         pass
     except ValueError:
         print("get_port_polarity() low boundary check: PASSED")
@@ -59,7 +59,7 @@ def main():
 
     # Check get_port_polarity for low out-of-bounds
     try:
-        iobus.get_port_polarity(2)
+        io_bus.get_port_polarity(2)
         pass
     except ValueError:
         print("get_port_polarity() high boundary check: PASSED")
@@ -73,13 +73,13 @@ def main():
         pass
 
     for a in range(1, 256):
-        iobus.set_port_polarity(0, a)
-        x = iobus.get_port_polarity(0)
+        io_bus.set_port_polarity(0, a)
+        x = io_bus.get_port_polarity(0)
         if x != a:
             passed = False
             break
-        iobus.set_port_polarity(1, a)
-        x = iobus.get_port_polarity(1)
+        io_bus.set_port_polarity(1, a)
+        x = io_bus.get_port_polarity(1)
         if x != a:
             passed = False
             break

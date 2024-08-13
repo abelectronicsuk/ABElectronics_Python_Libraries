@@ -15,7 +15,7 @@ from __future__ import (absolute_import, division, print_function,
 
 import datetime
 
-import numpy as N
+import numpy as n
 
 try:
     from ADCDACPi import ADCDACPi
@@ -32,9 +32,9 @@ except ImportError:
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
 
     # create an instance of the ADC DAC Pi with a DAC gain set to 1
     adcdac = ADCDACPi(1)
@@ -44,27 +44,27 @@ def main():
     adcdac.set_adc_refvoltage(3.3)
 
     counter = 1
-    totalsamples = 100000
+    total_samples = 100000
 
-    readarray = N.zeros(totalsamples)
+    read_array = n.zeros(total_samples)
 
-    starttime = datetime.datetime.now()
-    print("Start: " + str(starttime))
+    start_time = datetime.datetime.now()
+    print("Start: " + str(start_time))
 
-    while counter < totalsamples:
+    while counter < total_samples:
         # read the voltage from channel 1 and display on the screen
-        readarray[counter] = adcdac.read_adc_voltage(1, 0)
+        read_array[counter] = adcdac.read_adc_voltage(1, 0)
 
         counter = counter + 1
 
-    endtime = datetime.datetime.now()
+    end_time = datetime.datetime.now()
 
-    print("End: " + str(endtime))
-    totalseconds = (endtime - starttime).total_seconds()
+    print("End: " + str(end_time))
+    total_seconds = (end_time - start_time).total_seconds()
 
-    samplespersecond = totalsamples / totalseconds
+    samples_per_second = total_samples / total_seconds
 
-    print("%.2f samples per second" % samplespersecond)
+    print("%.2f samples per second" % samples_per_second)
 
 
 if __name__ == "__main__":

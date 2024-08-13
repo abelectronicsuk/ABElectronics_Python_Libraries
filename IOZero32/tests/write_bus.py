@@ -52,11 +52,11 @@ def main():
 
     passed = True
 
-    iobus = IOZero32(0x20)  # new iobus object
+    io_bus = IOZero32(0x20)  # new io_bus object
 
     # Check write_bus value for low out-of-bounds
     try:
-        iobus.write_bus(-1)
+        io_bus.write_bus(-1)
         pass
     except ValueError:
         print("value low boundary check: PASSED")
@@ -71,7 +71,7 @@ def main():
 
     # Check write_bus value for high out-of-bounds
     try:
-        iobus.write_bus(65536)
+        io_bus.write_bus(65536)
         pass
     except ValueError:
         print("value high boundary check: PASSED")
@@ -88,7 +88,7 @@ def main():
     print("Logic output Started")
 
     for x in range(0, 65536):
-        iobus.write_bus(x)
+        io_bus.write_bus(x)
 
     print("Logic output Ended")
 

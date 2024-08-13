@@ -53,15 +53,15 @@ def main():
 
     passed = True
 
-    iobus = IOZero32(0x20)  # new iobus object
+    io_bus = IOZero32(0x20)  # new io_bus object
 
     # Reset to 0x00
-    iobus.write_bus(0x0000)
-    iobus.set_bus_direction(0xFFFF)
+    io_bus.write_bus(0x0000)
+    io_bus.set_bus_direction(0xFFFF)
 
     # Check read_port port for low out-of-bounds
     try:
-        iobus.read_port(-1)
+        io_bus.read_port(-1)
         pass
     except ValueError:
         print("port low boundary check: PASSED")
@@ -76,7 +76,7 @@ def main():
 
     # Check read_port port for high out-of-bounds
     try:
-        iobus.read_port(2)
+        io_bus.read_port(2)
         pass
     except ValueError:
         print("port high boundary check: PASSED")
@@ -92,8 +92,8 @@ def main():
     # Logic Analyser Check
     print("Logic output Started")
 
-    iobus.read_port(0)
-    iobus.read_port(1)
+    io_bus.read_port(0)
+    io_bus.read_port(1)
 
     print("Logic output Ended")
 

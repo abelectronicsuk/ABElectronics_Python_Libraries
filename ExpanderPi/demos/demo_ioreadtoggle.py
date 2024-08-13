@@ -37,18 +37,18 @@ except ImportError:
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
-    iobus = ExpanderPi.IO()
+    """
+    io_bus = ExpanderPi.IO()
 
     # We will read the input on pin 1 on the I/O bus so set pin 1 as an input
     # and enable the internal pull-up resistors
-    iobus.set_pin_direction(1, 1)
-    iobus.set_pin_pullup(1, 1)
+    io_bus.set_pin_direction(1, 1)
+    io_bus.set_pin_pullup(1, 1)
 
     # Invert pin 1 so pressing the button will read as 1 instead of 0
-    iobus.invert_pin(1, 1)
+    io_bus.invert_pin(1, 1)
 
     # create a variable to store the toggle state of the input
 
@@ -63,7 +63,7 @@ def main():
 
     while True:
         # read the value from pin 1 into a temporary variable
-        pin1_val = iobus.read_pin(1)
+        pin1_val = io_bus.read_pin(1)
 
         # check to see if the pin state has changed since the last loop
         if pin1_val != pin1_last_state:
@@ -77,6 +77,7 @@ def main():
 
         # wait 0.1 seconds before reading the pins again
         time.sleep(0.1)
+
 
 if __name__ == "__main__":
     main()

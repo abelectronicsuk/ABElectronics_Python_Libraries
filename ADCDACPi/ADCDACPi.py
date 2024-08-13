@@ -22,18 +22,18 @@ class ADCDACPi(object):
     """
 
     # variables
-    __adcrefvoltage = 3.3  # reference voltage for the ADC chip.
+    __adc_ref_voltage = 3.3  # reference voltage for the ADC chip.
 
     # Define SPI bus and init
     spiADC = spidev.SpiDev()
     spiADC.open(0, 0)
-    spiADC.max_speed_hz = (1100000)
+    spiADC.max_speed_hz = 1100000
 
     spiDAC = spidev.SpiDev()
     spiDAC.open(0, 1)
-    spiDAC.max_speed_hz = (20000000)
+    spiDAC.max_speed_hz = 20000000
 
-    dactx = [0, 0]
+    dac_tx = [0, 0]
 
     # Max DAC output voltage. Depends on the gain factor
     # The following table is in the form <gain factor>:<max voltage>
@@ -61,7 +61,7 @@ class ADCDACPi(object):
                             Must be 1 or 2')
         else:
             self.gain = gain_factor
-            self.maxdacvoltage = self.__dacMaxOutput__[self.gain]
+            self.max_dac_voltage = self.__dacMaxOutput__[self.gain]
 
     def read_adc_voltage(self, channel, mode):
         """
@@ -81,7 +81,7 @@ class ADCDACPi(object):
         if (mode > 1) or (mode < 0):
             raise ValueError('read_adc_voltage: mode out of range')
         raw = self.read_adc_raw(channel, mode)
-        voltage = float((self.__adcrefvoltage / 4096) * raw)
+        voltage = float((self.__adc_ref_voltage / 4096) * raw)
         return voltage
 
     def read_adc_raw(self, channel, mode):
@@ -97,20 +97,21 @@ class ADCDACPi(object):
         :return: raw value from ADC, 0 to 4095
         :rtype: int
         """
+        return_value = 0
         if (channel > 2) or (channel < 1):
             raise ValueError('read_adc_voltage: channel out of range')
         if (mode > 1) or (mode < 0):
             raise ValueError('read_adc_voltage: mode out of range')
         if mode == 0:
             raw = self.spiADC.xfer2([1, (1 + channel) << 6, 0])
-            ret = ((raw[1] & 0x0F) << 8) + (raw[2])
+            return_value = ((raw[1] & 0x0F) << 8) + (raw[2])
         if mode == 1:
             if channel == 1:
                 raw = self.spiADC.xfer2([1, 0x00, 0])
             else:
                 raw = self.spiADC.xfer2([1, 0x40, 0])
-            ret = ((raw[1]) << 8) + (raw[2])
-        return ret
+            return_value = ((raw[1]) << 8) + (raw[2])
+        return return_value
 
     def set_adc_refvoltage(self, voltage):
         """
@@ -125,7 +126,7 @@ class ADCDACPi(object):
         :raises ValueError: set_adc_refvoltage: reference voltage out of range
         """
         if (voltage >= 0.0) and (voltage <= 7.0):
-            self.__adcrefvoltage = voltage
+            self.__adc_ref_voltage = voltage
         else:
             raise ValueError('set_adc_refvoltage: reference voltage \
                             out of range')
@@ -148,9 +149,9 @@ class ADCDACPi(object):
         """
         if (channel > 2) or (channel < 1):
             raise ValueError('set_dac_voltage: DAC channel needs to be 1 or 2')
-        if (voltage >= 0.0) and (voltage < self.maxdacvoltage):
-            rawval = (voltage / 2.048) * 4096 / self.gain
-            self.set_dac_raw(channel, int(rawval))
+        if (voltage >= 0.0) and (voltage < self.max_dac_voltage):
+            raw_value = (voltage / 2.048) * 4096 / self.gain
+            self.set_dac_raw(channel, int(raw_value))
         else:
             raise ValueError('set_dac_voltage: voltage out of range')
         return
@@ -172,15 +173,15 @@ class ADCDACPi(object):
         if (value < 0) and (value > 4095):
             raise ValueError('set_dac_voltage: value out of range')
 
-        self.dactx[1] = (value & 0xff)
+        self.dac_tx[1] = (value & 0xff)
 
         if self.gain == 1:
-            self.dactx[0] = (((value >> 8) & 0xff) | (channel - 1) << 7 |
-                             1 << 5 | 1 << 4)
+            self.dac_tx[0] = (((value >> 8) & 0xff) | (channel - 1) << 7 |
+                              1 << 5 | 1 << 4)
         else:
-            self.dactx[0] = (((value >> 8) & 0xff) | (channel - 1) << 7 |
-                             1 << 4)
+            self.dac_tx[0] = (((value >> 8) & 0xff) | (channel - 1) << 7 |
+                              1 << 4)
 
         # Write to device
-        self.spiDAC.xfer2(self.dactx)
+        self.spiDAC.xfer2(self.dac_tx)
         return

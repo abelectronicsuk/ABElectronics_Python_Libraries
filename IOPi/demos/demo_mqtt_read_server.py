@@ -14,7 +14,7 @@ Initialises the IOPi device using the default addresses
 """
 
 from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
+    unicode_literals
 import time
 import paho.mqtt.client as mqtt
 
@@ -25,6 +25,7 @@ except ImportError:
     print("Importing from parent folder instead")
     try:
         import sys
+
         sys.path.append('..')
         from IOPi import IOPi
     except ImportError:
@@ -32,39 +33,42 @@ except ImportError:
             "Failed to import library from parent folder")
 
 # Setup IOPi I2C addresses            
-iobus1 = IOPi(0x20)
-iobus2 = IOPi(0x21)
+io_bus1 = IOPi(0x20)
+io_bus2 = IOPi(0x21)
 
 # We will read the inputs 1 to 16 from the I/O bus so set port 0 and
-# port 1 as inputs and enable the internal pullup resistors
-iobus1.set_port_direction(0, 0xFF)
-iobus1.set_port_pullups(0, 0xFF)
+# port 1 as inputs and enable the internal pull-up resistors
+io_bus1.set_port_direction(0, 0xFF)
+io_bus1.set_port_pullups(0, 0xFF)
 
-iobus1.set_port_direction(1, 0xFF)
-iobus1.set_port_pullups(1, 0xFF)
+io_bus1.set_port_direction(1, 0xFF)
+io_bus1.set_port_pullups(1, 0xFF)
 
 # Repeat the steps above for the second bus
-iobus2.set_port_direction(0, 0xFF)
-iobus2.set_port_pullups(0, 0xFF)
+io_bus2.set_port_direction(0, 0xFF)
+io_bus2.set_port_pullups(0, 0xFF)
 
-iobus2.set_port_direction(1, 0xFF)
-iobus2.set_port_pullups(1, 0xFF)
+io_bus2.set_port_direction(1, 0xFF)
+io_bus2.set_port_pullups(1, 0xFF)
 
 
-############### MQTT section ##################
+# MQTT section ------------------------
 
 
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+    print("Connected with result code " + str(rc))
     client.subscribe("sensor/iopi/ports")
+
 
 def on_message(client, userdata, msg):
     # called when receiving an MQTT message
     message = str(msg.payload)
-    print(msg.topic+" "+message)
+    print(msg.topic + " " + message)
+
 
 def on_publish(mosq, obj, mid):
     print("mid: " + str(mid))
+
 
 # setup client
 client = mqtt.Client()
@@ -73,8 +77,7 @@ client.on_message = on_message
 client.connect("10.0.0.49", 1883, 60)
 client.loop_start()
 
-
 while True:
-    sensor_data = [iobus1.read_port(0), iobus1.read_port(1), iobus2.read_port(0), iobus2.read_port(1)]
+    sensor_data = [io_bus1.read_port(0), io_bus1.read_port(1), io_bus2.read_port(0), io_bus2.read_port(1)]
     client.publish("sensor/iopi/ports", str(sensor_data))
     time.sleep(10)

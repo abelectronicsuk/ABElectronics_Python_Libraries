@@ -40,6 +40,7 @@ except ImportError:
             "Failed to import library from parent folder")
 
 
+# noinspection PyAttributeOutsideInit
 class App:
     """
     Application Class
@@ -148,6 +149,7 @@ class App:
         else:
             pinstatus = 1
         self.bus2.write_pin(pin, pinstatus)
+
 
 ROOT = tk.Tk()
 APP = App(ROOT)

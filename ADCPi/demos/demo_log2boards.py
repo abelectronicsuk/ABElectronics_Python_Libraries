@@ -18,7 +18,7 @@ from __future__ import absolute_import, division, print_function, \
 import time
 import datetime
 
-logtofile = True  # set to false if you want to log to the console
+log_to_file = True  # set to false if you want to log to the console
 
 try:
     from ADCPi import ADCPi
@@ -34,22 +34,22 @@ except ImportError:
             "Failed to import library from parent folder")
 
 
-def writetofile(texttowrtite):
-    '''
+def write_to_file(text_to_write):
+    """
     Open the log file, write the value and close the file.
-    '''
-    if logtofile is True:
-        file = open('adclog.txt', 'a')
-        file.write(str(datetime.datetime.now()) + " " + texttowrtite)
+    """
+    if log_to_file is True:
+        file = open('adc_log.txt', 'a')
+        file.write(str(datetime.datetime.now()) + " " + text_to_write)
         file.close()
     else:
-        print(str(datetime.datetime.now()) + " " + texttowrtite)
+        print(str(datetime.datetime.now()) + " " + text_to_write)
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
 
     adc1 = ADCPi(0x6A, 0x6B, 12)
     adc2 = ADCPi(0x6C, 0x6D, 12)
@@ -59,27 +59,28 @@ def main():
     while True:
 
         # read from the ADC channels on board 1 and write to the log file
-        writetofile("Board 1 - Channel 1: %02f\n" % adc1.read_voltage(1))
-        writetofile("Board 1 - Channel 2: %02f\n" % adc1.read_voltage(2))
-        writetofile("Board 1 - Channel 3: %02f\n" % adc1.read_voltage(3))
-        writetofile("Board 1 - Channel 4: %02f\n" % adc1.read_voltage(4))
-        writetofile("Board 1 - Channel 5: %02f\n" % adc1.read_voltage(5))
-        writetofile("Board 1 - Channel 6: %02f\n" % adc1.read_voltage(6))
-        writetofile("Board 1 - Channel 7: %02f\n" % adc1.read_voltage(7))
-        writetofile("Board 1 - Channel 8: %02f\n" % adc1.read_voltage(8))
+        write_to_file("Board 1 - Channel 1: %02f\n" % adc1.read_voltage(1))
+        write_to_file("Board 1 - Channel 2: %02f\n" % adc1.read_voltage(2))
+        write_to_file("Board 1 - Channel 3: %02f\n" % adc1.read_voltage(3))
+        write_to_file("Board 1 - Channel 4: %02f\n" % adc1.read_voltage(4))
+        write_to_file("Board 1 - Channel 5: %02f\n" % adc1.read_voltage(5))
+        write_to_file("Board 1 - Channel 6: %02f\n" % adc1.read_voltage(6))
+        write_to_file("Board 1 - Channel 7: %02f\n" % adc1.read_voltage(7))
+        write_to_file("Board 1 - Channel 8: %02f\n" % adc1.read_voltage(8))
 
         # read from the ADC channels on board 2 and write to the log file
-        writetofile("Board 2 - Channel 1: %02f\n" % adc2.read_voltage(1))
-        writetofile("Board 2 - Channel 2: %02f\n" % adc2.read_voltage(2))
-        writetofile("Board 2 - Channel 3: %02f\n" % adc2.read_voltage(3))
-        writetofile("Board 2 - Channel 4: %02f\n" % adc2.read_voltage(4))
-        writetofile("Board 2 - Channel 5: %02f\n" % adc2.read_voltage(5))
-        writetofile("Board 2 - Channel 6: %02f\n" % adc2.read_voltage(6))
-        writetofile("Board 2 - Channel 7: %02f\n" % adc2.read_voltage(7))
-        writetofile("Board 2 - Channel 8: %02f\n" % adc2.read_voltage(8))
+        write_to_file("Board 2 - Channel 1: %02f\n" % adc2.read_voltage(1))
+        write_to_file("Board 2 - Channel 2: %02f\n" % adc2.read_voltage(2))
+        write_to_file("Board 2 - Channel 3: %02f\n" % adc2.read_voltage(3))
+        write_to_file("Board 2 - Channel 4: %02f\n" % adc2.read_voltage(4))
+        write_to_file("Board 2 - Channel 5: %02f\n" % adc2.read_voltage(5))
+        write_to_file("Board 2 - Channel 6: %02f\n" % adc2.read_voltage(6))
+        write_to_file("Board 2 - Channel 7: %02f\n" % adc2.read_voltage(7))
+        write_to_file("Board 2 - Channel 8: %02f\n" % adc2.read_voltage(8))
 
         # wait 1 second before reading the pins again
         time.sleep(1)
+
 
 if __name__ == "__main__":
     main()

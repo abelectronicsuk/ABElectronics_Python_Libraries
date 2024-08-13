@@ -32,17 +32,17 @@ except ImportError:
             "Failed to import library from parent folder")
 
 
-def calc_current(inval):
-    '''
+def calc_current(value):
+    """
     change the 2.5 value to be half of the supply voltage.
-    '''
-    return ((inval) - 2.5) / 0.066
+    """
+    return (value - 2.5) / 0.066
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
 
     adc = ADCPi(0x68, 0x69, 14)
 
@@ -56,6 +56,7 @@ def main():
 
         # wait 0.5 seconds before reading the pins again
         time.sleep(0.5)
+
 
 if __name__ == "__main__":
     main()

@@ -46,13 +46,13 @@ class ADCDifferentialPi(object):
     __adc2_channel = 0x01
 
     __bitrate = 18  # current bitrate
-    __conversionmode = 1  # Conversion Mode
+    __conversion_mode = 1  # Conversion Mode
     __pga = float(0.5)  # current PGA setting
     __lsb = float(0.0000078125)  # default LSB value for 18 bit
     __signbit = 0  # stores the sign bit for the sampled value
 
     # create a byte array and fill it with initial values to define the size
-    __adcreading = bytearray([0, 0, 0, 0])
+    __adc_reading = bytearray([0, 0, 0, 0])
 
     __bus = None
 
@@ -80,7 +80,7 @@ class ADCDifferentialPi(object):
             if device == "orangepione":  # orange pi one
                 i2c__bus = 0
 
-            elif device == "orangepizero2": # orange pi zero 2
+            elif device == "orangepizero2":  # orange pi zero 2
                 i2c__bus = 3
 
             elif device == "orangepiplus":  # orange pi plus
@@ -115,7 +115,8 @@ class ADCDifferentialPi(object):
         except IOError:
             raise 'Could not open the I2C bus'
 
-    def __updatebyte(self, byte, mask, value):
+    @staticmethod
+    def __update_byte(byte, mask, value):
         """
         Internal method for setting the value of a single bit within a byte
 
@@ -132,7 +133,7 @@ class ADCDifferentialPi(object):
         byte |= value
         return byte
 
-    def __setchannel(self, channel):
+    def __set_channel(self, channel):
         """
         Internal method for updating the config to the selected channel
 
@@ -143,35 +144,35 @@ class ADCDifferentialPi(object):
             if channel != self.__adc1_channel:
                 self.__adc1_channel = channel
                 if channel == 1:  # bit 5 = 1, bit 6 = 0
-                    self.__adc1_conf = self.__updatebyte(self.__adc1_conf,
-                                                         0x9F, 0x00)
+                    self.__adc1_conf = self.__update_byte(self.__adc1_conf,
+                                                          0x9F, 0x00)
                 elif channel == 2:  # bit 5 = 1, bit 6 = 0
-                    self.__adc1_conf = self.__updatebyte(self.__adc1_conf,
-                                                         0x9F, 0x20)
+                    self.__adc1_conf = self.__update_byte(self.__adc1_conf,
+                                                          0x9F, 0x20)
                 elif channel == 3:  # bit 5 = 0, bit 6 = 1
-                    self.__adc1_conf = self.__updatebyte(self.__adc1_conf,
-                                                         0x9F, 0x40)
+                    self.__adc1_conf = self.__update_byte(self.__adc1_conf,
+                                                          0x9F, 0x40)
                 elif channel == 4:  # bit 5 = 1, bit 6 = 1
-                    self.__adc1_conf = self.__updatebyte(self.__adc1_conf,
-                                                         0x9F, 0x60)
+                    self.__adc1_conf = self.__update_byte(self.__adc1_conf,
+                                                          0x9F, 0x60)
         else:
             if channel != self.__adc2_channel:
                 self.__adc2_channel = channel
                 if channel == 5:  # bit 5 = 1, bit 6 = 0
-                    self.__adc2_conf = self.__updatebyte(self.__adc2_conf,
-                                                         0x9F, 0x00)
+                    self.__adc2_conf = self.__update_byte(self.__adc2_conf,
+                                                          0x9F, 0x00)
                 elif channel == 6:  # bit 5 = 1, bit 6 = 0
-                    self.__adc2_conf = self.__updatebyte(self.__adc2_conf,
-                                                         0x9F, 0x20)
+                    self.__adc2_conf = self.__update_byte(self.__adc2_conf,
+                                                          0x9F, 0x20)
                 elif channel == 7:  # bit 5 = 0, bit 6 = 1
-                    self.__adc2_conf = self.__updatebyte(self.__adc2_conf,
-                                                         0x9F, 0x40)
+                    self.__adc2_conf = self.__update_byte(self.__adc2_conf,
+                                                          0x9F, 0x40)
                 elif channel == 8:  # bit 5 = 1, bit 6 = 1
-                    self.__adc2_conf = self.__updatebyte(self.__adc2_conf,
-                                                         0x9F, 0x60)
+                    self.__adc2_conf = self.__update_byte(self.__adc2_conf,
+                                                          0x9F, 0x60)
         return
 
-    # init object with i2caddress, default is 0x68, 0x69 for ADCoPi board
+    # init object with i2c address, default is 0x68, 0x69 for ADCoPi board
     def __init__(self, address=0x68, address2=0x69, rate=18, bus=None):
         """
         Class constructor - Initialise the two ADC chips with their
@@ -228,13 +229,10 @@ class ADCDifferentialPi(object):
         if channel < 1 or channel > 8:
             raise ValueError('read_raw: channel out of range (1 to 8 allowed)')
 
-        high = 0
         low = 0
-        mid = 0
-        cmdbyte = 0
 
         # get the config and i2c address for the selected channel
-        self.__setchannel(channel)
+        self.__set_channel(channel)
         if channel <= 4:
             config = self.__adc1_conf
             address = self.__adc1_address
@@ -243,15 +241,15 @@ class ADCDifferentialPi(object):
             address = self.__adc2_address
 
         # if the conversion mode is set to one-shot update the ready bit to 1
-        if self.__conversionmode == 0:
+        if self.__conversion_mode == 0:
             config = config | (1 << 7)
             self.__bus.write_byte(address, config)
             config = config & ~(1 << 7)  # reset the ready bit to 0
 
         # determine a reasonable amount of time to wait for the conversion
-        if self.__bitrate == 18:
-            seconds_per_sample = 0.26666
-        elif self.__bitrate == 16:
+        seconds_per_sample = 0.26666  # default for 18 bits
+
+        if self.__bitrate == 16:
             seconds_per_sample = 0.06666
         elif self.__bitrate == 14:
             seconds_per_sample = 0.01666
@@ -261,18 +259,18 @@ class ADCDifferentialPi(object):
 
         # keep reading the ADC data until the conversion result is ready
         while True:
-            __adcreading = self.__bus.read_i2c_block_data(address, config, 4)
+            __adc_reading = self.__bus.read_i2c_block_data(address, config, 4)
             if self.__bitrate == 18:
-                high = __adcreading[0]
-                mid = __adcreading[1]
-                low = __adcreading[2]
-                cmdbyte = __adcreading[3]
+                high = __adc_reading[0]
+                mid = __adc_reading[1]
+                low = __adc_reading[2]
+                cmd_byte = __adc_reading[3]
             else:
-                high = __adcreading[0]
-                mid = __adcreading[1]
-                cmdbyte = __adcreading[2]
+                high = __adc_reading[0]
+                mid = __adc_reading[1]
+                cmd_byte = __adc_reading[2]
             # check if bit 7 of the command byte is 0.
-            if(cmdbyte & (1 << 7)) == 0:
+            if (cmd_byte & (1 << 7)) == 0:
                 break
             elif time.monotonic() > timeout_time:
                 msg = 'read_raw: channel %i conversion timed out' % channel
@@ -319,23 +317,23 @@ class ADCDifferentialPi(object):
 
         if gain == 1:
             # bit 0 = 0, bit 1 = 0
-            self.__adc1_conf = self.__updatebyte(self.__adc1_conf, 0xFC, 0x00)
-            self.__adc2_conf = self.__updatebyte(self.__adc2_conf, 0xFC, 0x00)
+            self.__adc1_conf = self.__update_byte(self.__adc1_conf, 0xFC, 0x00)
+            self.__adc2_conf = self.__update_byte(self.__adc2_conf, 0xFC, 0x00)
             self.__pga = 0.5
         elif gain == 2:
             # bit 0 = 1, bit 1 = 0
-            self.__adc1_conf = self.__updatebyte(self.__adc1_conf, 0xFC, 0x01)
-            self.__adc2_conf = self.__updatebyte(self.__adc2_conf, 0xFC, 0x01)
+            self.__adc1_conf = self.__update_byte(self.__adc1_conf, 0xFC, 0x01)
+            self.__adc2_conf = self.__update_byte(self.__adc2_conf, 0xFC, 0x01)
             self.__pga = 1.0
         elif gain == 4:
             # bit 0 = 0, bit 1 = 1
-            self.__adc1_conf = self.__updatebyte(self.__adc1_conf, 0xFC, 0x02)
-            self.__adc2_conf = self.__updatebyte(self.__adc2_conf, 0xFC, 0x02)
+            self.__adc1_conf = self.__update_byte(self.__adc1_conf, 0xFC, 0x02)
+            self.__adc2_conf = self.__update_byte(self.__adc2_conf, 0xFC, 0x02)
             self.__pga = 2.0
         elif gain == 8:
             # bit 0 = 1, bit 1 = 1
-            self.__adc1_conf = self.__updatebyte(self.__adc1_conf, 0xFC, 0x03)
-            self.__adc2_conf = self.__updatebyte(self.__adc2_conf, 0xFC, 0x03)
+            self.__adc1_conf = self.__update_byte(self.__adc1_conf, 0xFC, 0x03)
+            self.__adc2_conf = self.__update_byte(self.__adc2_conf, 0xFC, 0x03)
             self.__pga = 4.0
         else:
             raise ValueError('set_pga: gain out of range')
@@ -358,26 +356,26 @@ class ADCDifferentialPi(object):
 
         if rate == 12:
             # bit 2 = 0, bit 3 = 0
-            self.__adc1_conf = self.__updatebyte(self.__adc1_conf, 0xF3, 0x00)
-            self.__adc2_conf = self.__updatebyte(self.__adc2_conf, 0xF3, 0x00)
+            self.__adc1_conf = self.__update_byte(self.__adc1_conf, 0xF3, 0x00)
+            self.__adc2_conf = self.__update_byte(self.__adc2_conf, 0xF3, 0x00)
             self.__bitrate = 12
             self.__lsb = 0.0005
         elif rate == 14:
             # bit 2 = 1, bit 3 = 0
-            self.__adc1_conf = self.__updatebyte(self.__adc1_conf, 0xF3, 0x04)
-            self.__adc2_conf = self.__updatebyte(self.__adc2_conf, 0xF3, 0x04)
+            self.__adc1_conf = self.__update_byte(self.__adc1_conf, 0xF3, 0x04)
+            self.__adc2_conf = self.__update_byte(self.__adc2_conf, 0xF3, 0x04)
             self.__bitrate = 14
             self.__lsb = 0.000125
         elif rate == 16:
             # bit 2 = 0, bit 3 = 1
-            self.__adc1_conf = self.__updatebyte(self.__adc1_conf, 0xF3, 0x08)
-            self.__adc2_conf = self.__updatebyte(self.__adc2_conf, 0xF3, 0x08)
+            self.__adc1_conf = self.__update_byte(self.__adc1_conf, 0xF3, 0x08)
+            self.__adc2_conf = self.__update_byte(self.__adc2_conf, 0xF3, 0x08)
             self.__bitrate = 16
             self.__lsb = 0.00003125
         elif rate == 18:
             # bit 2 = 1, bit 3 = 1
-            self.__adc1_conf = self.__updatebyte(self.__adc1_conf, 0xF3, 0x0C)
-            self.__adc2_conf = self.__updatebyte(self.__adc2_conf, 0xF3, 0x0C)
+            self.__adc1_conf = self.__update_byte(self.__adc1_conf, 0xF3, 0x0C)
+            self.__adc2_conf = self.__update_byte(self.__adc2_conf, 0xF3, 0x0C)
             self.__bitrate = 18
             self.__lsb = 0.0000078125
         else:
@@ -398,14 +396,14 @@ class ADCDifferentialPi(object):
         """
         if mode == 0:
             # bit 4 = 0
-            self.__adc1_conf = self.__updatebyte(self.__adc1_conf, 0xEF, 0x00)
-            self.__adc2_conf = self.__updatebyte(self.__adc1_conf, 0xEF, 0x00)
-            self.__conversionmode = 0
+            self.__adc1_conf = self.__update_byte(self.__adc1_conf, 0xEF, 0x00)
+            self.__adc2_conf = self.__update_byte(self.__adc1_conf, 0xEF, 0x00)
+            self.__conversion_mode = 0
         elif mode == 1:
             # bit 4 = 1
-            self.__adc1_conf = self.__updatebyte(self.__adc1_conf, 0xEF, 0x10)
-            self.__adc2_conf = self.__updatebyte(self.__adc1_conf, 0xEF, 0x10)
-            self.__conversionmode = 1
+            self.__adc1_conf = self.__update_byte(self.__adc1_conf, 0xEF, 0x10)
+            self.__adc2_conf = self.__update_byte(self.__adc1_conf, 0xEF, 0x10)
+            self.__conversion_mode = 1
         else:
             raise ValueError('set_conversion_mode: mode out of range')
 

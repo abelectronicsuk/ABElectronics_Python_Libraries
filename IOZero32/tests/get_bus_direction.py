@@ -38,13 +38,13 @@ def main():
 
     passed = True
 
-    iobus = IOZero32(0x20)  # new iobus object
+    io_bus = IOZero32(0x20)  # new io_bus object
 
     for a in range(1, 65536):
         stdout.write("\r%d" % a)
         stdout.flush()
-        iobus.set_bus_direction(a)
-        x = iobus.get_bus_direction()
+        io_bus.set_bus_direction(a)
+        x = io_bus.get_bus_direction()
         if x != a:
             passed = False
             break

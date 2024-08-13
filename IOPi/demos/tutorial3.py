@@ -36,15 +36,15 @@ except ImportError:
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
     # Create two instances of the IOPi class with
     # I2C addresses of 0x20 and 0x21
     busin = IOPi(0x20)
     busout = IOPi(0x21)
 
-    # Set port 0 on the busin bus as inputs with internal pullups enabled.
+    # Set port 0 on the busin bus as inputs with internal pull-ups enabled.
 
     busin.set_port_pullups(0, 0xFF)
     busin.set_port_direction(0, 0xFF)
@@ -74,7 +74,7 @@ def main():
 
         # read the interrupt status for each port.
 
-        if (busin.read_interrupt_status(0) != 0):
+        if busin.read_interrupt_status(0) != 0:
             # If the status is not 0 then an interrupt has occurred
             # on one of the pins so read the value from the interrupt capture
             value = busin.read_interrupt_capture(0)

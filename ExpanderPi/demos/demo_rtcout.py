@@ -34,9 +34,9 @@ except ImportError:
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
 
     rtc = ExpanderPi.RTC()  # create a new instance of the RTC class
 
@@ -44,6 +44,7 @@ def main():
     # 2 = 4.096KHz, 3 = 8.192KHz, 4 = 32.768KHz
     rtc.set_frequency(3)
     rtc.enable_output()  # enable the square-wave
+
 
 if __name__ == "__main__":
     main()

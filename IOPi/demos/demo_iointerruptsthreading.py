@@ -15,7 +15,7 @@ on the IO port.
 
 The interrupts will be enabled and set so that pin 1 will trigger INT A and B.
 
-Internal pullup resistors will be used so grounding
+Internal pull-up resistors will be used so grounding
 one of the pins will trigger the interrupt
 
 using the read_interrupt_capture or reset_interrupts methods
@@ -74,44 +74,44 @@ def background_thread(bus):
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
 
     # Create an instance of the IOPi class with an I2C address of 0x20
 
-    iobus = IOPi(0x20)
+    io_bus = IOPi(0x20)
 
-    # Set all pins on the IO bus as inputs with internal pullups enabled.
+    # Set all pins on the IO bus as inputs with internal pull-ups enabled.
 
-    iobus.set_port_pullups(0, 0xFF)
-    iobus.set_port_pullups(1, 0xFF)
-    iobus.set_port_direction(0, 0xFF)
-    iobus.set_port_direction(1, 0xFF)
+    io_bus.set_port_pullups(0, 0xFF)
+    io_bus.set_port_pullups(1, 0xFF)
+    io_bus.set_port_direction(0, 0xFF)
+    io_bus.set_port_direction(1, 0xFF)
 
     # Invert the ports so pulling a pin to ground will show as 1 instead of 0
-    iobus.invert_port(0, 0xFF)
-    iobus.invert_port(1, 0xFF)
+    io_bus.invert_port(0, 0xFF)
+    io_bus.invert_port(1, 0xFF)
 
     # Set the interrupt polarity as active high and mirroring enabled, so
     # pin 1 will trigger both INT A and INT B when a pin is grounded
-    iobus.set_interrupt_polarity(1)
-    iobus.mirror_interrupts(1)
+    io_bus.set_interrupt_polarity(1)
+    io_bus.mirror_interrupts(1)
 
     # Set the interrupts default value to 0
-    iobus.set_interrupt_defaults(0, 0x00)
-    iobus.set_interrupt_defaults(1, 0x00)
+    io_bus.set_interrupt_defaults(0, 0x00)
+    io_bus.set_interrupt_defaults(1, 0x00)
 
     # Set the interrupt type as 1 for ports A and B so an interrupt is
     # fired when a state change occurs
-    iobus.set_interrupt_type(0, 0x00)
-    iobus.set_interrupt_type(1, 0x00)
+    io_bus.set_interrupt_type(0, 0x00)
+    io_bus.set_interrupt_type(1, 0x00)
 
     # Enable interrupts for pin 1
-    iobus.set_interrupt_on_port(0, 0x01)
-    iobus.set_interrupt_on_port(1, 0x00)
+    io_bus.set_interrupt_on_port(0, 0x01)
+    io_bus.set_interrupt_on_port(1, 0x00)
 
-    timer = threading.Thread(target=background_thread(iobus))
+    timer = threading.Thread(target=background_thread(io_bus))
     timer.daemon = True  # Set thread as a daemon ('ok' won't be printed)
     timer.start()
 

@@ -31,9 +31,9 @@ except ImportError:
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
     dac = ExpanderPi.DAC(1)  # create a dac instance with  the gain set to 1
 
     while True:
@@ -41,6 +41,7 @@ def main():
         time.sleep(1)  # wait 1 seconds
         dac.set_dac_voltage(1, 0)  # set the voltage on channel 1 to 0V
         time.sleep(1)  # wait 1 seconds
+
 
 if __name__ == "__main__":
     main()

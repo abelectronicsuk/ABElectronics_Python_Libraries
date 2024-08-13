@@ -31,12 +31,12 @@ except ImportError:
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
     dac = ExpanderPi.DAC(1)
 
-    sinewave_array = \
+    sine_wave_array = \
         [2048, 2073, 2098, 2123, 2148, 2174, 2199, 2224,
          2249, 2274, 2299, 2324, 2349, 2373, 2398, 2423,
          2448, 2472, 2497, 2521, 2546, 2570, 2594, 2618,
@@ -103,8 +103,9 @@ def main():
          1847, 1872, 1897, 1922, 1948, 1973, 1998, 2023]
 
     while True:
-        for val in sinewave_array:
+        for val in sine_wave_array:
             dac.set_dac_raw(1, val)
+
 
 if __name__ == "__main__":
     main()

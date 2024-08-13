@@ -33,14 +33,14 @@ except ImportError:
 import time
 
 bus = IOZero32(0x20)
-bus.set_pin_direction(1, 1) # Set pin 1 as an input
-bus.set_pin_direction(8, 0) # Set pin 8 as an output
-bus.write_pin(8, 0) # turn off pin 8
+bus.set_pin_direction(1, 1)  # Set pin 1 as an input
+bus.set_pin_direction(8, 0)  # Set pin 8 as an output
+bus.write_pin(8, 0)  # turn off pin 8
 
 while True:
-    if bus.read_pin(1) == 1: # Check to see if the button is pressed
-        print("button pressed") # Print a message to the screen
-        bus.write_pin(8, 1) # Turn on the led on pin 8
-        time.sleep(2) # Wait 2 seconds
+    if bus.read_pin(1) == 1:  # Check to see if the button is pressed
+        print("button pressed")  # Print a message to the screen
+        bus.write_pin(8, 1)  # Turn on the LED on pin 8
+        time.sleep(2)  # Wait 2 seconds
     else:
-        bus.write_pin(8, 0) # Turn off the led on pin 8
+        bus.write_pin(8, 0)  # Turn off the LED on pin 8

@@ -34,15 +34,16 @@ except ImportError:
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
     rtc = RTC()  # Create a new instance of the RTC class
 
     while True:
         # Read the date from the RTC in ISO 8601 format and print it
         print(rtc.read_date())
         time.sleep(1)  # Wait 1 second
+
 
 if __name__ == "__main__":
     main()

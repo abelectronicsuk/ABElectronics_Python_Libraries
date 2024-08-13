@@ -15,7 +15,7 @@ samples per second at each bit rate
 from __future__ import absolute_import, division, print_function, \
                                                     unicode_literals
 import datetime
-import numpy as N
+import numpy as n
 
 try:
     from ADCPi import ADCPi
@@ -31,74 +31,73 @@ except ImportError:
             "Failed to import library from parent folder")
 
 
-def sampleratecheck(adc, rate, samples):
+def sample_rate_check(adc, rate, samples):
     """
     This function calls read_adc_voltage for a specified
     number of samples and measures how long it takes to complete the task
     """
     # create a counter and arrays to store the sampled voltages for each channel
     counter = 1
-    readarray1 = N.zeros(samples)
-    readarray2 = N.zeros(samples)
-    readarray3 = N.zeros(samples)
-    readarray4 = N.zeros(samples)
-    readarray5 = N.zeros(samples)
-    readarray6 = N.zeros(samples)
-    readarray7 = N.zeros(samples)
-    readarray8 = N.zeros(samples)
+    read_array1 = n.zeros(samples)
+    read_array2 = n.zeros(samples)
+    read_array3 = n.zeros(samples)
+    read_array4 = n.zeros(samples)
+    read_array5 = n.zeros(samples)
+    read_array6 = n.zeros(samples)
+    read_array7 = n.zeros(samples)
+    read_array8 = n.zeros(samples)
 
     # set the bit rate of the ADC to the specified rate
     adc.set_bit_rate(rate)
 
-    starttime = datetime.datetime.now()
+    start_time = datetime.datetime.now()
 
     while counter < samples:
         # start thread reading channels 1 to 4
-        readarray1[counter] = adc.read_voltage(1)
-        readarray2[counter] = adc.read_voltage(2)
-        readarray3[counter] = adc.read_voltage(3)
-        readarray4[counter] = adc.read_voltage(4)
-        readarray5[counter] = adc.read_voltage(5)
-        readarray6[counter] = adc.read_voltage(6)
-        readarray7[counter] = adc.read_voltage(7)
-        readarray8[counter] = adc.read_voltage(8)
+        read_array1[counter] = adc.read_voltage(1)
+        read_array2[counter] = adc.read_voltage(2)
+        read_array3[counter] = adc.read_voltage(3)
+        read_array4[counter] = adc.read_voltage(4)
+        read_array5[counter] = adc.read_voltage(5)
+        read_array6[counter] = adc.read_voltage(6)
+        read_array7[counter] = adc.read_voltage(7)
+        read_array8[counter] = adc.read_voltage(8)
 
         counter = counter + 1
 
-
     # stop the timer
-    endtime = datetime.datetime.now()
+    end_time = datetime.datetime.now()
 
     # calculate the samples per second
-    totalseconds = (endtime - starttime).total_seconds()
-    samplespersecond = samples / totalseconds
+    total_seconds = (end_time - start_time).total_seconds()
+    samples_per_second = samples / total_seconds
 
-    averagevoltage1 = N.average(readarray1)
-    averagevoltage2 = N.average(readarray2)
-    averagevoltage3 = N.average(readarray3)
-    averagevoltage4 = N.average(readarray4)
-    averagevoltage5 = N.average(readarray5)
-    averagevoltage6 = N.average(readarray6)
-    averagevoltage7 = N.average(readarray7)
-    averagevoltage8 = N.average(readarray8)
+    average_voltage1 = n.average(read_array1)
+    average_voltage2 = n.average(read_array2)
+    average_voltage3 = n.average(read_array3)
+    average_voltage4 = n.average(read_array4)
+    average_voltage5 = n.average(read_array5)
+    average_voltage6 = n.average(read_array6)
+    average_voltage7 = n.average(read_array7)
+    average_voltage8 = n.average(read_array8)
 
-    print("Bit Rate: %i" % (rate))
-    print("%.2f samples per seconds" % (samplespersecond * 8))
-    print("Average Voltage - Channel 1: %.2f" % (averagevoltage1))
-    print("Average Voltage - Channel 2: %.2f" % (averagevoltage2))
-    print("Average Voltage - Channel 3: %.2f" % (averagevoltage3))
-    print("Average Voltage - Channel 4: %.2f" % (averagevoltage4))
-    print("Average Voltage - Channel 5: %.2f" % (averagevoltage5))
-    print("Average Voltage - Channel 6: %.2f" % (averagevoltage6))
-    print("Average Voltage - Channel 7: %.2f" % (averagevoltage7))
-    print("Average Voltage - Channel 8: %.2f" % (averagevoltage8))
+    print("Bit Rate: %i" % rate)
+    print("%.2f samples per seconds" % (samples_per_second * 8))
+    print("Average Voltage - Channel 1: %.2f" % average_voltage1)
+    print("Average Voltage - Channel 2: %.2f" % average_voltage2)
+    print("Average Voltage - Channel 3: %.2f" % average_voltage3)
+    print("Average Voltage - Channel 4: %.2f" % average_voltage4)
+    print("Average Voltage - Channel 5: %.2f" % average_voltage5)
+    print("Average Voltage - Channel 6: %.2f" % average_voltage6)
+    print("Average Voltage - Channel 7: %.2f" % average_voltage7)
+    print("Average Voltage - Channel 8: %.2f" % average_voltage8)
     print("---------------------------------------------")
     
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
 
     # create an instance of the ADCPi class
     adc = ADCPi(0x68, 0x69, 12)
@@ -108,16 +107,17 @@ def main():
     print("Testing ---- This may take some time")
 
     # 12-bit test - 100 samples
-    sampleratecheck(adc, 12, 100)
+    sample_rate_check(adc, 12, 100)
 
     # 14-bit test - 100 samples
-    sampleratecheck(adc, 14, 100)
+    sample_rate_check(adc, 14, 100)
 
     # 16-bit test - 100 samples
-    sampleratecheck(adc, 16, 100)
+    sample_rate_check(adc, 16, 100)
 
     # 18-bit test - 100 samples
-    sampleratecheck(adc, 18, 100)
+    sample_rate_check(adc, 18, 100)
+
 
 if __name__ == "__main__":
     main()

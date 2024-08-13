@@ -36,9 +36,9 @@ except ImportError:
 
 
 def main():
-    '''
+    """
     Main program function
-    '''
+    """
     adc = ExpanderPi.ADC()  # create an instance of the ADC
 
     # set the reference voltage.  this should be set to the exact voltage
