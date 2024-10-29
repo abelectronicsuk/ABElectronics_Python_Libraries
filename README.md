@@ -52,6 +52,9 @@ To use a specific part of our Python library in your project without installing 
 from IOPi import IOPi
 ```
 
+To configure the SPI bus follow our [SPI and Python on Raspberry Pi OS](https://www.abelectronics.co.uk/kb/article/2/spi-and-raspbian-linux-on-a-raspberry-pi) tutorial.
+
+To configure the I2C bus follow our [Enabling I2C on the Raspberry Pi](https://www.abelectronics.co.uk/kb/article/1/i2c-part-2-enabling-i2c-on-the-raspberry-pi) tutorial.
 
 ### ADCDACPi
 This directory contains ADC DAC Pi Python Library with ADC read and DAC write demos to use with the [ADC DAC Pi](https://www.abelectronics.co.uk/p/74/adc-dac-pi-zero)  

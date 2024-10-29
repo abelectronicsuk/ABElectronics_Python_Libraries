@@ -1,3 +1,7 @@
+## 2024-10-29 Andrew Dorey  
+
+* 2.5.1 Updated installation instructions in README files.
+
 ## 2024-08-13 Andrew Dorey  
 
 * 2.5.0 Cleaned up code. Fixed PEP8 formatting issues. Fixed spelling mistakes. Changed Expander Pi ADC clock speed to 1MHz to increase sample rate.

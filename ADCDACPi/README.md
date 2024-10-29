@@ -7,7 +7,17 @@ The example python files can be found in /ABElectronics_Python_Libraries/ADCDACP
 
 ### Downloading and Installing the library
 
-To download to your Raspberry Pi type in the terminal: 
+
+#### Python 3
+
+To install the library you will need the Python3 build and install packages. To install them run the following command.
+
+```
+sudo apt update
+sudo apt install python3-build python3-installer git
+```
+
+Download the ABElectronics_Python_Libraries to your Raspberry Pi: 
 
 ```
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
@@ -15,26 +25,41 @@ git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 
 To install the python library navigate into the ABElectronics_Python_Libraries folder and run:  
 
-For Python 2.7:
+```
+python3 -m build
+sudo python3 -m installer dist/*.whl
+```
+
+
+#### Python 2
+
+If you want to install the library on older versions of Linux using Python 2 you can run the following command.
+
 ```
 sudo python setup.py install
 ```
-For Python 3.5:
-```
-sudo python3 setup.py install
-```
 
-If you have PIP installed you can install the library directly from GitHub with the following command:
+If you have PIP installed you can install the library directly from GitHub with the following command replacing python2.7 with the version of Python on your computer:
 
-For Python 2.7:
 ```
 sudo python2.7 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
 
-For Python 3.5:
+#### Using classes without installing the library.
+
+The ADC DAC Pi library is located in the ADCDACPi directory.  
+
+To use a specific part of our Python library in your project without installing the entire library, you can simply copy the needed class file into your project's directory. For example, to use the ADC DAC Pi, copy the **ADCDACPi.py** file from the **ADCDACPi** directory to where your project files are located. After doing this, you can use the class in your program by adding an import statement at the beginning of your Python code. This allows you to directly utilize the class's functionality in your project.
+
 ```
-sudo python3.5 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
+from ADCDACPi import ADCDACPi
 ```
+
+#### Software Requirements
+
+The library requires SPI to be enabled on the Raspberry Pi and py-spidev Python library to be installed.  
+
+To configure the SPI bus and install py-spidev follow our [SPI and Python on Raspberry Pi OS](https://www.abelectronics.co.uk/kb/article/2/spi-and-raspbian-linux-on-a-raspberry-pi) tutorial.
 
 
 Functions:

@@ -9,7 +9,17 @@ The example python files can be found in /ABElectronics_Python_Libraries/IOPi/de
 
 ### Downloading and Installing the library
 
-To download to your Raspberry Pi type in the terminal: 
+
+#### Python 3
+
+To install the library you will need the Python3 build and install packages. To install them run the following command.
+
+```
+sudo apt update
+sudo apt install python3-build python3-installer git
+```
+
+Download the ABElectronics_Python_Libraries to your Raspberry Pi: 
 
 ```
 git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
@@ -17,39 +27,50 @@ git clone https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 
 To install the python library navigate into the ABElectronics_Python_Libraries folder and run:  
 
-For Python 2.7:
+```
+python3 -m build
+sudo python3 -m installer dist/*.whl
+```
+
+
+#### Python 2
+
+If you want to install the library on older versions of Linux using Python 2 you can run the following command.
+
 ```
 sudo python setup.py install
 ```
-For Python 3.5:
-```
-sudo python3 setup.py install
-```
 
-If you have PIP installed you can install the library directly from GitHub with the following command:
+If you have PIP installed you can install the library directly from GitHub with the following command replacing python2.7 with the version of Python on your computer:
 
-For Python 2.7:
 ```
 sudo python2.7 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
 ```
 
-For Python 3.5:
+#### Using classes without installing the library.
+
+The IO Pi library is located in the IOPi directory  
+
+To use a specific part of our Python library in your project without installing the entire library, you can simply copy the needed class file into your project's directory. For example, to use the IO Pi Plus, copy the **IOPi.py** file from the **IOPi** directory to where your project files are located. After doing this, you can use the class in your program by adding an import statement at the beginning of your Python code. This allows you to directly utilize the class's functionality in your project.
+
 ```
-sudo python3.5 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
+from IOPi import IOPi
 ```
 
-The IO Pi library is located in the IOPi directory
+#### Software Requirements
 
-The library requires smbus2 or python-smbus to be installed.  
+The library requires I2C to be enabled on the Raspberry Pi and the smbus2 or python-smbus Python library to be installed.  
 
 For Python 2.7:
 ```
 sudo pip install smbus2
 ```
-For Python 3.5:
+For Python 3:
 ```
 sudo pip3 install smbus2
 ```
+
+To configure the I2C bus follow our [Enabling I2C on the Raspberry Pi](https://www.abelectronics.co.uk/kb/article/1/i2c-part-2-enabling-i2c-on-the-raspberry-pi) tutorial.
 
 Classes:
 ----------  
