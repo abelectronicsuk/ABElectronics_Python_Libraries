@@ -92,6 +92,8 @@ Read the voltage from the selected channel
 **Parameters:** channel - 1 to 8  
 **Returns:** number as a float between 0 and 5.0
 
+**Note:** The ADC Pi uses resistor voltage dividers to increase the voltage range of the MCP3424 ADC from its default 2.048V to 5V. A scaling factor is automatically applied by the read_voltage function to account for the voltage divider and display the correct voltage at the inputs of the ADC Pi.
+
 ```
 read_raw(channel) 
 ```
