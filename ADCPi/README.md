@@ -109,7 +109,7 @@ Set the gain of the PGA on the chip
 **Returns:** null
 
 ```
-setBitRate(rate)
+set_bit_rate(rate)
 ```
 Set the sample bit rate of the ADC  
 **Parameters:** rate -  12, 14, 16, 18  
