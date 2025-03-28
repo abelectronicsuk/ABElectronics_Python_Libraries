@@ -1,3 +1,7 @@
+## 2025-03-28
+
+* 2.5.2 Changes to ADC Differential Pi library based on feedback from raphaelcno https://github.com/abelectronicsuk/ABElectronics_Python_Libraries/issues/31 Renamed set_bit_rate method to set_bit_mode. Made a set_bit_rate wrapper to keep compatability with existing code.
+
 ## 2024-10-29 Andrew Dorey  
 
 * 2.5.1 Updated installation instructions in README files.

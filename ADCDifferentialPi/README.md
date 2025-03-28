@@ -73,12 +73,12 @@ To configure the I2C bus follow our [Enabling I2C on the Raspberry Pi](https://w
 Classes:
 ----------  
 ```
-ADCDifferentialPi(address, address2, rate, bus)
+ADCDifferentialPi(address, address2, mode, bus)
 ```
 **Parameters:**  
 address: I2C address for channels 1 to 4, defaults to 0x68  
 address2: I2C address for channels 5 to 8, defaults to 0x69  
-rate: bit rate, values can be 12, 14, 16 or 18. Defaults to 18  
+mode: bit mode, values can be 12, 14, 16 or 18. Defaults to 18  
 bus (optional): I2C bus number (integer).  If no value is set the class will try to find the i2c bus automatically using the device name.  
 
 Functions:
@@ -105,10 +105,10 @@ Set the gain of the PGA on the chip
 **Returns:** null
 
 ```
-set_bit_rate(rate)
+set_bit_mode(mode)
 ```
-Set the sample bit rate of the ADC  
-**Parameters:** rate -  12, 14, 16, 18  
+Set the sample bit mode of the ADC  
+**Parameters:** mode -  12, 14, 16, 18  
 **Returns:** null  
 12 = 12 bit (240SPS max)  
 14 = 14 bit (60SPS max)  
@@ -135,7 +135,7 @@ adc = ADCDifferentialPi(0x68, 0x69, 18)
 ```
 The first two arguments are the I2C addresses of the ADC chips. The values shown are the default addresses of the ADC board.  
 
-The third argument is the sample bit rate you want to use on the ADC chips. The sample rate can be 12, 14, 16 or 18  
+The third argument is the sample bit mode you want to use on the ADC chips. The bit mode can be 12, 14, 16 or 18  
 
 
 You can now read the voltage from channel 1 with:  
