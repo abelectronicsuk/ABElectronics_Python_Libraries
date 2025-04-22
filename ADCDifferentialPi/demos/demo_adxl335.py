@@ -4,6 +4,8 @@
 AB Electronics UK ADC Differential Pi 8-Channel ADC read ADXL335
 SparkFun Triple Axis Accelerometer Breakout
 
+https://www.abelectronics.co.uk/p/65/adc-differential-pi
+
 The ADXL335 outputs are connected to inputs 1, 2 and 3 on
 the ADC Differential Pi and the negative inputs are connected to GND
 

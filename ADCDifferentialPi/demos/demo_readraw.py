@@ -3,6 +3,8 @@
 ================================================
 AB Electronics UK ADC Differential Pi 8-Channel ADC Read Raw demo
 
+https://www.abelectronics.co.uk/p/65/adc-differential-pi
+
 Requires python smbus to be installed
 run with: python demo_readraw.py
 ================================================

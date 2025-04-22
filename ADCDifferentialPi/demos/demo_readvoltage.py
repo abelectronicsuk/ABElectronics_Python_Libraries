@@ -10,6 +10,8 @@ run with: python demo_readvoltage.py
 Initialise the ADC device using the default addresses and sample rate,
 change this value if you have changed the address selection jumpers
 
+https://www.abelectronics.co.uk/p/65/adc-differential-pi
+
 Sample rate can be 12, 14, 16 or 18
 """
 
@@ -37,8 +39,9 @@ def main():
     Main program function
     """
 
-    adc = ADCDifferentialPi(0x68, 0x69, 12)
+    adc = ADCDifferentialPi(0x68, 0x69, 18)
 
+    adc.set_bit_rate(12)
     while True:
 
         # clear the console

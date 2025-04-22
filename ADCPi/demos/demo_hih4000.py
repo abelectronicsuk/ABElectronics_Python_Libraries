@@ -3,6 +3,8 @@
 ================================================
 AB Electronics UK ADC Pi HIH4000 humidity sensor demo
 
+https://www.abelectronics.co.uk/p/69/adc-pi
+
 Requires python smbus to be installed
 run with: python demo_hih4000.py
 ================================================

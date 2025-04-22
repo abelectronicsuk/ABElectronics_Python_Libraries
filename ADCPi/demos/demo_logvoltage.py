@@ -3,6 +3,8 @@
 ================================================
 AB Electronics UK ADC Pi 8-Channel ADC data-logger demo
 
+https://www.abelectronics.co.uk/p/69/adc-pi
+
 Requires python smbus to be installed
 run with: python demo_logvoltage.py
 ================================================

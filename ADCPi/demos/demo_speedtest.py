@@ -3,6 +3,8 @@
 ================================================
 AB Electronics UK ADC Pi 8-Channel ADC speed test demo
 
+https://www.abelectronics.co.uk/p/69/adc-pi
+
 Requires python3 smbus to be installed
 run with: python3 demo_speedtest.py
 ================================================

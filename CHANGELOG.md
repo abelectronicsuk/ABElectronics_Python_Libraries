@@ -1,4 +1,21 @@
-## 2025-03-28
+## 2025-04-22 Andrew Dorey  
+
+* 2.5.3 Changes to ADC Differential Pi and ADC Pi libraries.
+ 
+  * Added note in the header of the ADC Pi library about effective resolution being 11, 13, 15 and 17 bits in single-ended mode
+  * Renamed set_bit_rate method to set_bit_mode in the ADC Pi library. Made a set_bit_rate wrapper to keep compatability with existing code.
+  * Improved docstrings for all methods with comprehensive descriptions
+  * Added type hints to method signatures for better IDE support
+  * Updated copyright year to 2025 and added licence information
+  * Fixed a bug in set_conversion_mode where ADC2 configuration wasn't properly updated
+  * Improved error handling for I2C bus communication failures
+  * Enhanced timeout mechanism to be more reliable on various hardware platforms
+  * Added ADCTimeoutError class for conversion timeout scenarios
+  * Enhanced I2C bus detection for a wider range of single-board computers
+  * Implemented more robust device detection logic
+
+
+## 2025-03-28 Andrew Dorey  
 
 * 2.5.2 Changes to ADC Differential Pi library based on feedback from raphaelcno https://github.com/abelectronicsuk/ABElectronics_Python_Libraries/issues/31 Renamed set_bit_rate method to set_bit_mode. Made a set_bit_rate wrapper to keep compatability with existing code.
 

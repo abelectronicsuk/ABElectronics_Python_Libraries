@@ -4,6 +4,8 @@
 AB Electronics UK ADC Differential Pi 8-Channel ADC read Resistance thermometer
 using a Wheatstone bridge.
 
+https://www.abelectronics.co.uk/p/65/adc-differential-pi
+
 This demo uses a Semitec NTC (Negative Temperature Coefficient) Thermistors
 10kOhm 1%, Manufacturer Part No: 103AT-11
 

@@ -3,6 +3,8 @@
 ================================================
 AB Electronics UK ADC Pi ACS712 30 Amp current sensor demo
 
+https://www.abelectronics.co.uk/p/69/adc-pi
+
 Requires python smbus to be installed
 run with: python demo_acs712_30.py
 ================================================

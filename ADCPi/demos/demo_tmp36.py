@@ -4,6 +4,8 @@
 ================================================
 AB Electronics UK ADC Pi TMP36 temperature sensor demo
 
+https://www.abelectronics.co.uk/p/69/adc-pi
+
 Requires python smbus to be installed
 run with: python demo_tmp36.py
 ================================================
