@@ -1,3 +1,9 @@
+## 2025-04-26 Andrew Dorey  
+
+* 2.5.4 
+  * From this version onwards, the Python library will no longer support Python 2. More details about our decision to drop support for Python 2 can be found at https://www.abelectronics.co.uk/blogarticle/2104/farewell-to-python-2-moving-onwards-with-python-3 
+  * Updated README.md documents to remove mentions of Python 2.
+
 ## 2025-04-22 Andrew Dorey  
 
 * 2.5.3 Changes to ADC Differential Pi and ADC Pi libraries.

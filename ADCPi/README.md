@@ -16,8 +16,6 @@ The example python files can be found in /ABElectronics_Python_Libraries/ADCPi/d
 
 ### Table of Contents
 1. [Downloading and Installing the Library](#downloading-and-installing-the-library)
-   - [Python 3](#python-3)
-   - [Python 2](#python-2)
    - [Using Classes Without Installing the Library](#using-classes-without-installing-the-library)
 2. [Software Requirements](#software-requirements)
 3. [Classes](#classes)
@@ -37,9 +35,6 @@ The example python files can be found in /ABElectronics_Python_Libraries/ADCPi/d
 ---
 
 ### Downloading and Installing the library
-
-<a id="python-3"></a>
-#### Python 3
 
 To install the library, you will need the Python3 build and install packages. To install them, run the following command.
 
@@ -61,26 +56,12 @@ python3 -m build
 sudo python3 -m installer dist/*.whl
 ```
 
-<a id="python-2"></a>
-#### Python 2
-
-If you want to install the library on older versions of Linux using Python 2 you can run the following command.
-
-```bash
-sudo python setup.py install
-```
-
-If you have PIP installed you can install the library directly from GitHub with the following command replacing python2.7 with the version of Python on your computer:
-
-```bash
-sudo python2.7 -m pip install git+https://github.com/abelectronicsuk/ABElectronics_Python_Libraries.git
-```
 <a id="using-classes-without-installing-the-library"></a>
 #### Using classes without installing the library.
 
 The ADC Pi library is located in the ADCPi directory  
 
-To use a specific part of our Python library in your project without installing the entire library, you can copy the necessary class file into your project's directory. For example, to use the ADC Pi, copy the **ADCPi.py** file from the **ADCPi** directory to where your project files are located. After doing this, you can use the class in your program by adding an import statement at the beginning of your Python code. This allows you to directly utilize the class's functionality in your project.
+To use a specific part of our Python library in your project without installing the entire library, you can copy the necessary class file into your project's directory. For example, to use the ADC Pi, copy the **ADCPi.py** file from the **ADCPi** directory to where your project files are located. After doing this, you can use the class in your program by adding an import statement at the beginning of your Python code. This allows you to directly use the class's functionality in your project.
 
 ```python
 from ADCPi import ADCPi
@@ -89,18 +70,13 @@ from ADCPi import ADCPi
 <a id="software-requirements"></a>
 #### Software Requirements
 
-The library requires I2C to be enabled on the Raspberry Pi and the smbus2 or python-smbus Python library to be installed.  
+The library requires I2C to be enabled on the Raspberry Pi and the smbus2 or python3-smbus Python library to be installed.  
 
-For Python 2.7:
-```bash
-sudo pip install smbus2
-```
-For Python 3:
 ```bash
 sudo pip3 install smbus2
 ```
 
-To configure the I2C bus follow our [Enabling I2C on the Raspberry Pi](https://www.abelectronics.co.uk/kb/article/1/i2c-part-2-enabling-i2c-on-the-raspberry-pi) tutorial.
+To configure the I2C bus, follow our [Enabling I2C on the Raspberry Pi](https://www.abelectronics.co.uk/kb/article/1/i2c-part-2-enabling-i2c-on-the-raspberry-pi) tutorial.
 
 <a id="classes"></a>
 # Classes:
@@ -113,7 +89,7 @@ ADCPi(address, address2, mode, bus)
 **Parameters:**  
 address: I2C address for channels 1 to 4, 0x68 to 0x6F. Defaults to 0x68  
 address2: I2C address for channels 5 to 8, 0x68 to 0x6F. Defaults to 0x69  
-mode: bit mode, values can be 12, 14, 16 or 18. Defaults to 18-bit resolution.  
+mode: bit-mode, values can be 12, 14, 16 or 18. Defaults to 18-bit resolution.  
 bus (optional): I2C bus number (integer).  If no value is set the class will try to find the i2c bus automatically using the device name.  
 
 <a id="functions"></a>
@@ -161,7 +137,7 @@ Set the gain of the PGA on the chip
 ```python
 set_bit_mode(mode)
 ```
-**Parameters:** mode - 12, 14, 16, 18  
+**Parameters:** mode; 12, 14, 16, 18  
 **Returns:** null  
 12 = 12 bit (240SPS max)  
 14 = 14 bit (60SPS max)  
@@ -182,7 +158,7 @@ set_conversion_mode(mode)
 
 Set the conversion mode for the ADC. The ADC Pi can be set to one-shot or continuous conversion mode.  
 
-One shot mode is useful for applications where you only need to take a single reading at a time, such as when measuring the voltage of a battery. Continuous mode is useful for applications where you need to take multiple readings in quick succession, such as when measuring the temperature of a sensor. One shot mode has lower power consumption than continuous mode, but it may take longer to get a reading. Continuous mode has a higher power consumption, but it can provide faster readings.
+One shot mode is useful for applications where you only need to take a single reading at a time, such as when measuring the voltage of a battery. Continuous mode is useful for applications where you need to take multiple readings in quick succession, such as when measuring the temperature of a sensor. One shot mode has lower power consumption than in continuous mode, but it may take longer to get a reading. Continuous mode has a higher power consumption, but it can provide faster readings.
 
 
 <a id="set_i2c_address1"></a>

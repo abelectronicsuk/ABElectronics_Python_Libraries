@@ -13,7 +13,7 @@ except ImportError:
     try:
         from smbus import SMBus
     except ImportError:
-        raise ImportError("python-smbus or smbus2 not found")
+        raise ImportError("python3-smbus or smbus2 not found")
 import re
 import time
 import math
