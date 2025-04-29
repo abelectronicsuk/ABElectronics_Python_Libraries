@@ -1,3 +1,7 @@
+## 2025-04-29 Andrew Dorey  
+
+* 2.5.5 Fixed a bug with PGA value in the ADC Pi library
+
 ## 2025-04-26 Andrew Dorey  
 
 * 2.5.4 

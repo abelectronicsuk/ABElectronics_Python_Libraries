@@ -46,15 +46,13 @@ SOFTWARE.
 Requires smbus2 or python smbus to be installed
 """
 
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 try:
     from smbus2 import SMBus
 except ImportError:
     try:
         from smbus import SMBus
     except ImportError:
-        raise ImportError("python-smbus or smbus2 not found")
+        raise ImportError("python3-smbus or smbus2 not found")
 import re
 import platform
 import time
@@ -90,7 +88,7 @@ class ADCPi(object):
 
     __bit_mode = 18  # current bitrate
     __conversion_mode = 1  # Conversion Mode
-    __pga = float(0.5)  # current PGA setting
+    __pga = float(1.0)  # current PGA setting
     __lsb = float(0.000015625)  # default LSB value for 18 bit
     __signbit = 0  # stores the sign bit for the sampled value
 
