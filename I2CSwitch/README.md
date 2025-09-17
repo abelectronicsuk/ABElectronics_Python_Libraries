@@ -1,7 +1,9 @@
 AB Electronics UK I2C Switch Python Library
 =====
 
-Python Library to use with [I2C Switch](https://www.abelectronics.co.uk/p/84/i2c-switch "I2C Switch") Raspberry Pi expansion board from https://www.abelectronics.co.uk
+Python Library to use with the [I2C Switch](https://www.abelectronics.co.uk/p/84/i2c-switch "I2C Switch") Raspberry Pi expansion board from https://www.abelectronics.co.uk
+
+The I2C Switch uses the NXP PCA9546A.
 
 The example python files can be found in /ABElectronics_Python_Libraries/I2CSwitch/demos  
 

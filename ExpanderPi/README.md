@@ -1,7 +1,7 @@
 AB Electronics UK Expander Pi Python Library
 =====
 
-Python Library to use with Expander Pi board from https://www.abelectronics.co.uk
+Python Library to use with Expander Pi board from https://www.abelectronics.co.uk/p/50/expander-pi
 
 The Expander Pi contains separate classes for the real-time clock, analogue to digital converter, digital to analogue converter and 16 digital I/O pins.  Examples are included to show how each of the classes can be used.
 
@@ -10,6 +10,8 @@ The Expander Pi uses the following devices:
 - Microchip MCP3208 8-channel 12-bit resolution analogue input (ADC)  
 - Microchip MCP4822 2 channel 12-bit resolution analogue output (DAC)  
 - Microchip MCP23017 16-channel digital I/O controller  
+
+For user guides and troubleshooting tips, please visit our knowledge base at https://www.abelectronics.co.uk/kb/article/1131/expander-pi  
 
 The example python files can be found in /ABElectronics_Python_Libraries/ExpanderPi/demos  
 

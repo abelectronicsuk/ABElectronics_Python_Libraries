@@ -1,7 +1,11 @@
 AB Electronics UK IO Zero 32 Python Library
 =====
 
-Python Library to use with IO Zero 32 Raspberry Pi expansion board from https://www.abelectronics.co.uk
+Python Library to use with IO Zero 32 Raspberry Pi expansion board from https://www.abelectronics.co.uk/p/86/io-zero-32
+
+The IO Zero 32 uses the NXP PCA9535 GPIO expander.
+
+For user guides and troubleshooting tips, please visit our knowledge base at https://www.abelectronics.co.uk/kb/article/1133/io-zero-32   
 
 The example python files can be found in /ABElectronics_Python_Libraries/IOZero32/demos  
 

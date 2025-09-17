@@ -1,7 +1,11 @@
 AB Electronics UK RTC Pi Python Library
 =====
 
-Python Library to use with RTC Pi Raspberry Pi real-time clock board from https://www.abelectronics.co.uk
+Python Library to use with RTC Pi Raspberry Pi real-time clock board from https://www.abelectronics.co.uk/p/70/rtc-pi
+
+The RTC Pi uses the Analog Devices DS1307 RTC (real-time clock)
+
+For user guides and troubleshooting tips, please visit our knowledge base at https://www.abelectronics.co.uk/kb/article/1134/rtc-pi   
 
 The example python files can be found in /ABElectronics_Python_Libraries/RTCPi/demos  
 

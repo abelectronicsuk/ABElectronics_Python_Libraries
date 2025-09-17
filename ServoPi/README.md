@@ -1,7 +1,11 @@
 AB Electronics UK Servo Pi Python Library
 =====
 
-Python Library to use with Servo Pi Raspberry Pi expansion board from https://www.abelectronics.co.uk
+Python Library to use with Servo PWM Pi Raspberry Pi expansion board from https://www.abelectronics.co.uk/p/72/servo-pwm-pi
+
+The Servo PWM Pi is based on the NXP PCA9685 PWM controller.
+
+For user guides and troubleshooting tips, please visit our knowledge base at https://www.abelectronics.co.uk/kb/article/1136/servo-pwm-pi
 
 The example python files can be found in /ABElectronics_Python_Libraries/ServoPi/demos  
 

@@ -1,7 +1,11 @@
 AB Electronics UK IO Pi Python Library
 =====
 
-Python Library to use with IO Pi Raspberry Pi expansion board from https://www.abelectronics.co.uk
+Python Library to use with IO Pi Plus Raspberry Pi GPIO expansion board from https://www.abelectronics.co.uk/p/54/io-pi-plus
+
+The IO Pi Plus uses the Microchip MCP23017 expander.
+
+For user guides and troubleshooting tips, please visit our knowledge base at https://www.abelectronics.co.uk/kb/article/1132/io-pi-plus  
 
 The example python files can be found in /ABElectronics_Python_Libraries/IOPi/demos  
 

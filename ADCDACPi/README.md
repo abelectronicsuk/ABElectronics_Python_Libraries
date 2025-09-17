@@ -1,7 +1,11 @@
 AB Electronics UK ADC DAC Pi Python Library
 =====
 
-Python Library to use with ADC DAC Pi Raspberry Pi expansion board from https://www.abelectronics.co.uk
+Python Library to use with ADC DAC Pi Raspberry Pi expansion board from https://www.abelectronics.co.uk/p/74/adc-dac-pi-zero
+
+The ADC DAC Pi uses the Microchip MCP3202 2-channel 12-bit ADC and the Microchip MCP4822 2-channel 12-bit DAC
+
+For user guides and troubleshooting tips, please visit our knowledge base at https://www.abelectronics.co.uk/kb/article/1129/adc-dac-pi-zero
 
 The example python files can be found in /ABElectronics_Python_Libraries/ADCDACPi/demos.
 

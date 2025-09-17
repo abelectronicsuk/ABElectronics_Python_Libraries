@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "abelectronics"
-version = "2.5.5"
+version = "2.5.6"
 description = "AB Electronics UK Python Libraries"
 authors = [{name = "AB Electronics UK", email = "sales@abelectronics.co.uk"}]
 license = {file = "LICENSE"}

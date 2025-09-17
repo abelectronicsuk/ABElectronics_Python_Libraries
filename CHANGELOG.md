@@ -1,3 +1,7 @@
+## 2025-09-17 Andrew Dorey
+
+* 2.5.6 Updated README files to include links to our Knowledge Base
+
 ## 2025-04-29 Andrew Dorey  
 
 * 2.5.5 Fixed a bug with PGA value in the ADC Pi library
