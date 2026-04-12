@@ -5,17 +5,14 @@
 AB Electronics UK RTC Pi | Get Time Demo
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python demo_rtcgetdate.py
+run with: python3 demo_rtcgetdate.py
 ===============================================
 
 This demo shows how to read the current time on the 
 RTC Pi real-time clock at 1-second intervals
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
 import time
 

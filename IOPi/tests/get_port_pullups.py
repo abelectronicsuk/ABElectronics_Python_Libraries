@@ -5,10 +5,9 @@
 AB Electronics UK IO Pi Tests | test get_port_pullups function
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python3 get_port_pullups.py
+Run with: python3 get_port_pullups.py
 ================================================
 
 This test validates the get_port_pullups function in the IOPi class.
@@ -22,8 +21,6 @@ get_port_pullups() high boundary check: PASSED
 Test Passed
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
 try:
     import sys

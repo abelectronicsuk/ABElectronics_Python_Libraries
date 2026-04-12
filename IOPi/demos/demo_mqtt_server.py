@@ -3,10 +3,9 @@
 ================================================
 AB Electronics UK IO Pi 32-Channel Port Expander - MQTT Server Demo
 Requires mosquitto & paho-mqtt to be installed
-Install mosquitto with: sudo apt-get install mosquitto
 
-Install pip: sudo apt-get install python3-pip
-Install paho-mqtt: sudo pip3 install paho-mqtt
+Install mosquitto: sudo apt-get install mosquitto
+Install paho-mqtt: sudo apt-get install python3-paho-mqtt
 
 run with: python3 demo_mqtt_server.py
 ================================================
@@ -22,7 +21,7 @@ import paho.mqtt.client as mqtt
 import time
 
 # Create client instance and connect to localhost
-client = mqtt.Client()
+client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
 client.connect("localhost", 1883, 60)
 
 # Publish message to topic/iopi and set pin 1 on bus 1 to on

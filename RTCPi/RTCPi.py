@@ -47,61 +47,71 @@ class RTC:
     # Local methods
 
     @staticmethod
+    def __detect_raspberry_pi_bus():
+        """
+        Detect the appropriate I2C bus for Raspberry Pi models
+
+        :return: I2C bus number
+        :rtype: int
+        """
+        for line in open('/proc/cpuinfo').readlines():
+            model = re.match('(.*?)\\s*:\\s*(.*)', line)
+            if model:
+                name, value = model.group(1), model.group(2)
+                if name == "Revision":
+                    if value[-4:] in ('0002', '0003'):
+                        return 0  # original model A or B
+                    else:
+                        return 1  # later models
+
+        return 1  # default to bus 1 if revision can't be determined
+
+    @staticmethod
     def __get_smbus(bus):
         """
-        Internal method for getting an instance of the I2C bus
+        Internal method for getting an instance of the i2c bus
 
-        :param bus: I2C bus number.  If the value is None the class will try to
-                    find the I2C bus automatically using the device name
+        :param bus: I2C bus number.  If the value is None, the class will
+                    try to find the i2c bus automatically using the device name
         :type bus: int
-        :return: I2C bus for the target device
+        :return: i2c bus for the target device
         :rtype: SMBus
-        :raises IOError: Could not open the I2C bus
+        :raises IOError: Could not open the i2c bus
         """
-        i2c_bus = 1
+
+        # Use the provided bus number if available
         if bus is not None:
             i2c_bus = bus
         else:
-            # detect the device that is being used
+            # Map device names to their corresponding bus numbers
+            device_bus_map = {
+                "orangepione": 0,  # Orange Pi One
+                "orangepizero2": 3,  # Orange Pi Zero 2
+                "orangepiplus": 0,  # Orange Pi Plus
+                "orangepipcplus": 0,  # Orange Pi PC Plus
+                "linaro-alip": 1,  # Asus Tinker Board
+                "bpi-m2z": 0,  # Banana Pi BPI M2 Zero Ubuntu
+                "bpi-iot-ros-ai": 0,  # Banana Pi BPI M2 Zero Raspbian
+                "radxa-dragon-q6a": 6,  # Radxa Dragon Q6A Radxa OS
+            }
+
+            # Get device name
             device = platform.uname()[1]
 
-            if device == "orangepione":  # orange pi one
-                i2c_bus = 0
+            # Get the bus number from the map or detect for Raspberry Pi
+            if device in device_bus_map:
+                i2c_bus = device_bus_map[device]
+            elif device == "raspberrypi":
+                i2c_bus = RTC.__detect_raspberry_pi_bus()
+            else:
+                i2c_bus = 1  # Default to bus 1 for unknown devices
 
-            elif device == "orangepizero2":  # orange pi zero 2
-                i2c_bus = 3
-
-            elif device == "orangepiplus":  # orange pi plus
-                i2c_bus = 0
-
-            elif device == "orangepipcplus":  # orange pi pc plus
-                i2c_bus = 0
-
-            elif device == "linaro-alip":  # Asus Tinker Board
-                i2c_bus = 1
-
-            elif device == "bpi-m2z":  # Banana Pi BPI M2 Zero Ubuntu
-                i2c_bus = 0
-
-            elif device == "bpi-iot-ros-ai":  # Banana Pi BPI M2 Zero Raspbian
-                i2c_bus = 0
-
-            elif device == "raspberrypi":  # running on raspberry pi
-                # detect I2C port number and assign to i2c_bus
-                for line in open('/proc/cpuinfo').readlines():
-                    model = re.match('(.*?)\\s*:\\s*(.*)', line)
-                    if model:
-                        (name, value) = (model.group(1), model.group(2))
-                        if name == "Revision":
-                            if value[-4:] in ('0002', '0003'):
-                                i2c_bus = 0  # original model A or B
-                            else:
-                                i2c_bus = 1  # later models
-                            break
         try:
             return SMBus(i2c_bus)
-        except IOError:
-            raise 'Could not open the I2C bus'
+        except FileNotFoundError:
+            raise FileNotFoundError("Bus not found. Check that you have selected the correct I2C bus.")
+        except IOError as err:
+            raise IOError(f"I/O error: {err}")
 
     @staticmethod
     def __update_byte(byte, bit, value):

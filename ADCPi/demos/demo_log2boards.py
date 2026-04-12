@@ -15,8 +15,6 @@ and sample rate to 12 bits
 Sample rate can be 12, 14, 16 or 18
 """
 
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 import time
 import datetime
 

@@ -5,10 +5,9 @@
 AB Electronics UK IO Pi Tests | reset_interrupts
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python3 reset_interrupts.py
+Run with: python3 reset_interrupts.py
 ================================================
 
 This test validates the reset_interrupts function in the IOPi class.
@@ -34,8 +33,6 @@ W 0x20 0x11
 R 0x20 0x00
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
 try:
     import sys

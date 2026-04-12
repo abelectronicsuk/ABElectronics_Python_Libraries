@@ -5,10 +5,9 @@
 AB Electronics UK IO Pi Tests | set_bus_direction
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python3 set_bus_direction.py
+Run with: python3 set_bus_direction.py
 ================================================
 
 This test validates the set_bus_direction function in the IOPi class.
@@ -36,8 +35,6 @@ W 0x20 0x00 0xFF 0xFF
 
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
 try:
     import sys

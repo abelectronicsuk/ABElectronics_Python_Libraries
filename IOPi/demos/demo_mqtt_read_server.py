@@ -3,18 +3,18 @@
 ================================================
 AB Electronics UK IO Pi 32-Channel Port Expander - MQTT Server Read Demo
 Requires python smbus & mosquitto to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
-Install mosquitto with: sudo apt-get install mosquitto
-run with: python3 demo_mqtt_read_server.py
+
+Install smbus: sudo apt-get install python3-smbus
+Install mosquitto: sudo apt-get install mosquitto
+Install paho-mqtt: sudo apt-get install python3-paho-mqtt
+
+Run with: python3 demo_mqtt_read_server.py
 ================================================
 This example uses MQTT to communicate with a Raspberry Pi and IO Pi Plus
 to read the pins on the IO Pi.
 Initialises the IOPi device using the default addresses
 """
 
-from __future__ import absolute_import, division, print_function, \
-    unicode_literals
 import time
 import paho.mqtt.client as mqtt
 
@@ -55,8 +55,8 @@ io_bus2.set_port_pullups(1, 0xFF)
 # MQTT section ------------------------
 
 
-def on_connect(client, userdata, flags, rc):
-    print("Connected with result code " + str(rc))
+def on_connect(client, userdata, flags, reason_code, properties):
+    print(f"Connected: {reason_code}")
     client.subscribe("sensor/iopi/ports")
 
 
@@ -71,10 +71,11 @@ def on_publish(mosq, obj, mid):
 
 
 # setup client
-client = mqtt.Client()
+client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
+# client.username_pw_set("your_username", "your_password") # uncomment if your mqtt broker uses authentication
 client.on_connect = on_connect
 client.on_message = on_message
-client.connect("10.0.0.49", 1883, 60)
+client.connect("10.0.0.50", 1883, 60)
 client.loop_start()
 
 while True:

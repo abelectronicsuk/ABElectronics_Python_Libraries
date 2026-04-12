@@ -4,10 +4,9 @@
 AB Electronics UK IO Pi | - IO Interrupts Demo
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python demo_iointerruptsthreading.py
+Run with: python3 demo_iointerruptsthreading.py
 ================================================
 
 This example shows how to use the interrupt methods with threading
@@ -22,9 +21,6 @@ using the read_interrupt_capture or reset_interrupts methods
 will reset the interrupts.
 
 """
-
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 import time
 import threading
 

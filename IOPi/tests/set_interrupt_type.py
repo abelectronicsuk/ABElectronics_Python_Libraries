@@ -5,10 +5,9 @@
 AB Electronics UK IO Pi Tests | set_interrupt_type
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python3 set_interrupt_type.py
+Run with: python3 set_interrupt_type.py
 ================================================
 
 This test validates the set_interrupt_type function in the IOPi class.
@@ -41,8 +40,6 @@ W 0x20 0x09 0xFF
 
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
 try:
     from IOPi import IOPi

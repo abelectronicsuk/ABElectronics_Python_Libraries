@@ -5,10 +5,9 @@
 AB Electronics UK IO Pi Tests | set_interrupt_polarity
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python3 set_interrupt_polarity.py
+Run with: python3 set_interrupt_polarity.py
 ================================================
 
 This test validates the set_interrupt_polarity function in the IOPi class.
@@ -33,8 +32,6 @@ W 0x20 0xA0 0x02
 
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
 try:
     import sys

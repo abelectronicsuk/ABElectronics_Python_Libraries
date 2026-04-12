@@ -5,18 +5,15 @@
 AB Electronics UK: IO Zero 32 | Tutorial 2
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python demo_ioread.py
+Run with: python demo_ioread.py
 ================================================
 
 This tutorial uses a button to control an LED.  For the full tutorial visit
 https://www.abelectronics.co.uk/kb/article/1100/io-zero-32-tutorial-2---push-the-button
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 try:
     from IOZero32 import IOZero32
 except ImportError:

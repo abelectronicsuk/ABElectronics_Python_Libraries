@@ -4,10 +4,9 @@
 AB Electronics UK IO Pi 32-Channel Port Expander - Tkinter GUI Demo
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python demo_guiwrite.py
+Run with: python3 demo_guiwrite.py
 ================================================
 
 This example creates a GUI using Tkinter with 16 buttons and uses
@@ -17,15 +16,9 @@ Initialises the IOPi device using the default address
 for Bus 2, you will need to change the addresses if you have changed
 the jumpers on the IO Pi
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
-# check the python version and import the correct version of Tkinter
 import sys
-if sys.version_info[0] < 3:
-    import Tkinter as tk
-else:
-    import tkinter as tk
+import tkinter as tk
 
 try:
     from IOPi import IOPi

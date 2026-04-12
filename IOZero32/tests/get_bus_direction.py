@@ -5,10 +5,9 @@
 AB Electronics UK IO Zero 32 Tests | test get_bus_direction function
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python3 get_bus_direction.py
+Run with: python3 get_bus_direction.py
 ================================================
 
 This test validates the get_bus_direction function in the IOZero32 class.
@@ -20,8 +19,7 @@ This test validates the get_bus_direction function in the IOZero32 class.
 Test Passed
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
+
 from sys import stdout
 try:
     import sys

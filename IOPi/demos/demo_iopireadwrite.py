@@ -4,10 +4,9 @@
 AB Electronics UK IO Pi | Digital I/O Read and Write Demo
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python demo_iopireadwrite.py
+Run with: python3 demo_iopireadwrite.py
 ================================================
 
 This example reads pin 1 of bus 1 on the IO Pi board and sets
@@ -18,8 +17,6 @@ will read as 1 unless the pin is connected to ground.
 Initialise the IOPi device using the default addresses, you will need to
 change the addresses if you have changed the jumpers on the IO Pi
 """
-from __future__ import absolute_import, division, print_function, \
-    unicode_literals
 import time
 
 try:

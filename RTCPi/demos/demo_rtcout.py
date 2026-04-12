@@ -5,18 +5,14 @@
 AB Electronics UK RTC Pi | RTC clock output demo
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python demo_rtcout.py
+run with: python3 demo_rtcout.py
 ================================================
 
 This demo shows how to enable the clock square wave output on the
 RTC Pi real-time clock and set the frequency
 """
-
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
 try:
     from RTCPi import RTC

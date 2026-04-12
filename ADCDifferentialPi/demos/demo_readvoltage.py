@@ -15,8 +15,7 @@ https://www.abelectronics.co.uk/p/65/adc-differential-pi
 Sample rate can be 12, 14, 16 or 18
 """
 
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
+
 import time
 import os
 

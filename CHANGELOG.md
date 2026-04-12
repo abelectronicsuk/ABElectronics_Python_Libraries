@@ -1,3 +1,11 @@
+## 2026-04-12 Andrew Dorey  
+
+* 2.5.7 
+  * Updated the IO Pi MPPT demos to use the 2.0 version of paho-mqtt
+  * Updated comments in many of the libraries to improve readability and maintainability
+  * IO Pi – Various code improvements and bug fixes
+  * Added support for the Radxa Dragon Q6A in the ADC Pi, ADC Differential Pi, IO Pi, IO Zero 32 and RTC Pi libraries.
+
 ## 2025-09-17 Andrew Dorey
 
 * 2.5.6 Updated README files to include links to our Knowledge Base

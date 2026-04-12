@@ -5,18 +5,15 @@
 AB Electronics UK: IO Zero 32| Digital I/O Write Demo
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python demo_iowrite.py
+Run with: python demo_iowrite.py
 ================================================
 
 This example uses the write_pin and write_port methods to switch the pins
 on and off on the I/O bus.
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 import time
 
 try:

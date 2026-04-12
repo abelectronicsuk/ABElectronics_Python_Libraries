@@ -14,8 +14,6 @@ samples per second at each bit rate
 
 """
 
-from __future__ import absolute_import, division, print_function, \
-    unicode_literals
 import datetime
 import numpy as n
 import threading

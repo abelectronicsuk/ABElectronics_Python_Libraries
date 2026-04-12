@@ -5,10 +5,9 @@
 AB Electronics UK IO Zero 32 Tests | set_port_polarity
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python3 set_port_polarity.py
+Run with: python3 set_port_polarity.py
 ================================================
 
 This test validates the set_port_polarity function in the IOZero32 class.
@@ -31,15 +30,13 @@ Logic output Ended
 W 0x20 0x04 0x00
 W 0x20 0x05 0x00
 
-looping to
+Looping to
 
 W 0x20 0x04 0xFF
 W 0x20 0x05 0xFF
 
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
 try:
     import sys

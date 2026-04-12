@@ -4,16 +4,14 @@
 AB Electronics UK IO Pi 32-Channel Port Expander - Tutorial 1a
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python tutorial1a.py
+Run with: python3 tutorial1a.py
 ================================================
 
 This example uses the write_port method to count in binary using 8 LEDs
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
+
 import time
 
 try:

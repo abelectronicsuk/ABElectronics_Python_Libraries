@@ -5,10 +5,9 @@
 AB Electronics UK IO Zero 32 Tests | __init__
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python3 IOZero32_init.py
+Run with: python3 IOZero32_init.py
 ================================================
 
 This test validates the __init__ function in the IOZero32 class.
@@ -22,8 +21,6 @@ I2C address high boundary check: PASSED
 Test Passed
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
 try:
     import sys

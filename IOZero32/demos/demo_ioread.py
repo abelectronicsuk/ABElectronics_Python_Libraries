@@ -5,10 +5,9 @@
 AB Electronics UK: IO Zero 32 | Digital I/O Read Demo
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python demo_ioread.py
+Run with: python demo_ioread.py
 ================================================
 
 This example reads from all 32 pins across both buses on the IO Zero 32.
@@ -16,8 +15,6 @@ The pullup or pulldown resistors may be needed on the inputs to stop them
 from floating in an indeterminate state.
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 import time
 import os
 

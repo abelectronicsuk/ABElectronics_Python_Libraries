@@ -5,19 +5,17 @@
 AB Electronics UK IO Pi Zero | Digital I/O Read Demo
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python demo_ioreadzero.py
+Run with: python3 demo_ioreadzero.py
 ================================================
 
 This example reads from all 16 pins on the IO Pi Zero.
-The internal pull-up resistors are enabled so each pin will read
+The internal pull-up resistors are enabled, so each pin will read
 as 1 unless the pin is connected to ground.
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
+
 import time
 import os
 

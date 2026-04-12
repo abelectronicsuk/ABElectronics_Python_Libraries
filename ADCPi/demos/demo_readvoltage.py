@@ -15,8 +15,6 @@ change this value if you have changed the address selection jumpers
 Sample rate can be 12, 14, 16 or 18
 """
 
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 import time
 import os
 import sys
@@ -43,7 +41,6 @@ def main():
         # Initialise ADC with default settings
 
         adc = ADCPi(0x68, 0x69, 18)
-
 
         while True:
 

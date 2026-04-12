@@ -4,14 +4,12 @@
 ================================================
 AB Electronics UK IO Pi | MQTT I/O Button Read Demo
 
-Requires python smbus to be installed
-For Python 3 install with: sudo apt-get install python3-smbus
+Requires python smbus and paho-mqtt to be installed
 
-Requires paho-mqtt library to be installed
-sudo apt-get install python3-pip
-sudo pip3 install paho-mqtt
+Install smbus: sudo apt-get install python3-smbus
+Install paho-mqtt: sudo apt-get install python3-paho-mqtt
 
-run with: python demo_mqtt_button.py
+Run with: python3 demo_mqtt_button.py
 ================================================
 
 This example reads a button press from Pin 1 on Bus 1 of the IO Pi 
@@ -21,8 +19,7 @@ The internal pull-up resistor on pin 1 is enabled so the pin will read
 as 1 unless the pin is connected to ground.
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
+
 import time
 import paho.mqtt.client as mqtt
 
@@ -59,7 +56,7 @@ def main():
     mqtt_port = 1883
 
     # Create an MQTT client instance
-    client = mqtt.Client("P1")  # Create a new instance
+    client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)  # Create a new instance
     client.username_pw_set(mqtt_user, mqtt_pass)
     client.on_disconnect = on_disconnect
 

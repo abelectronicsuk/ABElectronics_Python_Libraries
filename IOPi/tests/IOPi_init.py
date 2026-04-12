@@ -5,10 +5,9 @@
 AB Electronics UK IO Pi Tests | __init__
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python3 IOPi_init.py
+Run with: python3 IOPi_init.py
 ================================================
 
 This test validates the __init__ function in the IOPi class.
@@ -37,8 +36,7 @@ W 0x20 0x0C 0x00 0x00
 W 0x20 0x02 0x00 0x00
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
+
 import time
 
 try:

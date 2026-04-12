@@ -4,10 +4,9 @@
 AB Electronics UK: IO Zero 32 | - IO Interrupts Demo
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python demo_iointerrupts.py
+Run with: python demo_iointerrupts.py
 ================================================
 
 This example shows how to use the interrupt pin on the IO Zero 32 
@@ -18,8 +17,6 @@ An interrupt will be enabled on GPIO 17 to call a function when the IN1 pin goes
 Setting Pin 1 on Bus 1 to high or low will trigger the interrupt and call the interrupt_callback() function.
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 import signal
 import sys
 import time

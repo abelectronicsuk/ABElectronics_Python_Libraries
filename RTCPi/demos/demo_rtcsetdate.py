@@ -5,17 +5,14 @@
 AB Electronics UK RTC Pi | Set Time Demo
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python demo_rtcsetdate.py
+run with: python3 demo_rtcsetdate.py
 ===============================================
 
 This demo shows how to set the time on the RTC Pi real-time clock
 and then read the current time at 1-second intervals
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
 import time
 

@@ -41,15 +41,14 @@ SOFTWARE.
 
 Requires smbus2 or python smbus to be installed
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
+
 try:
     from smbus2 import SMBus
 except ImportError:
     try:
         from smbus import SMBus
     except ImportError:
-        raise ImportError("python-smbus or smbus2 not found")
+        raise ImportError("python3-smbus or smbus2 not found")
 import re
 import platform
 import time
@@ -142,6 +141,7 @@ class ADCDifferentialPi(object):
                 "linaro-alip": 1,  # Asus Tinker Board
                 "bpi-m2z": 0,  # Banana Pi BPI M2 Zero Ubuntu
                 "bpi-iot-ros-ai": 0,  # Banana Pi BPI M2 Zero Raspbian
+                "radxa-dragon-q6a": 6,  # Radxa Dragon Q6A Radxa OS
             }
 
             # Get device name

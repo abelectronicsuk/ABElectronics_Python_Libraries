@@ -3,10 +3,12 @@
 ================================================
 AB Electronics UK IO Pi 32-Channel Port Expander - MQTT Client Demo
 Requires python smbus & mosquitto to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
-Install mosquitto with: sudo apt-get install mosquitto
-run with: python demo_mqtt_client.py
+
+Install smbus: sudo apt-get install python3-smbus
+Install mosquitto: sudo apt-get install mosquitto
+Install paho-mqtt: sudo apt-get install python3-paho-mqtt
+
+Run with: python3 demo_mqtt_client.py
 ================================================
 This example uses MQTT to communicate with a Raspberry Pi and IO Pi Plus
 to switch the pins on the IO Pi on and off.
@@ -18,8 +20,6 @@ The second bus on the IO Pi Plus is accessed using pins 17 to 32
 Run with: python3 demo_mqtt_client.py
 """
 
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 import paho.mqtt.client as mqtt
 try:
     from IOPi import IOPi
@@ -52,8 +52,8 @@ io_bus2.set_port_direction(1, 0x00)
 io_bus2.write_port(1, 0x00)
 
 
-def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+def on_connect(client, userdata, flags, reason_code, properties):
+    print(f"Connected: {reason_code}")
     client.subscribe("topic/iopi")
 
 
@@ -70,7 +70,7 @@ def on_message(client, userdata, msg):
 
 
 # Connect to the broker/server 
-client = mqtt.Client()
+client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
 client.connect("10.0.0.49", 1883, 60)
 
 client.on_connect = on_connect

@@ -5,10 +5,9 @@
 AB Electronics UK IO Pi Tests | mirror_interrupts
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python3 mirror_interrupts.py
+Run with: python3 mirror_interrupts.py
 ================================================
 
 This test validates the mirror_interrupts function in the IOPi class.
@@ -33,8 +32,6 @@ W 0x20 0xA0 0x02
 
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
 try:
     import sys

@@ -5,10 +5,9 @@
 AB Electronics UK IO Zero 32 Tests | write_pin
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python3 write_pin.py
+Run with: python3 write_pin.py
 ================================================
 
 This test validates the write_pin function in the IOZero32 class.
@@ -50,8 +49,6 @@ W 0x20 0x03 0xFF
 
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
 try:
     import sys

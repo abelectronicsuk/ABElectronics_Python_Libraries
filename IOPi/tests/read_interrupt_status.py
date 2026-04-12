@@ -5,10 +5,9 @@
 AB Electronics UK IO Pi Tests | read_interrupt_status
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python3 read_interrupt_status.py
+Run with: python3 read_interrupt_status.py
 ================================================
 
 This test validates the read_interrupt_status function in the IOPi class.
@@ -36,8 +35,6 @@ W 0x20 0x0F
 R 0x20 0x00
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
 try:
     import sys

@@ -5,10 +5,9 @@
 AB Electronics UK IO Zero 32 Tests | test get_pin_polarity function
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python3 get_pin_polarity.py
+Run with: python3 get_pin_polarity.py
 ================================================
 
 This test validates the get_pin_polarity function in the IOZero32 class.
@@ -22,8 +21,6 @@ get_pin_polarity() high boundary check: PASSED
 Test Passed
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
 try:
     import sys

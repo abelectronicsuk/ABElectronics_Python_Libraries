@@ -4,10 +4,9 @@
 AB Electronics UK IO Pi | - Tutorial 3
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python tutorial3.py
+Run with: python3 tutorial3.py
 ================================================
 
 This tutorial shows how to use interrupts on the IO Pi Plus.
@@ -17,8 +16,7 @@ When a button is pressed on port 0 on bus 1 an interrupt is triggered.
 The interrupt value is read and the value is used to set the output bus 2.
 
 """
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
+
 import time
 
 try:

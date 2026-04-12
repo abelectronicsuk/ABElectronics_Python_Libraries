@@ -4,10 +4,9 @@
 AB Electronics UK IO Pi 32-Channel Port Expander - Tutorial 4
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: sudo python tutorial4.py
+Run with: sudo python3 tutorial4.py
 ================================================
 
 This example uses the interrupt pins on the IO Pi to connect to the GPIO port
@@ -17,8 +16,6 @@ GPIO 23 on the Raspberry Pi to the low side.
 
 """
 
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 import time
 import RPi.GPIO as GPIO
 

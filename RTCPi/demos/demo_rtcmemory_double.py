@@ -5,18 +5,13 @@
 AB Electronics UK RTC Pi | RTC memory double demo
 
 Requires python smbus to be installed
-For Python 2 install with: sudo apt-get install python-smbus
-For Python 3 install with: sudo apt-get install python3-smbus
+Install with: sudo apt-get install python3-smbus
 
-run with: python demo_rtcmemory_double.py
+run with: python3 demo_rtcmemory_double.py
 ================================================
 
-This demo shows how to write to and read from the internal battery
-backed memory on the DS1307 RTC chip
+This demo shows how to write to and read from the internal battery-backed memory on the DS1307 RTC chip
 """
-
-from __future__ import absolute_import, division, print_function, \
-                                                    unicode_literals
 
 import struct
 
