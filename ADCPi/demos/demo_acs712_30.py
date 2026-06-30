@@ -33,10 +33,10 @@ except ImportError:
 def calc_current(value):
     """
     Change the 2.5 value to be half of the supply voltage.
-    The 0.066 value is the sensitivity of the ACS712 current sensor (mV/A).
-    For a 30A sensor this is 0.066mV/A
-    For a 20A sensor this is 0.1mV/A
-    For a 5A sensor this is 0.185mV/A
+    The 0.066 value is the sensitivity of the ACS712 current sensor (V/A).
+    For a 30A sensor this is 0.066V/A
+    For a 20A sensor this is 0.1V/A
+    For a 5A sensor this is 0.185V/A
     """
     return (value - 2.5) / 0.066
 
