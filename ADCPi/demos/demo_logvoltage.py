@@ -9,10 +9,10 @@ Requires python smbus to be installed
 run with: python demo_logvoltage.py
 ================================================
 
-Initialise the ADC device using the default addresses and sample rate, change
-this value if you have changed the address selection jumpers
+Use the ADC Pi to log the voltage readings from the 8 ADC channels to a CSV file
 
-Sample rate can be 12, 14, 16 or 18
+Note: to read all 8 channels in under 1 second, you must use 16-bit or lower resolution.
+
 """
 
 import time
@@ -32,38 +32,43 @@ except ImportError:
             "Failed to import library from parent folder")
 
 
-def write_to_file(text_to_write):
-    """
-    Open the log file, write the value and close the file.
-    """
-    file = open('adc_log.txt', 'a')
-    file.write(str(datetime.datetime.now()) + " " + text_to_write)
-    file.close()
-
-
 def main():
     """
     Main program function
     """
 
-    adc = ADCPi(0x68, 0x69, 12)
+    adc = ADCPi(0x68, 0x69, 16) # create an instance of the ADC class, I2C address 0x68 and 0x69, 16 bit
+
+    interval = 1.0 # sample interval in seconds
+    next_run = time.monotonic() # next sample time
 
     print("Logging...")
 
     while True:
+        next_run += interval
+
+        file = open('adc_log.csv', 'a') # open the log file for appending
+
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+        file.write(timestamp + ",") # write the current time to the log file
 
         # read from the ADC channels and write to the log file
-        write_to_file("Channel 1: %02f\n" % adc.read_voltage(1))
-        write_to_file("Channel 2: %02f\n" % adc.read_voltage(2))
-        write_to_file("Channel 3: %02f\n" % adc.read_voltage(3))
-        write_to_file("Channel 4: %02f\n" % adc.read_voltage(4))
-        write_to_file("Channel 5: %02f\n" % adc.read_voltage(5))
-        write_to_file("Channel 6: %02f\n" % adc.read_voltage(6))
-        write_to_file("Channel 7: %02f\n" % adc.read_voltage(7))
-        write_to_file("Channel 8: %02f\n" % adc.read_voltage(8))
+        file.write("%02f," % adc.read_voltage(1))
+        file.write("%02f," % adc.read_voltage(2))
+        file.write("%02f," % adc.read_voltage(3))
+        file.write("%02f," % adc.read_voltage(4))
+        file.write("%02f," % adc.read_voltage(5))
+        file.write("%02f," % adc.read_voltage(6))
+        file.write("%02f," % adc.read_voltage(7))
+        file.write("%02f\n" % adc.read_voltage(8))
 
-        # wait 1 second before reading the pins again
-        time.sleep(1)
+        file.close()
+
+        # wait until the next sample time
+        sleep_time = next_run - time.monotonic()
+
+        if sleep_time > 0:
+            time.sleep(sleep_time)
 
 
 if __name__ == "__main__":
