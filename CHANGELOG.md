@@ -2,6 +2,7 @@
 
 * 2.5.8 
   * Updated the demo_logvoltage.py demos in the ADC Pi and ADC Differential Pi libraries to output CSV files instead of text files.
+  * Updated the demo_acs712_30.py demo in the ADC Pi library.
 
 ## 2026-04-12 Andrew Dorey  
 

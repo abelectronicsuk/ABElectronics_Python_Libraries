@@ -9,10 +9,8 @@ Requires python smbus to be installed
 run with: python demo_acs712_30.py
 ================================================
 
-Initialise the ADC device using the default addresses and sample rate,
-change this value if you have changed the address selection jumpers
+Use the ADC Pi to read the voltage from an ACS712 30 Amp current sensor.
 
-Sample rate can be 12, 14, 16 or 18
 """
 
 import time
@@ -34,7 +32,11 @@ except ImportError:
 
 def calc_current(value):
     """
-    change the 2.5 value to be half of the supply voltage.
+    Change the 2.5 value to be half of the supply voltage.
+    The 0.066 value is the sensitivity of the ACS712 current sensor (mV/A).
+    For a 30A sensor this is 0.066mV/A
+    For a 20A sensor this is 0.1mV/A
+    For a 5A sensor this is 0.185mV/A
     """
     return (value - 2.5) / 0.066
 
@@ -44,7 +46,7 @@ def main():
     Main program function
     """
 
-    adc = ADCPi(0x68, 0x69, 14)
+    adc = ADCPi(0x68, 0x69, 18) # create an instance of the ADC class, I2C address 0x68 and 0x69, 18-bit resolution
 
     while True:
 
