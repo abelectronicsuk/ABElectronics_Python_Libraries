@@ -1,3 +1,8 @@
+## 2026-07-03 Andrew Dorey  
+
+* 2.5.9 
+  * Added a new GUI demo using tkinter and matplotlib to the ADC Pi library.
+
 ## 2026-06-30 Andrew Dorey  
 
 * 2.5.8 
