@@ -1,3 +1,8 @@
+## 2026-07-05 Andrew Dorey  
+
+* 2.6.0 
+  * Fixed a bug in the IO Pi library where the __update_byte method was not correctly updating the value of a single bit within a byte.
+
 ## 2026-07-03 Andrew Dorey  
 
 * 2.5.9 

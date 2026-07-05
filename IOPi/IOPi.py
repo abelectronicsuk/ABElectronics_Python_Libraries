@@ -251,21 +251,23 @@ class IOPi(object):
         return value
 
     @staticmethod
-    def __update_byte(byte, mask, value):
+    def __update_byte(byte, bit, value):
         """
         Internal method for setting the value of a single bit within a byte
 
         :param byte: input value
         :type byte: int
-        :param mask: location to update
-        :type mask: int
+        :param bit: location to update
+        :type bit: int
         :param value: new bit, 0 or 1
         :type value: int
         :return: updated value
         :rtype: int
         """
-        byte &= mask
-        byte |= value
+        if value == 0:
+            return byte & ~(1 << bit)
+        elif value == 1:
+            return byte | (1 << bit)
         return byte
 
     def __set_pin(self, pin: int, value: int, a_register: int, b_register: int) -> None:
